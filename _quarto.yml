@@ -1,0 +1,30 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Análisis Demográfico con R"
+  subtitle: "Universidad de la República - Facultad de Ciencias Sociales - Doctorado en Ciencias Sociales"
+  author: "Ana Escoto"
+  date: "07/29/2024"
+  site-url: https://aniuxa.github.io/r_demo_uy/
+  repo-url: https://github.com/aniuxa/r_demo_uy/
+  repo-branch: main
+  repo-actions: [edit, issue]  
+  chapters:
+    - index.qmd
+    - instala.qmd
+
+
+format:
+  html:
+    theme:
+      light: lux
+      dark: slate
+
+   
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

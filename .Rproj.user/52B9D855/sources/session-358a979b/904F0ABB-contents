@@ -1,0 +1,139 @@
+# Sobre el curso {.unnumbered}
+
+## 1. Docente
+
+Ana Ruth Escoto Castillo
+
+Profesora de tiempo completo en la Facultad de Ciencias Políticas y Sociales, UNAM. Doctora en Estudios de Población por El Colegio de México y cuenta con nivel I en el Sistema Nacional de Investigadores.
+
+## 2. Descripción del curso
+
+La demografía utiliza diferentes fuentes de información para el análisis demográfico y los estudios de población. La consulta, la limpieza y la evaluación de los datos demográficos se realiza con distintos softwares, entre los cuales destaca R. Desde el software *R*, la comunidad de usuarios ha creado paquetes y códigos replicables y de fácil acceso que tienen un uso cada vez más extendido en la disciplina. En este curso se utilizarán estos insumos para el caso específico de América Latina y de Uruguay. Es decir, el objetivo general del curso es que el estudiantado sea capaz de aplicar conceptos demográficos y estadísticosm fuentes de información latinoamericana y mundiales, y sobre todo, actuales utilizando *R*.
+
+Para ello, la mecánica del curso consistirá en lo siguiente:
+
+*1. La exposición de la facilitadora*. Durante la primera parte de la sesión, se expondrán los comandos necesarios para trabajar cada tema. Se dará una introducción sobre la temática y se presentarán ejemplos concretos para facilitar el aprendizaje. Se espera que las personas asistentes expongan sus dudas o comentarios a lo largo de la explicación.
+
+*2. Realización de ejercicios prácticos*. Al final de cada sesión, corresponderá al estudiantado realizar individualmente o en parejas un ejercicio relacionado con lo visto en la primera parte de la clase.
+
+*3. Consulta autónoma de material.* Tanto la exposición como los ejercicios serán acompañados de material de consulta preparadopara el curso, de tal manera que el estudiantado pueda volver a los códigos y a las explicaciones posteriormente.
+
+## 3. Carga horaria
+
+15 horas
+
+## 4. Créditos
+
+3 (tres)
+
+## 5. Estructura del curso
+
+[Día 1]{.underline}
+
+1\. Introducción a R y Rstudio (1 hora)
+
+***Objetivo**: que el estudiantado se familiarice con la interfase de trabajo y la programación por objetos, y sea capaz de realizar tareas básicas como crear un script, un proyecto, objetos, ambientes e instalar paqueterías.*
+
+2\. Importación de información y primera revisión de fuentes demográficas (2 horas)
+
+a\. Importación de información a R en diferentes formatos
+
+b\. Importación de información de proyecciones de población utilizando {wppExplorer}
+
+c\. Consulta y descarga de información con paquetes como {IPUMSr}, {WDI} y otras API
+
+***Objetivo:** que el estudiantado sea capaz de: importar información desde diferentes formatos (.txt, .csv, .xlsx, .dta, .dbf) a R, así como de exportar sus resultados en estos formatos; revisar de manera preliminar los objetos de tipo “data.frame”, funciones “glimpse()”, “skim() de {skimr}; manejar etiquetas; hacer subconjuntos de información, y consultas.*
+
+[Día 2]{.underline}
+
+3\. Evaluación de información (1.5 horas)
+
+a\. Tipo de de errores en las fuentes de información
+
+b\. Evaluación de la calidad de información en fuentes de stock
+
+c\. Suavizamiento de datos
+
+***Objetivo:** Que el estudiantado pueda identificar los errores en el levantamiento de información y su naturaleza, adquiriendo capacidades para corregir y suavizar datos para el análisis estadístico con el paquete {DemoTools} y otras aplicaciones.*
+
+4\. Pirámides y diagramas de Lexis (1.5 horas)
+
+a\. Pirámides de población: crear una función
+
+b\. Hacer múltiples pirámides y automatización
+
+c\. Diagramas Lexis
+
+***Objetivo:** que el estudiantado sea capaz de crear y utilizar funciones específicas para el análisis demográfico, crear pirámides y la colocar eventos en el diagrama de Lexis*
+
+[Día 3]{.underline}
+
+5\. Crecimiento y tasas (3 horas)
+
+a\. Estandarización de tasas y gráficos de crecimiento, manejo de series de tiempo
+
+b\. Cálculos automatizados de población media
+
+c\. Cálculo de tasas de natalidad y mortalidad
+
+d\. Descomposición del cambio de tasas de natalidad y mortalidad según Kitagawa
+
+***Objetivo:** que el estudiantado sea capaz de calcular tasas brutas, tasas específicas y descomponerlas utilizando R.*
+
+[Día 4]{.underline}
+
+6\. Tasa de fecundidad con datos de encuestas (1.5 horas)
+
+***Objetivo:** que el estudiantado sea capaz de calcular tasas brutas y específicas de fecundidad con encuestas de hogares.*
+
+7\. Visualización de flujos migratorios (1.5 horas)
+
+***Objetivo:** que el estudiantado sea capaz de hacer gráficos de flujos con el paquete {migest} y gráficos aluviales.*
+
+[Día 5]{.underline}
+
+8\. Tablas de vida y esperanza de vida (3 horas)
+
+a\. Construcción de tabla de vida a “mano”
+
+b\. Construcción con {DemoTools}
+
+***Objetivo:** que el estudiantado sea capaz de calcular la tabla de vida con utilizando el paquete DemoTools*
+
+## 6. Evaluación
+
+· Entrega de un trabajo final que reúna lo trabajado en la instancia de práctica a lo largo de las cinco sesiones.
+
+· La asistencia al 80% de las sesiones prácticas.
+
+## 7. Bibliografía
+
+El material guía construido por la facilitadora, que estará en este sitio web, será la bibliografía principal. Además se listan algunos insumos:
+
+CEPAL, NU. 2014. “Los datos demográficos: alcances, limitaciones y métodos de evaluación”.
+
+Escoto, Ana. 2019. “Lexis en R”. 2019.[ https://rstudio-pubs-static.s3.amazonaws.com/473169_a1348dd47070497a80fb2c0dc89e86e9.html](https://rstudio-pubs-static.s3.amazonaws.com/473169_a1348dd47070497a80fb2c0dc89e86e9.html).
+
+Escoto Castillo, Ana Ruth. (2022) 2022. “aniuxa/paquetes_demogRaficos”. R.[ https://github.com/aniuxa/paquetes_demogRaficos](https://github.com/aniuxa/paquetes_demogRaficos).
+
+Moultrie, Tom, Rob Dorrington, Allan Hill, Kenneth Hill, Lan Timaeus, y Basia Zaba. 2013. *Tools for Demographic Estimation*. France: International Union for the Scientific Study of Population (IUSSP).
+
+Poston, Dudley L., y Michael Micklin, eds. 2005. *Handbook of population*. Handbooks of sociology and social research. New York: Kluwer Academic/Plenum.
+
+“PPgp/wpp2022”. (2022) 2024. R. Probabilistic Projections Group.[ https://github.com/PPgp/wpp2022](https://github.com/PPgp/wpp2022).
+
+Pressat, Roland. 2000. *El análisis demográfico: métodos, resultados, aplicaciones*. Traducido por Tatiana Sule Hernández. México: Fondo de Cultura Económica.
+
+Preston, Samuel H., Patrick Heuveline, y Michel Guillot. 2001. *Demography: measuring and modeling population processes*. Malden, MA: Blackwell Publishers.
+
+Pujol, José Miguel. 1985. “Nuevas metodologías para evaluar y ajustar datos demográficos”, diciembre.[ https://repositorio.cepal.org/handle/11362/12578](https://repositorio.cepal.org/handle/11362/12578).
+
+Riffe, Tim. (2017) 2024. “timriffe/DemoTools”. R.[ https://github.com/timriffe/DemoTools](https://github.com/timriffe/DemoTools).
+
+Rodríguez, Germán. s/f. “Demographic Methods”.[ https://grodri.github.io/demography/](https://grodri.github.io/demography/).
+
+Sevcikova, Hana, Adrian Raftery, y Thomas Buettner. 2023. “bayesPop: Probabilistic Population Projection”.[ https://cran.r-project.org/web/packages/bayesPop/index.html](https://cran.r-project.org/web/packages/bayesPop/index.html).
+
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the Tidyverse”. *Journal of Open Source Software* 4 (43): 1686.[ https://doi.org/10.21105/joss.01686](https://doi.org/10.21105/joss.01686).
+
+Wickham, Hadley, y Garrett Grolemund. 2016. *R for data science: import, tidy, transform, visualize, and model data*. O’Reilly Media, Inc.

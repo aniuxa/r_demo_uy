@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Análisis Demográfico con R",
+    "section": "",
+    "text": "Sobre el curso"
+  },
+  {
+    "objectID": "index.html#docente",
+    "href": "index.html#docente",
+    "title": "Análisis Demográfico con R",
+    "section": "1. Docente",
+    "text": "1. Docente\nAna Ruth Escoto Castillo\nProfesora de tiempo completo en la Facultad de Ciencias Políticas y Sociales, UNAM. Doctora en Estudios de Población por El Colegio de México y cuenta con nivel I en el Sistema Nacional de Investigadores."
+  },
+  {
+    "objectID": "index.html#descripción-del-curso",
+    "href": "index.html#descripción-del-curso",
+    "title": "Análisis Demográfico con R",
+    "section": "2. Descripción del curso",
+    "text": "2. Descripción del curso\nLa demografía utiliza diferentes fuentes de información para el análisis demográfico y los estudios de población. La consulta, la limpieza y la evaluación de los datos demográficos se realiza con distintos softwares, entre los cuales destaca R. Desde el software R, la comunidad de usuarios ha creado paquetes y códigos replicables y de fácil acceso que tienen un uso cada vez más extendido en la disciplina. En este curso se utilizarán estos insumos para el caso específico de América Latina y de Uruguay. Es decir, el objetivo general del curso es que el estudiantado sea capaz de aplicar conceptos demográficos y estadísticosm fuentes de información latinoamericana y mundiales, y sobre todo, actuales utilizando R.\nPara ello, la mecánica del curso consistirá en lo siguiente:\n1. La exposición de la facilitadora. Durante la primera parte de la sesión, se expondrán los comandos necesarios para trabajar cada tema. Se dará una introducción sobre la temática y se presentarán ejemplos concretos para facilitar el aprendizaje. Se espera que las personas asistentes expongan sus dudas o comentarios a lo largo de la explicación.\n2. Realización de ejercicios prácticos. Al final de cada sesión, corresponderá al estudiantado realizar individualmente o en parejas un ejercicio relacionado con lo visto en la primera parte de la clase.\n3. Consulta autónoma de material. Tanto la exposición como los ejercicios serán acompañados de material de consulta preparadopara el curso, de tal manera que el estudiantado pueda volver a los códigos y a las explicaciones posteriormente."
+  },
+  {
+    "objectID": "index.html#carga-horaria",
+    "href": "index.html#carga-horaria",
+    "title": "Análisis Demográfico con R",
+    "section": "3. Carga horaria",
+    "text": "3. Carga horaria\n15 horas"
+  },
+  {
+    "objectID": "index.html#créditos",
+    "href": "index.html#créditos",
+    "title": "Análisis Demográfico con R",
+    "section": "4. Créditos",
+    "text": "4. Créditos\n3 (tres)"
+  },
+  {
+    "objectID": "index.html#estructura-del-curso",
+    "href": "index.html#estructura-del-curso",
+    "title": "Análisis Demográfico con R",
+    "section": "5. Estructura del curso",
+    "text": "5. Estructura del curso\nDía 1\n1. Introducción a R y Rstudio (1 hora)\nObjetivo: que el estudiantado se familiarice con la interfase de trabajo y la programación por objetos, y sea capaz de realizar tareas básicas como crear un script, un proyecto, objetos, ambientes e instalar paqueterías.\n2. Importación de información y primera revisión de fuentes demográficas (2 horas)\na. Importación de información a R en diferentes formatos\nb. Importación de información de proyecciones de población utilizando {wppExplorer}\nc. Consulta y descarga de información con paquetes como {IPUMSr}, {WDI} y otras API\nObjetivo: que el estudiantado sea capaz de: importar información desde diferentes formatos (.txt, .csv, .xlsx, .dta, .dbf) a R, así como de exportar sus resultados en estos formatos; revisar de manera preliminar los objetos de tipo “data.frame”, funciones “glimpse()”, “skim() de {skimr}; manejar etiquetas; hacer subconjuntos de información, y consultas.\nDía 2\n3. Evaluación de información (1.5 horas)\na. Tipo de de errores en las fuentes de información\nb. Evaluación de la calidad de información en fuentes de stock\nc. Suavizamiento de datos\nObjetivo: Que el estudiantado pueda identificar los errores en el levantamiento de información y su naturaleza, adquiriendo capacidades para corregir y suavizar datos para el análisis estadístico con el paquete {DemoTools} y otras aplicaciones.\n4. Pirámides y diagramas de Lexis (1.5 horas)\na. Pirámides de población: crear una función\nb. Hacer múltiples pirámides y automatización\nc. Diagramas Lexis\nObjetivo: que el estudiantado sea capaz de crear y utilizar funciones específicas para el análisis demográfico, crear pirámides y la colocar eventos en el diagrama de Lexis\nDía 3\n5. Crecimiento y tasas (3 horas)\na. Estandarización de tasas y gráficos de crecimiento, manejo de series de tiempo\nb. Cálculos automatizados de población media\nc. Cálculo de tasas de natalidad y mortalidad\nd. Descomposición del cambio de tasas de natalidad y mortalidad según Kitagawa\nObjetivo: que el estudiantado sea capaz de calcular tasas brutas, tasas específicas y descomponerlas utilizando R.\nDía 4\n6. Tasa de fecundidad con datos de encuestas (1.5 horas)\nObjetivo: que el estudiantado sea capaz de calcular tasas brutas y específicas de fecundidad con encuestas de hogares.\n7. Visualización de flujos migratorios (1.5 horas)\nObjetivo: que el estudiantado sea capaz de hacer gráficos de flujos con el paquete {migest} y gráficos aluviales.\nDía 5\n8. Tablas de vida y esperanza de vida (3 horas)\na. Construcción de tabla de vida a “mano”\nb. Construcción con {DemoTools}\nObjetivo: que el estudiantado sea capaz de calcular la tabla de vida con utilizando el paquete DemoTools"
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "Análisis Demográfico con R",
+    "section": "6. Evaluación",
+    "text": "6. Evaluación\n· Entrega de un trabajo final que reúna lo trabajado en la instancia de práctica a lo largo de las cinco sesiones.\n· La asistencia al 80% de las sesiones prácticas."
+  },
+  {
+    "objectID": "index.html#bibliografía",
+    "href": "index.html#bibliografía",
+    "title": "Análisis Demográfico con R",
+    "section": "7. Bibliografía",
+    "text": "7. Bibliografía\nEl material guía construido por la facilitadora, que estará en este sitio web, será la bibliografía principal. Además se listan algunos insumos:\nCEPAL, NU. 2014. “Los datos demográficos: alcances, limitaciones y métodos de evaluación”.\nEscoto, Ana. 2019. “Lexis en R”. 2019.https://rstudio-pubs-static.s3.amazonaws.com/473169_a1348dd47070497a80fb2c0dc89e86e9.html.\nEscoto Castillo, Ana Ruth. (2022) 2022. “aniuxa/paquetes_demogRaficos”. R.https://github.com/aniuxa/paquetes_demogRaficos.\nMoultrie, Tom, Rob Dorrington, Allan Hill, Kenneth Hill, Lan Timaeus, y Basia Zaba. 2013. Tools for Demographic Estimation. France: International Union for the Scientific Study of Population (IUSSP).\nPoston, Dudley L., y Michael Micklin, eds. 2005. Handbook of population. Handbooks of sociology and social research. New York: Kluwer Academic/Plenum.\n“PPgp/wpp2022”. (2022) 2024. R. Probabilistic Projections Group.https://github.com/PPgp/wpp2022.\nPressat, Roland. 2000. El análisis demográfico: métodos, resultados, aplicaciones. Traducido por Tatiana Sule Hernández. México: Fondo de Cultura Económica.\nPreston, Samuel H., Patrick Heuveline, y Michel Guillot. 2001. Demography: measuring and modeling population processes. Malden, MA: Blackwell Publishers.\nPujol, José Miguel. 1985. “Nuevas metodologías para evaluar y ajustar datos demográficos”, diciembre.https://repositorio.cepal.org/handle/11362/12578.\nRiffe, Tim. (2017) 2024. “timriffe/DemoTools”. R.https://github.com/timriffe/DemoTools.\nRodríguez, Germán. s/f. “Demographic Methods”.https://grodri.github.io/demography/.\nSevcikova, Hana, Adrian Raftery, y Thomas Buettner. 2023. “bayesPop: Probabilistic Population Projection”.https://cran.r-project.org/web/packages/bayesPop/index.html.\nWickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the Tidyverse”. Journal of Open Source Software 4 (43): 1686.https://doi.org/10.21105/joss.01686.\nWickham, Hadley, y Garrett Grolemund. 2016. R for data science: import, tidy, transform, visualize, and model data. O’Reilly Media, Inc."
+  },
+  {
+    "objectID": "instala.html#introducción-a-r",
+    "href": "instala.html#introducción-a-r",
+    "title": "Instalación de R y Rstudio",
+    "section": "Introducción a R",
+    "text": "Introducción a R"
+  },
+  {
+    "objectID": "instala.html#instalación-en-os",
+    "href": "instala.html#instalación-en-os",
+    "title": "Instalación de R y Rstudio",
+    "section": "Instalación en OS",
+    "text": "Instalación en OS\n\nNecesito que instalen la versión más nueva de R: Download R-4.4.0 of MAC. The R-project for statistical computing. https://cran.r-project.org/bin/macosx/\n\nElije la versión de acuerdo a tu procesador, intel o ARM.\n\nInstalar también las herramientas Quartz, xcode y fortran\n\n\nhttps://www.xquartz.org/\nhttps://developer.apple.com/xcode/resources/\nhttps://mac.r-project.org/tools/gfortran-12.2-universal.pkg\n\n\nDespués de eso instalar el Rstudio, que hoy se encuentra alojado en el sitio posit, que vaya acorde con MAC\n\nhttps://posit.co/download/rstudio-desktop/\nAlgunas indicaciones en video, pero son algo viejitas y pueden cambiar las versiones de R.\n\nAlgunas indicaciones en video, pero son algo viejitas y pueden cambiar las versiones de R."
+  },
+  {
+    "objectID": "instala.html#instalación-en-pc",
+    "href": "instala.html#instalación-en-pc",
+    "title": "Instalación de R y Rstudio",
+    "section": "Instalación en PC",
+    "text": "Instalación en PC\n\nNecesito que instalen la versión más nueva de R: Download R-4.4.0 for Windows. The R-project for statistical computing. https://cran.r-project.org/bin/windows/base/\nInstalar también la herramienta RTools https://cran.r-project.org/bin/windows/Rtools/rtools44/rtools.html\nDespués de eso instalar el Rstudio, que hoy se encuentra alojado en el sitio posit, que vaya acorde con Windows https://posit.co/download/rstudio-desktop/\n\nAlgunas indicaciones en video, pero son algo viejitas y pueden cambiar las versiones de R."
+  },
+  {
+    "objectID": "instala.html#ojo",
+    "href": "instala.html#ojo",
+    "title": "Instalación de R y Rstudio",
+    "section": "Ojo",
+    "text": "Ojo\nDesde octubre de 2022, RStudio se volvió “Posit”"
+  }
+]

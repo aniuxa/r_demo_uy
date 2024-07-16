@@ -1,0 +1,225 @@
+
+# Introducción a R y Rstudio
+
+## Primer acercamiento al uso del programa
+
+En RStudio de Posit podemos tener varias ventanas que nos permiten tener más control de nuestro "ambiente", el historial, los "scripts" o códigos que escribimos y por supuesto, tenemos nuestra consola, que también tiene el símbolo "\>" con R. Podemos pedir operaciones básicas
+
+```{r 2}
+2+5
+5*3
+
+#Para escribir comentarios y que no los lea como operaciones ponemos el símbolo de gato
+## Lo podemos hacer para un comentario en una línea o la par de una instrucción
+1:5               ## Secuencia 1-5
+
+seq(1, 10, 0.5)   ## Secuencia con incrementos diferentes a 1
+
+c('a','b','c')  ## Vector con caracteres
+1:7             ## Entero
+40<80           ## Valor logico
+2+2 == 5        ## Valor logico
+T == TRUE       ## T expresion corta de verdadero
+
+```
+
+R es un lenguaje de programación por objetos. Por lo cual vamos a tener objetos a los que se les asigna su contenido. Si usamos una flechita "\<-" o "-\>" le estamos asignando algo al objeto que apunta la felcha.
+
+```{r 3}
+x <- 24         ## Asignacion de valor 24 a la variable x para su uso posterior (OBJETO)
+x/2             ## Uso posterior de variable u objeto x
+x               ## Imprime en pantalla el valor de la variable u objeto
+x <- TRUE       ## Asigna el valor logico TRUE a la variable x OJO: x toma el ultimo valor que se le asigna
+x
+```
+
+### Vectores
+
+Los vectores son uno de los objetos más usados en R.
+
+```{r 4}
+y <- c(2,4,6)     ## Vector numerico
+y <- c('Primaria', 'Secundaria') ## Vector caracteres
+```
+
+Dado que poseen elementos, podemos también observar y hacer operaciones con sus elementos, usando "\[ \]" para acceder a ellos
+
+```{r 5}
+y[2]              ## Acceder al segundo valor del vector y
+y[3] <- 'Preparatoria y más' ## Asigna valor a la tercera componente del vector
+sex <-1:2         ## Asigna a la variable sex los valores 1 y 2
+names(sex) <- c("Femenino", "Masculino") ## Asigna nombres al vector de elementos sexo
+sex[2]            ## Segundo elemento del vector sex
+
+```
+
+
+### Funciones
+
+Algunas funciones básicas son las siguientes. Vamos a ir viendo más funciones, pero para entender cómo funcionan, haremos unos ejemplos y cómo pedir ayuda sobre ellas.
+
+```{r 6}
+sum (10,20,30)    ## Función suma
+rep('R', times=3) ## Repite la letra R el numero de veces que se indica
+sqrt(9)           ## Raiz cuadrada de 9
+
+```
+
+### Ayuda
+
+Pedir ayuda es indispensable para aprender a escribir nuestros códigos. A prueba y error, es el mejor sistema para aprender. Podemos usar la función help, example y ?
+
+```{r 7}
+help(sum)         ## Ayuda sobre función sum
+example(sum)      ## Ejemplo de función sum
+```
+
+### Mi ambiente
+
+Todos los objetos que hemos declarado hasta ahora son parte de nuestro "ambiente" (environment). Para saber qué está en nuestro ambiente usamos el comando
+
+```{r 8}
+ls()
+gc()           ## Garbage collection, reporta memoria en uso
+```
+
+Para borrar todos nuestros objetos, usamos el siguiente comando, que equivale a usar la escobita de la venta de environment
+
+```{r 9}
+rm(list=ls())  ## Borrar objetos actuales
+```
+
+## Directorio de trabajo
+
+Es muy útil saber dónde estamos trabajando y donde queremos trabajar. Por eso podemos utilizar los siguientes comandos para saberlo
+
+Ojo, checa, si estás desdes una PC, cómo cambian las "" por"/" o por "\\"
+
+```{r 10}
+getwd()           # Directorio actual
+
+list.files()      # Lista de archivos en ese directorio
+```
+
+## Proyectos
+
+Pero... a veces preferimos trabajar en proyectos, sobre todo porque nos da más control.
+
+Hay gente que lo dice mejor que yo, como Hadley Wickham: <https://es.r4ds.hadley.nz/08-workflow-projects.html>
+
+## Instalación de paquetes
+
+Los paquetes son útiles para realizar funciones especiales. La especialización de paquetes es más rápida en R que en otros programas por ser un software libre.
+
+```{r 11}
+#install.packages("foreign", dependencies = TRUE)
+#install.packages("haven", dependencies = TRUE)
+
+```
+
+Este proceso no hay que hacerlo siempre. Si no sólo la primera vez. Una vez instalado un paquete, lo llamamos con el comando `library()`
+
+```{r 12}
+library(foreign)
+library(haven)
+```
+
+`{foreing}` nos permite leer archivos en formato de dBase, con extensión `.dbf`. Si bien no es un formato muy común para los investigadores, sí para los que generan la información, puesto que dBase es uno de los principales programas de administración de bases de datos.
+
+He puesto un ejemplo de una base de datos mexicana en dbf, en este formato.
+
+```{r}
+ejemplo_dbf<-foreign::read.dbf("datos/ejemplo_dbf.DBF") #checa cómo nos vamos adentro de nuestro directorio
+```
+
+## Paquete `{pacman}`
+
+En general, cuando hacemos nuestro código querremos verificar que nuestras librerías estén instaladas. Si actualizamos nuestro R y Rstudio es probable (sobre todo en MAC) que hayamos perdido alguno.
+
+Este es un ejemplo de un código. Y vamos a introducir un paquete muy útil llamado "pacman"
+
+```{r}
+if (!require("pacman")) install.packages("pacman") # instala pacman si se requiere
+pacman::p_load(tidyverse,
+               readxl, 
+               writexl,
+               haven, 
+               sjlabelled, 
+               foreign,
+               WDI, 
+               remotes) 
+
+```
+
+## Instalación de paquetes en desarrollo
+
+Además de los paquetes que están en CRAN, hay otros repositorios desde los cuáles podemos instalar el código. Un paquete que utilizaremos mucho, es el paquete `{wpp2022}`
+
+```{r}
+
+remotes::install_github("PPgp/wpp2022")
+```
+
+
+## Dataframes con el paquete `{WDI}`
+
+Instalamos anteriormente el paquete `{WDI}` que nos da acceso a un grupo amplio de bases de datos que nos ayudaran a revisar y analizar algunas técnicas sencillas.
+
+>El Banco Mundial pone a disposición una gran cantidad de datos excelentes de los Indicadores de Desarrollo Mundial a través de su API web. El paquete WDI para R facilita la búsqueda y descarga de series de datos desde WDI".
+
+```{r}
+WDI::WDIsearch('gender')
+```
+
+Para saber un poco más de esta librería <https://cran.r-project.org/web/packages/WDI/WDI.pdf>
+
+También acá <https://www.r-project.org/nosvn/pandoc/WDI.html>
+
+```{r}
+WDI::WDI(country = "all",
+    indicator = "NY.GDP.PCAP.KD",
+    start = 1960,
+    end = 2023,
+    extra = FALSE,
+    cache = NULL)
+
+```
+
+Esta información la podemos guardar en un objeto. En este caso mejor pediremos un solo país:
+
+```{r}
+gdp<-WDI::WDI(country = "UY",
+    indicator = "NY.GDP.PCAP.KD",
+    start = 1960,
+    end = 2023,
+    extra = FALSE,
+    cache = NULL)
+```
+
+Vamos a revisar nuestro objeto:
+
+```{r}
+class(gdp)
+```
+
+```{r}
+plot(gdp$NY.GDP.PCAP.KD)
+```
+
+Este no es el mejor gráfico.
+
+```{r}
+plot(gdp$year, gdp$NY.GDP.PCAP.KD)
+```
+
+Veamos y conozcamos la función "plot()"
+
+Otra opción es decirle a R que tenemos una variable en el tiempo:
+
+```{r}
+ts.plot(gdp$NY.GDP.PCAP.KD)
+```
+
+Las matrices por lo general sólo almacenan un tipo de datos mientras que las data frames puede almacenar varios tipos de datos.
+
+

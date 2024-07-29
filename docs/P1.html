@@ -382,8 +382,8 @@ sum&gt; sum(1:5, NA, na.rm = TRUE)
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()           <span class="do">## Garbage collection, reporta memoria en uso</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
-Ncells  627904 33.6    1352781 72.3         NA  1352781 72.3
-Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
+Ncells  627906 33.6    1352824 72.3         NA  1352824 72.3
+Vcells 1172973  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 </div>
 <p>Para borrar todos nuestros objetos, usamos el siguiente comando, que equivale a usar la escobita de la venta de environment</p>
@@ -403,13 +403,14 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()      <span class="co"># Lista de archivos en ese directorio</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "LICENSE"             "Mi_Exportación.xlsx" "P1.html"            
- [4] "P1.qmd"              "P1.rmarkdown"        "P1_files"           
- [7] "README.md"           "_quarto.yml"         "datos"              
-[10] "docs"                "index.html"          "index.qmd"          
-[13] "instala.html"        "instala.qmd"         "ipums.R"            
-[16] "ipumsi_00016.R"      "ipumsi_00016.dat.gz" "ipumsi_00016.xml"   
-[19] "mi_exportacion.sav"  "r_demo_uy.Rproj"     "site_libs"          </code></pre>
+<pre><code> [1] "LICENSE"             "Mi_Exportación.xlsx" "P1.qmd"             
+ [4] "P1.rmarkdown"        "README.md"           "_quarto.yml"        
+ [7] "códigos"             "datos"               "docs"               
+[10] "index.html"          "index.qmd"           "instala.html"       
+[13] "instala.qmd"         "ipums.R"             "ipumsi_00016.R"     
+[16] "ipumsi_00016.dat.gz" "ipumsi_00016.xml"    "mi_exportacion.sav" 
+[19] "p1.html"             "p1_files"            "r_demo_uy.Rproj"    
+[22] "site_libs"          </code></pre>
 </div>
 </div>
 </section>
@@ -417,6 +418,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <h2 data-number="1.3" class="anchored" data-anchor-id="proyectos"><span class="header-section-number">1.3</span> Proyectos</h2>
 <p>Pero… a veces preferimos trabajar en proyectos, sobre todo porque nos da más control.</p>
 <p>Hay gente que lo dice mejor que yo, como Hadley Wickham: <a href="https://es.r4ds.hadley.nz/08-workflow-projects.html" class="uri">https://es.r4ds.hadley.nz/08-workflow-projects.html</a></p>
+<p>Hagamos un proyecto. Este proyecto debe tener <strong>adentro</strong> una carpeta que se llame datos.</p>
+<p>Descarga algunos de los datos que usaremos en el curso <a href="https://www.dropbox.com/scl/fo/qyaotdyqwmxgf7t3q7sbi/AIy3AMum3Ny5x52Z_U7fJUs?rlkey=oqin64z8qmlq27zf8s1codz8p&amp;dl=0">acá</a></p>
 </section>
 <section id="instalación-de-paquetes" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="instalación-de-paquetes"><span class="header-section-number">1.4</span> Instalación de paquetes</h2>

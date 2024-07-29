@@ -1,11 +1,14 @@
-
 # Introducción a R y Rstudio
 
 ## Primer acercamiento al uso del programa
 
-En RStudio de Posit podemos tener varias ventanas que nos permiten tener más control de nuestro "ambiente", el historial, los "scripts" o códigos que escribimos y por supuesto, tenemos nuestra consola, que también tiene el símbolo "\>" con R. Podemos pedir operaciones básicas
+Usaremos la IDE RStudio --- pronto habrá *positron*
 
-```{r 2}
+En RStudio de *posit* podemos tener varias ventanas que nos permiten tener más control de nuestro "ambiente", el historial, los \*scripts¨ o códigos que escribimos y por supuesto, tenemos nuestra consola, que también tiene el símbolo `>`
+
+Podemos pedir operaciones básicas
+
+```{r}
 2+5
 5*3
 
@@ -23,9 +26,9 @@ T == TRUE       ## T expresion corta de verdadero
 
 ```
 
-R es un lenguaje de programación por objetos. Por lo cual vamos a tener objetos a los que se les asigna su contenido. Si usamos una flechita "\<-" o "-\>" le estamos asignando algo al objeto que apunta la felcha.
+R es un lenguaje de programación por objetos. Por lo cual vamos a tener objetos a los que se les asigna su contenido. Si usamos una flechita `<-` o `->` le estamos asignando algo al objeto que apunta la flecha.
 
-```{r 3}
+```{r}
 x <- 24         ## Asignacion de valor 24 a la variable x para su uso posterior (OBJETO)
 x/2             ## Uso posterior de variable u objeto x
 x               ## Imprime en pantalla el valor de la variable u objeto
@@ -37,14 +40,14 @@ x
 
 Los vectores son uno de los objetos más usados en R.
 
-```{r 4}
-y <- c(2,4,6)     ## Vector numerico
+```{r}
+y <- c( 2, 4, 6)     ## Vector numerico
 y <- c('Primaria', 'Secundaria') ## Vector caracteres
 ```
 
-Dado que poseen elementos, podemos también observar y hacer operaciones con sus elementos, usando "\[ \]" para acceder a ellos
+Dado que poseen elementos, podemos también observar y hacer operaciones con sus elementos, usando `[ ]` para acceder a ellos
 
-```{r 5}
+```{r}
 y[2]              ## Acceder al segundo valor del vector y
 y[3] <- 'Preparatoria y más' ## Asigna valor a la tercera componente del vector
 sex <-1:2         ## Asigna a la variable sex los valores 1 y 2
@@ -53,25 +56,39 @@ sex[2]            ## Segundo elemento del vector sex
 
 ```
 
-
 ### Funciones
 
-Algunas funciones básicas son las siguientes. Vamos a ir viendo más funciones, pero para entender cómo funcionan, haremos unos ejemplos y cómo pedir ayuda sobre ellas.
+Algunas funciones básicas son las siguientes. Vamos a ir viendo más funciones, pero para entender cómo *funcionan*, haremos unos ejemplos y cómo pedir ayuda sobre ellas.
 
-```{r 6}
-sum (10,20,30)    ## Función suma
-rep('R', times=3) ## Repite la letra R el numero de veces que se indica
+```{r}
+sum( 10, 20, 30)    ## Función suma
+rep( 'R',  times=3) ## Repite la letra R el numero de veces que se indica
 sqrt(9)           ## Raiz cuadrada de 9
 
+```
+
+### Indentación
+
+En otros paquetes la indentación es muy importante (i.e. Python). En R no es necesario
+
+```{r}
+sum( 10, 20, 30)    
+
+sum(10, 
+    20,
+    30)
 ```
 
 ### Ayuda
 
 Pedir ayuda es indispensable para aprender a escribir nuestros códigos. A prueba y error, es el mejor sistema para aprender. Podemos usar la función help, example y ?
 
-```{r 7}
-help(sum)         ## Ayuda sobre función sum
-example(sum)      ## Ejemplo de función sum
+```{r}
+help(sum)    ## Ayuda sobre función sum
+?sum()       ## ídem
+example(sum) ## Ejemplo de función sum
+
+
 ```
 
 ### Mi ambiente
@@ -85,7 +102,7 @@ gc()           ## Garbage collection, reporta memoria en uso
 
 Para borrar todos nuestros objetos, usamos el siguiente comando, que equivale a usar la escobita de la venta de environment
 
-```{r 9}
+```{r}
 rm(list=ls())  ## Borrar objetos actuales
 ```
 
@@ -106,6 +123,10 @@ list.files()      # Lista de archivos en ese directorio
 Pero... a veces preferimos trabajar en proyectos, sobre todo porque nos da más control.
 
 Hay gente que lo dice mejor que yo, como Hadley Wickham: <https://es.r4ds.hadley.nz/08-workflow-projects.html>
+
+Hagamos un proyecto. Este proyecto debe tener **adentro** una carpeta que se llame datos.
+
+Descarga algunos de los datos que usaremos en el curso [acá](https://www.dropbox.com/scl/fo/qyaotdyqwmxgf7t3q7sbi/AIy3AMum3Ny5x52Z_U7fJUs?rlkey=oqin64z8qmlq27zf8s1codz8p&dl=0)
 
 ## Instalación de paquetes
 
@@ -160,25 +181,30 @@ Además de los paquetes que están en CRAN, hay otros repositorios desde los cu�
 remotes::install_github("PPgp/wpp2022")
 ```
 
-
 ## Dataframes con el paquete `{WDI}`
 
 Instalamos anteriormente el paquete `{WDI}` que nos da acceso a un grupo amplio de bases de datos que nos ayudaran a revisar y analizar algunas técnicas sencillas.
 
->El Banco Mundial pone a disposición una gran cantidad de datos excelentes de los Indicadores de Desarrollo Mundial a través de su API web. El paquete WDI para R facilita la búsqueda y descarga de series de datos desde WDI".
+> El Banco Mundial pone a disposición una gran cantidad de datos excelentes de los Indicadores de Desarrollo Mundial a través de su API web. El paquete WDI para R facilita la búsqueda y descarga de series de datos desde WDI".
+
+Para saber un poco más de esta librería:
+
+-   <https://cran.r-project.org/web/packages/WDI/WDI.pdf>
+
+-   <https://www.r-project.org/nosvn/pandoc/WDI.html>
+
+-   <https://databank.worldbank.org/reports.aspx?source=2&country=ARE>
 
 ```{r}
 WDI::WDIsearch('gender')
 ```
 
-Para saber un poco más de esta librería <https://cran.r-project.org/web/packages/WDI/WDI.pdf>
+```{r }
 
-También acá <https://www.r-project.org/nosvn/pandoc/WDI.html>
 
-```{r}
-WDI::WDI(country = "all",
-    indicator = "NY.GDP.PCAP.KD",
-    start = 1960,
+WDI::WDI(country = "UY",
+    indicator = "SP.POP.TOTL",
+    start = 2000,
     end = 2023,
     extra = FALSE,
     cache = NULL)
@@ -188,38 +214,167 @@ WDI::WDI(country = "all",
 Esta información la podemos guardar en un objeto. En este caso mejor pediremos un solo país:
 
 ```{r}
-gdp<-WDI::WDI(country = "UY",
-    indicator = "NY.GDP.PCAP.KD",
-    start = 1960,
-    end = 2023,
-    extra = FALSE,
-    cache = NULL)
+pop <- WDI::WDI(country = "UY",
+               indicator = "SP.POP.TOTL",
+               start = 1990,
+               end = 2023)
 ```
 
 Vamos a revisar nuestro objeto:
 
 ```{r}
-class(gdp)
+class(pop)
 ```
 
+Veamos y conozcamos la función `plot()`
+
 ```{r}
-plot(gdp$NY.GDP.PCAP.KD)
+plot(pop$SP.POP.TOTL)
 ```
 
 Este no es el mejor gráfico.
 
 ```{r}
-plot(gdp$year, gdp$NY.GDP.PCAP.KD)
-```
-
-Veamos y conozcamos la función "plot()"
-
-Otra opción es decirle a R que tenemos una variable en el tiempo:
-
-```{r}
-ts.plot(gdp$NY.GDP.PCAP.KD)
+plot(pop$year, pop$SP.POP.TOTL)
 ```
 
 Las matrices por lo general sólo almacenan un tipo de datos mientras que las data frames puede almacenar varios tipos de datos.
 
+## Importación de datos
 
+### Desde Excel
+
+El paquete más compatible con RStudio es `{readxl}`. Como su nombre dice "lee" los archivos de excel
+
+```{r 3}
+ejemploxl <- readxl::read_excel("datos/ejemplo_xlsx.xlsx")
+
+```
+
+<https://catalogodatos.gub.uy/dataset/mides-indicador-10829/resource/3f5356a2-b6dc-4827-8a8e-e34285ef54ba>
+
+Como el nombre de paquete lo indica, sólo lee. Para "escribir" en este formato, recomiendo el paquete `{writexl}`. Lo instalamos anteriormente.
+
+Si quisiéramos exportar un objeto a Excel, se hace de la siguiente forma:
+
+```{r 5}
+writexl::write_xlsx(ejemploxl, path = "Mi_Exportación.xlsx")
+```
+
+### Desde STATA y SPSS
+
+Si bien también se puede realizar desde el paquete `{foreign}` Pero este no importa algunas características como las etiquetas y tampoco funciona con las versiones más nuevas de STATA. Vamos a instalar otro paquete, compatible con el mundo `{tidyverse}`.
+
+Recuerda que no hay que instalarlo (viene adentro de `{tidyverse}`).
+
+```{r}
+encuesta_generacion <- haven::read_dta("datos/GGSII_Wave1_UY_V_1_3.dta")
+```
+
+!Importante, a R no le gustan los objetos con nombres que empiezan en números
+
+El paquete haven sí exporta información.
+
+```{r}
+haven::write_dta(encuesta_generacion,
+                 "datos/mi_exportación.dta",
+                 version = 12)
+```
+
+Con SSPS es muy parecido. Dentro de `{haven}` hay una función específica para ello.
+
+Checa que en todas las exportaciones en los nombres hay que incluir la extensión del programa. Si quieres guardar en un lugar diferente al directorio del trabajo, hay que escribir toda la ruta dentro de la computadora.
+
+### Desde archivos de texto y de una url
+
+Desde el portal <https://catalogodatos.gub.uy/> tenemos acceso a directo a varias fuentes de información, al ser datos abiertos, los archivos de texto son muy comunes.
+
+Leeremos parte de esa información, específicamente de la actividad docente
+
+```{r}
+docente2019 <- read.csv("https://catalogodatos.gub.uy/dataset/e5b78d49-1707-4f50-9b3b-f2db591ac133/resource/d651361a-5e21-4e80-9107-3418677443ee/download/datos_docentes_2019.csv")
+names(docente2019)
+```
+
+```{r}
+docente2019 <- readr::read_csv("https://catalogodatos.gub.uy/dataset/e5b78d49-1707-4f50-9b3b-f2db591ac133/resource/d651361a-5e21-4e80-9107-3418677443ee/download/datos_docentes_2019.csv")
+names(docente2019)
+```
+
+## Revisión de nuestro conjunto de datos
+
+### con base
+
+Vamos a revisar la base, brevemente la base
+
+```{r}
+class(encuesta_generacion) # tipo de objeto
+
+names(encuesta_generacion) # lista las variables
+
+head(encuesta_generacion) # muestra las primeras 6 líneas
+
+table(encuesta_generacion$dem01) # un tabulado simple
+```
+
+### Revisión con `{skimr}`
+
+Esto se puede tardar un poquito
+
+```{r}
+skimr::skim(encuesta_generacion[, 1:20])
+```
+
+## Un poquito de `{dplyr}` y limpieza
+
+### Primero, los pipes
+
+R utiliza dos pipes el nativo `|>` y el pipe que está en `{dplyr}` `%>%`. Algunas de las diferencias las puedes checar acá <https://eliocamp.github.io/codigo-r/2021/05/r-pipa-nativa/>
+
+Aquí hay un *tuit*, o *post de x.com* que lo explica bien.
+
+<https://x.com/ArthurWelle/status/1535429654760284161>
+
+En estas prácticas utilizaremos el segundo, son muy parecidos y así esta instructora pueda reciclar algunos de sus códigos viejos. Pero funcionan igual:
+
+```{r}
+
+encuesta_generacion|> #pipe nativo, no necesita instalación
+  head()
+```
+
+```{r}
+encuesta_generacion %>%  #pipe de dplyr, necesita instalación de dplyr en tidyverse
+  head()
+```
+
+### Limpieza de nombres con `{janitor}`
+
+Este paso también nos permitirá enseñar otro *pipe* que está en el paquete `{magrittr}`.
+
+Los nombres de una base de datos son los nombres de las columnas.
+
+```{r}
+names(encuesta_generacion)
+names(ejemploxl)
+```
+
+Como vemos en las bases hay mayúsculas, caracteres especiales y demás. Esto lo podemos cambiar
+
+```{r}
+ejemploxl<-ejemploxl %>% 
+  janitor::clean_names()
+
+names(ejemploxl)
+```
+
+Si quisiéramos que la acción quedará en una sola operación, podemos usar un pipe diferente:
+
+```{r}
+pacman::p_load(magrittr)
+
+encuesta_generacion %<>% # este es otro pipe
+  janitor::clean_names()
+
+names(encuesta_generacion)
+```

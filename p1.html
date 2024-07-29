@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Análisis Demográfico con R - 1&nbsp; Introducción a R y Rstudio</title>
+<title>p1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,170 +57,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./instala.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
-  "copy-button": false,
-  "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
-  "limit": 20,
-  "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
-  }
-}</script>
+<script src="p1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="p1_files/libs/quarto-html/quarto.js"></script>
+<script src="p1_files/libs/quarto-html/popper.min.js"></script>
+<script src="p1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="p1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="p1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="p1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="p1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="p1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="p1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="fullcontent">
 
-<div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P1.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
-<!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Análisis Demográfico con R</a> 
-        <div class="sidebar-tools-main">
-    <a href="https://github.com/aniuxa/r_demo_uy/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sobre el curso</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./instala.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Instalación de R y Rstudio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./P1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#primer-acercamiento-al-uso-del-programa" id="toc-primer-acercamiento-al-uso-del-programa" class="nav-link active" data-scroll-target="#primer-acercamiento-al-uso-del-programa"><span class="header-section-number">1.1</span> Primer acercamiento al uso del programa</a>
-  <ul class="collapse">
-  <li><a href="#vectores" id="toc-vectores" class="nav-link" data-scroll-target="#vectores"><span class="header-section-number">1.1.1</span> Vectores</a></li>
-  <li><a href="#funciones" id="toc-funciones" class="nav-link" data-scroll-target="#funciones"><span class="header-section-number">1.1.2</span> Funciones</a></li>
-  <li><a href="#indentación" id="toc-indentación" class="nav-link" data-scroll-target="#indentación"><span class="header-section-number">1.1.3</span> Indentación</a></li>
-  <li><a href="#ayuda" id="toc-ayuda" class="nav-link" data-scroll-target="#ayuda"><span class="header-section-number">1.1.4</span> Ayuda</a></li>
-  <li><a href="#mi-ambiente" id="toc-mi-ambiente" class="nav-link" data-scroll-target="#mi-ambiente"><span class="header-section-number">1.1.5</span> Mi ambiente</a></li>
-  </ul></li>
-  <li><a href="#directorio-de-trabajo" id="toc-directorio-de-trabajo" class="nav-link" data-scroll-target="#directorio-de-trabajo"><span class="header-section-number">1.2</span> Directorio de trabajo</a></li>
-  <li><a href="#proyectos" id="toc-proyectos" class="nav-link" data-scroll-target="#proyectos"><span class="header-section-number">1.3</span> Proyectos</a></li>
-  <li><a href="#instalación-de-paquetes" id="toc-instalación-de-paquetes" class="nav-link" data-scroll-target="#instalación-de-paquetes"><span class="header-section-number">1.4</span> Instalación de paquetes</a></li>
-  <li><a href="#paquete-pacman" id="toc-paquete-pacman" class="nav-link" data-scroll-target="#paquete-pacman"><span class="header-section-number">1.5</span> Paquete <code>{pacman}</code></a></li>
-  <li><a href="#instalación-de-paquetes-en-desarrollo" id="toc-instalación-de-paquetes-en-desarrollo" class="nav-link" data-scroll-target="#instalación-de-paquetes-en-desarrollo"><span class="header-section-number">1.6</span> Instalación de paquetes en desarrollo</a></li>
-  <li><a href="#dataframes-con-el-paquete-wdi" id="toc-dataframes-con-el-paquete-wdi" class="nav-link" data-scroll-target="#dataframes-con-el-paquete-wdi"><span class="header-section-number">1.7</span> Dataframes con el paquete <code>{WDI}</code></a></li>
-  <li><a href="#importación-de-datos" id="toc-importación-de-datos" class="nav-link" data-scroll-target="#importación-de-datos"><span class="header-section-number">1.8</span> Importación de datos</a>
-  <ul class="collapse">
-  <li><a href="#desde-excel" id="toc-desde-excel" class="nav-link" data-scroll-target="#desde-excel"><span class="header-section-number">1.8.1</span> Desde Excel</a></li>
-  <li><a href="#desde-stata-y-spss" id="toc-desde-stata-y-spss" class="nav-link" data-scroll-target="#desde-stata-y-spss"><span class="header-section-number">1.8.2</span> Desde STATA y SPSS</a></li>
-  <li><a href="#desde-archivos-de-texto-y-de-una-url" id="toc-desde-archivos-de-texto-y-de-una-url" class="nav-link" data-scroll-target="#desde-archivos-de-texto-y-de-una-url"><span class="header-section-number">1.8.3</span> Desde archivos de texto y de una url</a></li>
-  </ul></li>
-  <li><a href="#revisión-de-nuestro-conjunto-de-datos" id="toc-revisión-de-nuestro-conjunto-de-datos" class="nav-link" data-scroll-target="#revisión-de-nuestro-conjunto-de-datos"><span class="header-section-number">1.9</span> Revisión de nuestro conjunto de datos</a>
-  <ul class="collapse">
-  <li><a href="#con-base" id="toc-con-base" class="nav-link" data-scroll-target="#con-base"><span class="header-section-number">1.9.1</span> con base</a></li>
-  <li><a href="#revisión-con-skimr" id="toc-revisión-con-skimr" class="nav-link" data-scroll-target="#revisión-con-skimr"><span class="header-section-number">1.9.2</span> Revisión con <code>{skimr}</code></a></li>
-  </ul></li>
-  <li><a href="#un-poquito-de-dplyr-y-limpieza" id="toc-un-poquito-de-dplyr-y-limpieza" class="nav-link" data-scroll-target="#un-poquito-de-dplyr-y-limpieza"><span class="header-section-number">1.10</span> Un poquito de <code>{dplyr}</code> y limpieza</a>
-  <ul class="collapse">
-  <li><a href="#primero-los-pipes" id="toc-primero-los-pipes" class="nav-link" data-scroll-target="#primero-los-pipes"><span class="header-section-number">1.10.1</span> Primero, los pipes</a></li>
-  <li><a href="#limpieza-de-nombres-con-janitor" id="toc-limpieza-de-nombres-con-janitor" class="nav-link" data-scroll-target="#limpieza-de-nombres-con-janitor"><span class="header-section-number">1.10.2</span> Limpieza de nombres con <code>{janitor}</code></a></li>
-  </ul></li>
-  </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/aniuxa/r_demo_uy/edit/main/P1.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/aniuxa/r_demo_uy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
-    </div>
-<!-- main -->
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></h1>
-</div>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-</header>
-
-<section id="primer-acercamiento-al-uso-del-programa" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="primer-acercamiento-al-uso-del-programa"><span class="header-section-number">1.1</span> Primer acercamiento al uso del programa</h2>
+<section id="introducción-a-r-y-rstudio" class="level1">
+<h1>Introducción a R y Rstudio</h1>
+<section id="primer-acercamiento-al-uso-del-programa" class="level2">
+<h2 class="anchored" data-anchor-id="primer-acercamiento-al-uso-del-programa">Primer acercamiento al uso del programa</h2>
 <p>Usaremos la IDE RStudio — pronto habrá <em>positron</em></p>
 <p>En RStudio de <em>posit</em> podemos tener varias ventanas que nos permiten tener más control de nuestro “ambiente”, el historial, los *scripts¨ o códigos que escribimos y por supuesto, tenemos nuestra consola, que también tiene el símbolo <code>&gt;</code></p>
 <p>Podemos pedir operaciones básicas</p>
@@ -282,8 +144,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<section id="vectores" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="vectores"><span class="header-section-number">1.1.1</span> Vectores</h3>
+<section id="vectores" class="level3">
+<h3 class="anchored" data-anchor-id="vectores">Vectores</h3>
 <p>Los vectores son uno de los objetos más usados en R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)     <span class="do">## Vector numerico</span></span>
@@ -305,8 +167,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="funciones" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="funciones"><span class="header-section-number">1.1.2</span> Funciones</h3>
+<section id="funciones" class="level3">
+<h3 class="anchored" data-anchor-id="funciones">Funciones</h3>
 <p>Algunas funciones básicas son las siguientes. Vamos a ir viendo más funciones, pero para entender cómo <em>funcionan</em>, haremos unos ejemplos y cómo pedir ayuda sobre ellas.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>( <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)    <span class="do">## Función suma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -323,8 +185,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="indentación" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="indentación"><span class="header-section-number">1.1.3</span> Indentación</h3>
+<section id="indentación" class="level3">
+<h3 class="anchored" data-anchor-id="indentación">Indentación</h3>
 <p>En otros paquetes la indentación es muy importante (i.e.&nbsp;Python). En R no es necesario</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>( <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -339,8 +201,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="ayuda" class="level3" data-number="1.1.4">
-<h3 data-number="1.1.4" class="anchored" data-anchor-id="ayuda"><span class="header-section-number">1.1.4</span> Ayuda</h3>
+<section id="ayuda" class="level3">
+<h3 class="anchored" data-anchor-id="ayuda">Ayuda</h3>
 <p>Pedir ayuda es indispensable para aprender a escribir nuestros códigos. A prueba y error, es el mejor sistema para aprender. Podemos usar la función help, example y ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(sum)    <span class="do">## Ayuda sobre función sum</span></span>
@@ -370,8 +232,8 @@ sum&gt; sum(1:5, NA, na.rm = TRUE)
 </div>
 </div>
 </section>
-<section id="mi-ambiente" class="level3" data-number="1.1.5">
-<h3 data-number="1.1.5" class="anchored" data-anchor-id="mi-ambiente"><span class="header-section-number">1.1.5</span> Mi ambiente</h3>
+<section id="mi-ambiente" class="level3">
+<h3 class="anchored" data-anchor-id="mi-ambiente">Mi ambiente</h3>
 <p>Todos los objetos que hemos declarado hasta ahora son parte de nuestro “ambiente” (environment). Para saber qué está en nuestro ambiente usamos el comando</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -382,8 +244,8 @@ sum&gt; sum(1:5, NA, na.rm = TRUE)
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()           <span class="do">## Garbage collection, reporta memoria en uso</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
-Ncells  627904 33.6    1352781 72.3         NA  1352781 72.3
-Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
+Ncells  627061 33.5    1350200 72.2         NA  1350200 72.2
+Vcells 1170745  9.0    8388608 64.0      16384  1962954 15.0</code></pre>
 </div>
 </div>
 <p>Para borrar todos nuestros objetos, usamos el siguiente comando, que equivale a usar la escobita de la venta de environment</p>
@@ -392,8 +254,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 </section>
 </section>
-<section id="directorio-de-trabajo" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="directorio-de-trabajo"><span class="header-section-number">1.2</span> Directorio de trabajo</h2>
+<section id="directorio-de-trabajo" class="level2">
+<h2 class="anchored" data-anchor-id="directorio-de-trabajo">Directorio de trabajo</h2>
 <p>Es muy útil saber dónde estamos trabajando y donde queremos trabajar. Por eso podemos utilizar los siguientes comandos para saberlo</p>
 <p>Ojo, checa, si estás desdes una PC, cómo cambian las “” por”/” o por “\”</p>
 <div class="cell">
@@ -403,23 +265,24 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()      <span class="co"># Lista de archivos en ese directorio</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "LICENSE"             "Mi_Exportación.xlsx" "P1.html"            
- [4] "P1.qmd"              "P1.rmarkdown"        "P1_files"           
- [7] "README.md"           "_quarto.yml"         "datos"              
-[10] "docs"                "index.html"          "index.qmd"          
-[13] "instala.html"        "instala.qmd"         "ipums.R"            
-[16] "ipumsi_00016.R"      "ipumsi_00016.dat.gz" "ipumsi_00016.xml"   
-[19] "mi_exportacion.sav"  "r_demo_uy.Rproj"     "site_libs"          </code></pre>
+<pre><code> [1] "LICENSE"             "Mi_Exportación.xlsx" "P1.qmd"             
+ [4] "README.md"           "_quarto.yml"         "códigos"            
+ [7] "datos"               "docs"                "index.qmd"          
+[10] "instala.qmd"         "ipums.R"             "ipumsi_00016.R"     
+[13] "ipumsi_00016.dat.gz" "ipumsi_00016.xml"    "mi_exportacion.sav" 
+[16] "p1.rmarkdown"        "r_demo_uy.Rproj"    </code></pre>
 </div>
 </div>
 </section>
-<section id="proyectos" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="proyectos"><span class="header-section-number">1.3</span> Proyectos</h2>
+<section id="proyectos" class="level2">
+<h2 class="anchored" data-anchor-id="proyectos">Proyectos</h2>
 <p>Pero… a veces preferimos trabajar en proyectos, sobre todo porque nos da más control.</p>
 <p>Hay gente que lo dice mejor que yo, como Hadley Wickham: <a href="https://es.r4ds.hadley.nz/08-workflow-projects.html" class="uri">https://es.r4ds.hadley.nz/08-workflow-projects.html</a></p>
+<p>Hagamos un proyecto. Este proyecto debe tener <strong>adentro</strong> una carpeta que se llame datos.</p>
+<p>Descarga algunos de los datos que usaremos en el curso <a href="https://www.dropbox.com/scl/fo/qyaotdyqwmxgf7t3q7sbi/AIy3AMum3Ny5x52Z_U7fJUs?rlkey=oqin64z8qmlq27zf8s1codz8p&amp;dl=0">acá</a></p>
 </section>
-<section id="instalación-de-paquetes" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="instalación-de-paquetes"><span class="header-section-number">1.4</span> Instalación de paquetes</h2>
+<section id="instalación-de-paquetes" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-de-paquetes">Instalación de paquetes</h2>
 <p>Los paquetes son útiles para realizar funciones especiales. La especialización de paquetes es más rápida en R que en otros programas por ser un software libre.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("foreign", dependencies = TRUE)</span></span>
@@ -436,8 +299,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>ejemplo_dbf<span class="ot">&lt;-</span>foreign<span class="sc">::</span><span class="fu">read.dbf</span>(<span class="st">"datos/ejemplo_dbf.DBF"</span>) <span class="co">#checa cómo nos vamos adentro de nuestro directorio</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="paquete-pacman" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="paquete-pacman"><span class="header-section-number">1.5</span> Paquete <code>{pacman}</code></h2>
+<section id="paquete-pacman" class="level2">
+<h2 class="anchored" data-anchor-id="paquete-pacman">Paquete <code>{pacman}</code></h2>
 <p>En general, cuando hacemos nuestro código querremos verificar que nuestras librerías estén instaladas. Si actualizamos nuestro R y Rstudio es probable (sobre todo en MAC) que hayamos perdido alguno.</p>
 <p>Este es un ejemplo de un código. Y vamos a introducir un paquete muy útil llamado “pacman”</p>
 <div class="cell">
@@ -455,8 +318,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>               remotes) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="instalación-de-paquetes-en-desarrollo" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="instalación-de-paquetes-en-desarrollo"><span class="header-section-number">1.6</span> Instalación de paquetes en desarrollo</h2>
+<section id="instalación-de-paquetes-en-desarrollo" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-de-paquetes-en-desarrollo">Instalación de paquetes en desarrollo</h2>
 <p>Además de los paquetes que están en CRAN, hay otros repositorios desde los cuáles podemos instalar el código. Un paquete que utilizaremos mucho, es el paquete <code>{wpp2022}</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"PPgp/wpp2022"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -466,8 +329,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 </div>
 </section>
-<section id="dataframes-con-el-paquete-wdi" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="dataframes-con-el-paquete-wdi"><span class="header-section-number">1.7</span> Dataframes con el paquete <code>{WDI}</code></h2>
+<section id="dataframes-con-el-paquete-wdi" class="level2">
+<h2 class="anchored" data-anchor-id="dataframes-con-el-paquete-wdi">Dataframes con el paquete <code>{WDI}</code></h2>
 <p>Instalamos anteriormente el paquete <code>{WDI}</code> que nos da acceso a un grupo amplio de bases de datos que nos ayudaran a revisar y analizar algunas técnicas sencillas.</p>
 <blockquote class="blockquote">
 <p>El Banco Mundial pone a disposición una gran cantidad de datos excelentes de los Indicadores de Desarrollo Mundial a través de su API web. El paquete WDI para R facilita la búsqueda y descarga de series de datos desde WDI”.</p>
@@ -1302,22 +1165,22 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pop<span class="sc">$</span>SP.POP.TOTL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="P1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="p1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Este no es el mejor gráfico.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pop<span class="sc">$</span>year, pop<span class="sc">$</span>SP.POP.TOTL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="P1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="p1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Las matrices por lo general sólo almacenan un tipo de datos mientras que las data frames puede almacenar varios tipos de datos.</p>
 </section>
-<section id="importación-de-datos" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="importación-de-datos"><span class="header-section-number">1.8</span> Importación de datos</h2>
-<section id="desde-excel" class="level3" data-number="1.8.1">
-<h3 data-number="1.8.1" class="anchored" data-anchor-id="desde-excel"><span class="header-section-number">1.8.1</span> Desde Excel</h3>
+<section id="importación-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="importación-de-datos">Importación de datos</h2>
+<section id="desde-excel" class="level3">
+<h3 class="anchored" data-anchor-id="desde-excel">Desde Excel</h3>
 <p>El paquete más compatible con RStudio es <code>{readxl}</code>. Como su nombre dice “lee” los archivos de excel</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>ejemploxl <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"datos/ejemplo_xlsx.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1329,8 +1192,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>writexl<span class="sc">::</span><span class="fu">write_xlsx</span>(ejemploxl, <span class="at">path =</span> <span class="st">"Mi_Exportación.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="desde-stata-y-spss" class="level3" data-number="1.8.2">
-<h3 data-number="1.8.2" class="anchored" data-anchor-id="desde-stata-y-spss"><span class="header-section-number">1.8.2</span> Desde STATA y SPSS</h3>
+<section id="desde-stata-y-spss" class="level3">
+<h3 class="anchored" data-anchor-id="desde-stata-y-spss">Desde STATA y SPSS</h3>
 <p>Si bien también se puede realizar desde el paquete <code>{foreign}</code> Pero este no importa algunas características como las etiquetas y tampoco funciona con las versiones más nuevas de STATA. Vamos a instalar otro paquete, compatible con el mundo <code>{tidyverse}</code>.</p>
 <p>Recuerda que no hay que instalarlo (viene adentro de <code>{tidyverse}</code>).</p>
 <div class="cell">
@@ -1346,8 +1209,8 @@ Vcells 1172829  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 <p>Con SSPS es muy parecido. Dentro de <code>{haven}</code> hay una función específica para ello.</p>
 <p>Checa que en todas las exportaciones en los nombres hay que incluir la extensión del programa. Si quieres guardar en un lugar diferente al directorio del trabajo, hay que escribir toda la ruta dentro de la computadora.</p>
 </section>
-<section id="desde-archivos-de-texto-y-de-una-url" class="level3" data-number="1.8.3">
-<h3 data-number="1.8.3" class="anchored" data-anchor-id="desde-archivos-de-texto-y-de-una-url"><span class="header-section-number">1.8.3</span> Desde archivos de texto y de una url</h3>
+<section id="desde-archivos-de-texto-y-de-una-url" class="level3">
+<h3 class="anchored" data-anchor-id="desde-archivos-de-texto-y-de-una-url">Desde archivos de texto y de una url</h3>
 <p>Desde el portal <a href="https://catalogodatos.gub.uy/" class="uri">https://catalogodatos.gub.uy/</a> tenemos acceso a directo a varias fuentes de información, al ser datos abiertos, los archivos de texto son muy comunes.</p>
 <p>Leeremos parte de esa información, específicamente de la actividad docente</p>
 <div class="cell">
@@ -1396,10 +1259,10 @@ dbl (7): Id persona, Año lectivo, Cantidad de días ingreso a CREA, Cantidad ..
 </div>
 </section>
 </section>
-<section id="revisión-de-nuestro-conjunto-de-datos" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="revisión-de-nuestro-conjunto-de-datos"><span class="header-section-number">1.9</span> Revisión de nuestro conjunto de datos</h2>
-<section id="con-base" class="level3" data-number="1.9.1">
-<h3 data-number="1.9.1" class="anchored" data-anchor-id="con-base"><span class="header-section-number">1.9.1</span> con base</h3>
+<section id="revisión-de-nuestro-conjunto-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-de-nuestro-conjunto-de-datos">Revisión de nuestro conjunto de datos</h2>
+<section id="con-base" class="level3">
+<h3 class="anchored" data-anchor-id="con-base">con base</h3>
 <p>Vamos a revisar la base, brevemente la base</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(encuesta_generacion) <span class="co"># tipo de objeto</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2100,8 +1963,8 @@ dbl (7): Id persona, Año lectivo, Cantidad de días ingreso a CREA, Cantidad ..
 </div>
 </div>
 </section>
-<section id="revisión-con-skimr" class="level3" data-number="1.9.2">
-<h3 data-number="1.9.2" class="anchored" data-anchor-id="revisión-con-skimr"><span class="header-section-number">1.9.2</span> Revisión con <code>{skimr}</code></h3>
+<section id="revisión-con-skimr" class="level3">
+<h3 class="anchored" data-anchor-id="revisión-con-skimr">Revisión con <code>{skimr}</code></h3>
 <p>Esto se puede tardar un poquito</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(encuesta_generacion[, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2462,10 +2325,10 @@ dbl (7): Id persona, Año lectivo, Cantidad de días ingreso a CREA, Cantidad ..
 </div>
 </section>
 </section>
-<section id="un-poquito-de-dplyr-y-limpieza" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="un-poquito-de-dplyr-y-limpieza"><span class="header-section-number">1.10</span> Un poquito de <code>{dplyr}</code> y limpieza</h2>
-<section id="primero-los-pipes" class="level3" data-number="1.10.1">
-<h3 data-number="1.10.1" class="anchored" data-anchor-id="primero-los-pipes"><span class="header-section-number">1.10.1</span> Primero, los pipes</h3>
+<section id="un-poquito-de-dplyr-y-limpieza" class="level2">
+<h2 class="anchored" data-anchor-id="un-poquito-de-dplyr-y-limpieza">Un poquito de <code>{dplyr}</code> y limpieza</h2>
+<section id="primero-los-pipes" class="level3">
+<h3 class="anchored" data-anchor-id="primero-los-pipes">Primero, los pipes</h3>
 <p>R utiliza dos pipes el nativo <code>|&gt;</code> y el pipe que está en <code>{dplyr}</code> <code>%&gt;%</code>. Algunas de las diferencias las puedes checar acá <a href="https://eliocamp.github.io/codigo-r/2021/05/r-pipa-nativa/" class="uri">https://eliocamp.github.io/codigo-r/2021/05/r-pipa-nativa/</a></p>
 <p>Aquí hay un <em>tuit</em>, o <em>post de x.com</em> que lo explica bien.</p>
 <p><a href="https://x.com/ArthurWelle/status/1535429654760284161" class="uri">https://x.com/ArthurWelle/status/1535429654760284161</a></p>
@@ -2515,8 +2378,8 @@ dbl (7): Id persona, Año lectivo, Cantidad de días ingreso a CREA, Cantidad ..
 </div>
 </div>
 </section>
-<section id="limpieza-de-nombres-con-janitor" class="level3" data-number="1.10.2">
-<h3 data-number="1.10.2" class="anchored" data-anchor-id="limpieza-de-nombres-con-janitor"><span class="header-section-number">1.10.2</span> Limpieza de nombres con <code>{janitor}</code></h3>
+<section id="limpieza-de-nombres-con-janitor" class="level3">
+<h3 class="anchored" data-anchor-id="limpieza-de-nombres-con-janitor">Limpieza de nombres con <code>{janitor}</code></h3>
 <p>Este paso también nos permitirá enseñar otro <em>pipe</em> que está en el paquete <code>{magrittr}</code>.</p>
 <p>Los nombres de una base de datos son los nombres de las columnas.</p>
 <div class="cell">
@@ -3877,12 +3740,12 @@ dbl (7): Id persona, Año lectivo, Cantidad de días ingreso a CREA, Cantidad ..
 [1990] "department_4001"   "city_4001"        </code></pre>
 </div>
 </div>
-
-
 </section>
 </section>
+</section>
 
-</main> <!-- /main -->
+</main>
+<!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -3903,121 +3766,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  let localAlternateSentinel = 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -4231,15 +3979,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./instala.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Instalación de R y Rstudio</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

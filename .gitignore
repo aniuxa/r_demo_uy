@@ -10,3 +10,7 @@
 .Rproj.user/52B9D855/sources/prop/INDEX
 .Rproj.user/shared/notebooks/paths
 .DS_Store
+ipums.R
+ipumsi_00016.dat.gz
+ipumsi_00016.R
+ipumsi_00016.xml

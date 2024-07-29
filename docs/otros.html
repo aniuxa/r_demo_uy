@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ana Escoto">
-<meta name="dcterms.date" content="2024-07-29">
 
-<title>Análisis Demográfico con R</title>
+<title>Análisis Demográfico con R - Ligas y más</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./instala.html" rel="next">
+<link href="./P2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -77,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Sobre el curso</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./otros.html">Ligas y más</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -108,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sobre el curso</span></a>
   </div>
 </li>
@@ -132,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./otros.html" class="sidebar-item-text sidebar-link">
+  <a href="./otros.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Ligas y más</span></a>
   </div>
 </li>
@@ -146,45 +144,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sobre-el-curso" id="toc-sobre-el-curso" class="nav-link active" data-scroll-target="#sobre-el-curso">Sobre el curso</a>
-  <ul class="collapse">
-  <li><a href="#docente" id="toc-docente" class="nav-link" data-scroll-target="#docente">1. Docente</a></li>
-  <li><a href="#descripción-del-curso" id="toc-descripción-del-curso" class="nav-link" data-scroll-target="#descripción-del-curso">2. Descripción del curso</a></li>
-  <li><a href="#carga-horaria" id="toc-carga-horaria" class="nav-link" data-scroll-target="#carga-horaria">3. Carga horaria</a></li>
-  <li><a href="#créditos" id="toc-créditos" class="nav-link" data-scroll-target="#créditos">4. Créditos</a></li>
-  <li><a href="#estructura-del-curso" id="toc-estructura-del-curso" class="nav-link" data-scroll-target="#estructura-del-curso">5. Estructura del curso</a></li>
-  <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">6. Evaluación</a></li>
-  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía">7. Bibliografía</a></li>
-  </ul></li>
+  <li><a href="#códigos-proyecto-datos" id="toc-códigos-proyecto-datos" class="nav-link active" data-scroll-target="#códigos-proyecto-datos">Códigos, proyecto, datos…</a></li>
+  <li><a href="#otros-cursos-de-la-misma-profe" id="toc-otros-cursos-de-la-misma-profe" class="nav-link" data-scroll-target="#otros-cursos-de-la-misma-profe">Otros cursos de la misma profe</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/aniuxa/r_demo_uy/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/aniuxa/r_demo_uy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/aniuxa/r_demo_uy/edit/main/otros.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/aniuxa/r_demo_uy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Análisis Demográfico con R</h1>
-<p class="subtitle lead">Universidad de la República - Facultad de Ciencias Sociales - Doctorado en Ciencias Sociales</p>
+<h1 class="title">Ligas y más</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Ana Escoto </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">July 29, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -192,93 +169,21 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="sobre-el-curso" class="level1 unnumbered">
-<h1 class="unnumbered">Sobre el curso</h1>
-<section id="docente" class="level2">
-<h2 class="anchored" data-anchor-id="docente">1. Docente</h2>
-<p>Ana Ruth Escoto Castillo</p>
-<p>Profesora de tiempo completo en la Facultad de Ciencias Políticas y Sociales, UNAM. Doctora en Estudios de Población por El Colegio de México y cuenta con nivel I en el Sistema Nacional de Investigadores.</p>
+<section id="códigos-proyecto-datos" class="level2">
+<h2 class="anchored" data-anchor-id="códigos-proyecto-datos">Códigos, proyecto, datos…</h2>
+<p>Si necesitas descargar el proyecto, el proyecto <em>vivo</em> está <a href="https://www.dropbox.com/scl/fo/l4is5cdc6fwknptr7in46/AOwYZDLBerSJM51dO5YteK0?rlkey=7k7flxfuymxg06xmgo9qm9k04&amp;dl=0">acá</a></p>
+<p>Los códigos de las sesiones están en <a href="https://www.dropbox.com/scl/fo/l4is5cdc6fwknptr7in46/AOwYZDLBerSJM51dO5YteK0?rlkey=7k7flxfuymxg06xmgo9qm9k04&amp;dl=0">esta carpeta</a></p>
+<p>La carpeta de <a href="https://www.dropbox.com/scl/fo/rrvzrfh19afrulhdyi4ca/ADgTGkBTtHev2fH4okHo6Mw?rlkey=wnjtdaqkyvnr0bp8196w6657z&amp;dl=0">datos</a></p>
 </section>
-<section id="descripción-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="descripción-del-curso">2. Descripción del curso</h2>
-<p>La demografía utiliza diferentes fuentes de información para el análisis demográfico y los estudios de población. La consulta, la limpieza y la evaluación de los datos demográficos se realiza con distintos softwares, entre los cuales destaca R. Desde el software <em>R</em>, la comunidad de usuarios ha creado paquetes y códigos replicables y de fácil acceso que tienen un uso cada vez más extendido en la disciplina. En este curso se utilizarán estos insumos para el caso específico de América Latina y de Uruguay. Es decir, el objetivo general del curso es que el estudiantado sea capaz de aplicar conceptos demográficos y estadísticosm fuentes de información latinoamericana y mundiales, y sobre todo, actuales utilizando <em>R</em>.</p>
-<p>Para ello, la mecánica del curso consistirá en lo siguiente:</p>
-<p><em>1. La exposición de la facilitadora</em>. Durante la primera parte de la sesión, se expondrán los comandos necesarios para trabajar cada tema. Se dará una introducción sobre la temática y se presentarán ejemplos concretos para facilitar el aprendizaje. Se espera que las personas asistentes expongan sus dudas o comentarios a lo largo de la explicación.</p>
-<p><em>2. Realización de ejercicios prácticos</em>. Al final de cada sesión, corresponderá al estudiantado realizar individualmente o en parejas un ejercicio relacionado con lo visto en la primera parte de la clase.</p>
-<p><em>3. Consulta autónoma de material.</em> Tanto la exposición como los ejercicios serán acompañados de material de consulta preparadopara el curso, de tal manera que el estudiantado pueda volver a los códigos y a las explicaciones posteriormente.</p>
-</section>
-<section id="carga-horaria" class="level2">
-<h2 class="anchored" data-anchor-id="carga-horaria">3. Carga horaria</h2>
-<p>15 horas</p>
-</section>
-<section id="créditos" class="level2">
-<h2 class="anchored" data-anchor-id="créditos">4. Créditos</h2>
-<p>3 (tres)</p>
-</section>
-<section id="estructura-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="estructura-del-curso">5. Estructura del curso</h2>
-<p><u>Día 1</u></p>
-<p>1. Introducción a R y Rstudio (1 hora)</p>
-<p><em><strong>Objetivo</strong>: que el estudiantado se familiarice con la interfase de trabajo y la programación por objetos, y sea capaz de realizar tareas básicas como crear un script, un proyecto, objetos, ambientes e instalar paqueterías.</em></p>
-<p>2. Importación de información y primera revisión de fuentes demográficas (2 horas)</p>
-<p>a. Importación de información a R en diferentes formatos</p>
-<p>b. Importación de información de proyecciones de población utilizando {wppExplorer}</p>
-<p>c. Consulta y descarga de información con paquetes como {IPUMSr}, {WDI} y otras API</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de: importar información desde diferentes formatos (.txt, .csv, .xlsx, .dta, .dbf) a R, así como de exportar sus resultados en estos formatos; revisar de manera preliminar los objetos de tipo “data.frame”, funciones “glimpse()”, “skim() de {skimr}; manejar etiquetas; hacer subconjuntos de información, y consultas.</em></p>
-<p><u>Día 2</u></p>
-<p>3. Evaluación de información (1.5 horas)</p>
-<p>a. Tipo de de errores en las fuentes de información</p>
-<p>b. Evaluación de la calidad de información en fuentes de stock</p>
-<p>c. Suavizamiento de datos</p>
-<p><em><strong>Objetivo:</strong> Que el estudiantado pueda identificar los errores en el levantamiento de información y su naturaleza, adquiriendo capacidades para corregir y suavizar datos para el análisis estadístico con el paquete {DemoTools} y otras aplicaciones.</em></p>
-<p>4. Pirámides y diagramas de Lexis (1.5 horas)</p>
-<p>a. Pirámides de población: crear una función</p>
-<p>b. Hacer múltiples pirámides y automatización</p>
-<p>c. Diagramas Lexis</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de crear y utilizar funciones específicas para el análisis demográfico, crear pirámides y la colocar eventos en el diagrama de Lexis</em></p>
-<p><u>Día 3</u></p>
-<p>5. Crecimiento y tasas (3 horas)</p>
-<p>a. Estandarización de tasas y gráficos de crecimiento, manejo de series de tiempo</p>
-<p>b. Cálculos automatizados de población media</p>
-<p>c. Cálculo de tasas de natalidad y mortalidad</p>
-<p>d. Descomposición del cambio de tasas de natalidad y mortalidad según Kitagawa</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de calcular tasas brutas, tasas específicas y descomponerlas utilizando R.</em></p>
-<p><u>Día 4</u></p>
-<p>6. Tasa de fecundidad con datos de encuestas (1.5 horas)</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de calcular tasas brutas y específicas de fecundidad con encuestas de hogares.</em></p>
-<p>7. Visualización de flujos migratorios (1.5 horas)</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de hacer gráficos de flujos con el paquete {migest} y gráficos aluviales.</em></p>
-<p><u>Día 5</u></p>
-<p>8. Tablas de vida y esperanza de vida (3 horas)</p>
-<p>a. Construcción de tabla de vida a “mano”</p>
-<p>b. Construcción con {DemoTools}</p>
-<p><em><strong>Objetivo:</strong> que el estudiantado sea capaz de calcular la tabla de vida con utilizando el paquete DemoTools</em></p>
-</section>
-<section id="evaluación" class="level2">
-<h2 class="anchored" data-anchor-id="evaluación">6. Evaluación</h2>
-<p>· Entrega de un trabajo final que reúna lo trabajado en la instancia de práctica a lo largo de las cinco sesiones.</p>
-<p>· La asistencia al 80% de las sesiones prácticas.</p>
-</section>
-<section id="bibliografía" class="level2">
-<h2 class="anchored" data-anchor-id="bibliografía">7. Bibliografía</h2>
-<p>El material guía construido por la facilitadora, que estará en este sitio web, será la bibliografía principal. Además se listan algunos insumos:</p>
-<p>CEPAL, NU. 2014. “Los datos demográficos: alcances, limitaciones y métodos de evaluación”.</p>
-<p>Escoto, Ana. 2019. “Lexis en R”. 2019.<a href="https://rstudio-pubs-static.s3.amazonaws.com/473169_a1348dd47070497a80fb2c0dc89e86e9.html" class="uri">https://rstudio-pubs-static.s3.amazonaws.com/473169_a1348dd47070497a80fb2c0dc89e86e9.html</a>.</p>
-<p>Escoto Castillo, Ana Ruth. (2022) 2022. “aniuxa/paquetes_demogRaficos”. R.<a href="https://github.com/aniuxa/paquetes_demogRaficos" class="uri">https://github.com/aniuxa/paquetes_demogRaficos</a>.</p>
-<p>Moultrie, Tom, Rob Dorrington, Allan Hill, Kenneth Hill, Lan Timaeus, y Basia Zaba. 2013. <em>Tools for Demographic Estimation</em>. France: International Union for the Scientific Study of Population (IUSSP).</p>
-<p>Poston, Dudley L., y Michael Micklin, eds.&nbsp;2005. <em>Handbook of population</em>. Handbooks of sociology and social research. New York: Kluwer Academic/Plenum.</p>
-<p>“PPgp/wpp2022”. (2022) 2024. R. Probabilistic Projections Group.<a href="https://github.com/PPgp/wpp2022" class="uri">https://github.com/PPgp/wpp2022</a>.</p>
-<p>Pressat, Roland. 2000. <em>El análisis demográfico: métodos, resultados, aplicaciones</em>. Traducido por Tatiana Sule Hernández. México: Fondo de Cultura Económica.</p>
-<p>Preston, Samuel H., Patrick Heuveline, y Michel Guillot. 2001. <em>Demography: measuring and modeling population processes</em>. Malden, MA: Blackwell Publishers.</p>
-<p>Pujol, José Miguel. 1985. “Nuevas metodologías para evaluar y ajustar datos demográficos”, diciembre.<a href="https://repositorio.cepal.org/handle/11362/12578" class="uri">https://repositorio.cepal.org/handle/11362/12578</a>.</p>
-<p>Riffe, Tim. (2017) 2024. “timriffe/DemoTools”. R.<a href="https://github.com/timriffe/DemoTools" class="uri">https://github.com/timriffe/DemoTools</a>.</p>
-<p>Rodríguez, Germán. s/f.&nbsp;“Demographic Methods”.<a href="https://grodri.github.io/demography/" class="uri">https://grodri.github.io/demography/</a>.</p>
-<p>Sevcikova, Hana, Adrian Raftery, y Thomas Buettner. 2023. “bayesPop: Probabilistic Population Projection”.<a href="https://cran.r-project.org/web/packages/bayesPop/index.html" class="uri">https://cran.r-project.org/web/packages/bayesPop/index.html</a>.</p>
-<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al.&nbsp;2019. “Welcome to the Tidyverse”. <em>Journal of Open Source Software</em> 4 (43): 1686.<a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>.</p>
-<p>Wickham, Hadley, y Garrett Grolemund. 2016. <em>R for data science: import, tidy, transform, visualize, and model data</em>. O’Reilly Media, Inc.</p>
+<section id="otros-cursos-de-la-misma-profe" class="level2">
+<h2 class="anchored" data-anchor-id="otros-cursos-de-la-misma-profe">Otros cursos de la misma profe</h2>
+<p>Estos tienen videos, además.</p>
+<ul>
+<li><p><a href="https://fcpys.github.io/r_analisis_datos/">R para el análisis estadístico de datos</a></p></li>
+<li><p><a href="https://aniuxa.github.io/posgrado_modelo3/">Inferencia e introducción a los modelos estadísticos con R</a></p></li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -632,11 +537,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./P2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./instala.html" class="pagination-link">
-        <span class="nav-page-text">Instalación de R y Rstudio</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

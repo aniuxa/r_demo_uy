@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./P2.html" rel="next">
 <link href="./instala.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -154,6 +155,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./P1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./otros.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ligas y más</span></a>
   </div>
 </li>
     </ul>
@@ -382,8 +395,8 @@ sum&gt; sum(1:5, NA, na.rm = TRUE)
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()           <span class="do">## Garbage collection, reporta memoria en uso</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) limit (Mb) max used (Mb)
-Ncells  627906 33.6    1352824 72.3         NA  1352824 72.3
-Vcells 1172973  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
+Ncells  627909 33.6    1352804 72.3         NA  1352804 72.3
+Vcells 1173022  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 </div>
 <p>Para borrar todos nuestros objetos, usamos el siguiente comando, que equivale a usar la escobita de la venta de environment</p>
@@ -403,14 +416,14 @@ Vcells 1172973  9.0    8388608 64.0      16384  1962707 15.0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>()      <span class="co"># Lista de archivos en ese directorio</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "LICENSE"             "Mi_Exportación.xlsx" "P1.qmd"             
- [4] "P1.rmarkdown"        "README.md"           "_quarto.yml"        
- [7] "códigos"             "datos"               "docs"               
-[10] "index.html"          "index.qmd"           "instala.html"       
-[13] "instala.qmd"         "ipums.R"             "ipumsi_00016.R"     
-[16] "ipumsi_00016.dat.gz" "ipumsi_00016.xml"    "mi_exportacion.sav" 
-[19] "p1.html"             "p1_files"            "r_demo_uy.Rproj"    
-[22] "site_libs"          </code></pre>
+<pre><code> [1] "LICENSE"                "Mi_Exportación.xlsx"    "MiprimerAmbiente.RData"
+ [4] "P1.qmd"                 "P1.rmarkdown"           "P2.qmd"                
+ [7] "README.md"              "_quarto.yml"            "códigos"               
+[10] "datos"                  "docs"                   "index.html"            
+[13] "index.qmd"              "instala.html"           "instala.qmd"           
+[16] "ipums.R"                "ipumsi_00016.R"         "ipumsi_00016.dat.gz"   
+[19] "ipumsi_00016.xml"       "otros.qmd"              "r_demo_uy.Rproj"       
+[22] "r_demo_uy2"             "site_libs"             </code></pre>
 </div>
 </div>
 </section>
@@ -4241,6 +4254,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./P2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

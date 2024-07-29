@@ -1,0 +1,18 @@
+# Ligas y más  {.unnumbered}
+
+
+## Códigos, proyecto, datos...
+
+Si necesitas descargar el proyecto, el proyecto *vivo* está [acá](https://www.dropbox.com/scl/fo/l4is5cdc6fwknptr7in46/AOwYZDLBerSJM51dO5YteK0?rlkey=7k7flxfuymxg06xmgo9qm9k04&dl=0)
+
+Los códigos de las sesiones están en [esta carpeta](https://www.dropbox.com/scl/fo/l4is5cdc6fwknptr7in46/AOwYZDLBerSJM51dO5YteK0?rlkey=7k7flxfuymxg06xmgo9qm9k04&dl=0)
+
+La carpeta de [datos](https://www.dropbox.com/scl/fo/rrvzrfh19afrulhdyi4ca/ADgTGkBTtHev2fH4okHo6Mw?rlkey=wnjtdaqkyvnr0bp8196w6657z&dl=0)
+
+## Otros cursos de la misma profe
+
+Estos tienen videos, además.
+
+* [R para el análisis estadístico de datos](https://fcpys.github.io/r_analisis_datos/)
+
+* [Inferencia e introducción a los modelos estadísticos con R](https://aniuxa.github.io/posgrado_modelo3/)

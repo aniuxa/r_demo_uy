@@ -1,0 +1,523 @@
+# Evaluación de información y pirámides
+
+## Paquetes
+
+```{r}
+if (!require("pacman")) install.packages("pacman") # instala pacman si se requiere
+pacman::p_load(tidyverse,
+               readxl, 
+               writexl,
+               haven, 
+               sjlabelled, 
+               foreign,
+               janitor,
+               remotes,
+               wppExplorer,
+               apyramid,
+               fmsb) 
+```
+
+## Instalación de paquetes en desarrollo, reprisse
+
+Esto puede tardar un ratito
+
+```{r eval = FALSE}
+install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+remotes::install_github("timriffe/DemoTools")
+
+library("DemoTools")
+
+remotes::install_github("PPgp/wpp2022")
+```
+-   Si pide actualizar darle 1, de "All
+-   o 2 de "CRAN only"
+
+```{r echo = FALSE}
+library(DemoTools)
+library(wpp2022)
+```
+
+## Datos 
+
+### `{wpp2022}`
+
+Vamos a utilizar datos del paquete `{wpp2022}` . Revisemos la viñeta del paquete que está [aquí](https://github.com/PPgp/wpp2022)
+
+Todas los *data.frames* están en el paquete y si lo tenemos cargados podemos consultarlo con el comando data()
+
+```{r}
+data("popAge5dt") 
+data("popprojAge5dt")
+```
+
+** En caso que no tengas disponible, puedes descargar la información de la carpeta [datos](https://www.dropbox.com/scl/fo/y3t78w6l2j4ugmt1b12lg/AF8InxqH7fQCWtDxUzxHPU4?rlkey=yusah266ks5gfjckx41tgb0af&dl=0)
+
+```{r eval=FALSE}
+load("datos/wpp2022.RData")
+```
+
+
+Aquí están todos los países, revisemos un poco
+
+```{r}
+
+popAge5dt %>% 
+  dplyr::select(country_code, name) %>% 
+  unique()
+```
+
+Podemos hacer búsquedas:
+
+```{r}
+
+popAge5dt %>% 
+  mutate(uy=stringr::str_detect(name, "Uruguay")) %>% 
+  filter(uy) %>%
+  select(country_code, name) 
+ 
+
+```
+
+Vamos a hacer el ejercicio con Uruguay pero pueden buscar cualquier otro país y la región
+
+```{r}
+ 
+# Países: 
+# uy: 858
+# sv: 222 
+# gt: 320
+# hn: 340
+# mx: 484
+# CA: 916
+# LAC: 1830
+
+popAge1dt<- popAge1dt %>% 
+  filter(country_code%in%c(858,1830))
+```
+
+
+También, tengo datos de algunos censos, descargados de ipums
+
+## De IPUMS
+
+
+```{r}
+readxl::read_excel("datos/censos_p2.xlsx", 
+                   sheet = "El Salvador 1992" ) %>% #ojo con este argumento
+  head() %>% 
+  janitor::clean_names() # checa qué hace
+```
+
+
+Usaremos esta tabla de datos agregados para **crear variables**. Esto se hace con el comando `dplyr::mutate()`
+
+```{r}
+sv1992<-readxl::read_excel("datos/censos_p2.xlsx") %>% 
+  janitor::clean_names() %>% #
+  dplyr::mutate(total=male + female) %>% # ojo
+  dplyr::mutate(age=as.numeric(age)) #ojo
+```
+
+
+## `{fmsb}` Atracción digital
+
+Este paquete tiene cosas muy interesantes. Es un paquete no sólo para demografía pero permite ajustar algunas funciones demográficas
+
+**Limitantes:** como que está en japonés :P
+
+Un ejemplo con el índice de Whipple, que mide la atracción digital. Necesitamos datos en edades singulares:
+
+Tenemos un archivo en datos con varios censos, para evaluar su información a través de la atracción digital. Revisemos los datos del censo de 1992. 
+
+Para ver los totales podemos agregar una fila muy simple con `janitor::adorn_totals(where="row")`
+
+```{r}
+sv1992 %>% 
+  janitor::adorn_totals(where="row")
+```
+
+```{r}
+
+sv1992<-readxl::read_excel("datos/censos_p2.xlsx") %>% 
+  janitor::clean_names() %>% #
+  dplyr::mutate(total= male + female) %>% 
+  dplyr::mutate(age=as.numeric(age))
+
+```
+
+El índice de Whipple
+
+```{r}
+
+sv1992 %>%
+  dplyr::filter(!age>64) %>% # Este filtro es importante
+  dplyr::count(age, wt=total) %>%  # necesitamos siempre una tabla que se ve así
+  head()
+```
+
+```{r}
+
+sv1992 %>%
+  dplyr::filter(!age>64) %>% # Este filtro es importante
+  dplyr::count(age, wt=male) %>%
+ with(
+    fmsb::WhipplesIndex(n) # se llama n por la segunda columa de la tabla anterior
+    )
+```
+
+### Momento de práctica
+
+\*\* Importa cualquier otro censo y encuentra el índice de Whipple
+
+## `{DemoTools}`
+
+Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
+
+Trabaja con vectores individuales.
+
+### Whipple
+
+```{r}
+
+
+
+check_heaping_whipple(Value=sv1992$total,
+                      Age= sv1992$age, 
+                      ageMin = 25, 
+                      ageMax = 60, 
+                      digit = c(0, 5))
+
+
+```
+
+### Noumbissi
+
+```{r}
+
+
+check_heaping_noumbissi(sv1992$male, 
+                        Age=sv1992$age, 
+                        ageMin = 30, 
+                        ageMax = 60,
+                        digit = 0)
+```
+
+Mayor a 1, el dígito atrae; menor que 1, el índice "repele"
+
+Vamos a hacer un "loop"
+
+```{r}
+# Para todos los dígitos
+
+for(i in 0:2){
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 30+i, # ojo
+                              ageMax = 60+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+for(i in 3:9) {
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 20+i, #ojo
+                              ageMax = 50+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+```
+
+### Spoorrenberg
+
+```{r}
+check_heaping_spoorenberg(sv1992$total, 
+                          sv1992$age, 
+                          ageMin = 23, 
+                          ageMax = 62)
+```
+
+### Indice de Myers
+
+```{r}
+check_heaping_myers(Value = sv1992$total,
+                    Age = sv1992$age, 
+                    ageMin = 23, 
+                    ageMax = 82, 
+                    method = "pasex")
+```
+
+
+## Pirámides
+
+as pirámides son parte esencial de lo que llamamos *Demografía estática*, nos cuentan un siglo de historia de las poblaciones
+
+### Con grupos quinquenales
+
+Si queremos hacerlo como gráficos de barra, seguramente queremos cortar la variable de edad. Igual este paso es esencial en la vida demográfica:
+
+```{r}
+
+pob_uy<- popAge1dt %>% 
+  dplyr::filter(name=="Uruguay") %>% 
+  dplyr::mutate(eda5=cut(age, # la variable a cortar
+                  breaks=seq(0,110, # El rango válido
+                             by=5), # El ancho del intervalo
+                  include.lowest=T, # para que incluya el valor más bajo dentro del intervalo
+                  right=F)) # indica si el intervalo irá abierto en la derecha, ponemos un no con "FALSE"
+
+```
+
+Veamos esta variable:
+
+```{r}
+pob_uy %>% 
+  count(eda5, wt=pop)
+```
+
+Para que funcione mejor, necesitamos que sexo sea una variable y una columna. 
+
+Vamos a utilizar `tidyr::pivot_longer()` para hacer "larga" nuestro data.frame
+
+```{r}
+pob_uy %>% 
+  tidyr::pivot_longer(cols = popM:pop,
+                      values_to = "poblacion",
+                      names_to = "sexo")
+```
+
+```{r}
+pob_uy_long<-pob_uy %>% 
+  tidyr::pivot_longer(cols = popM:popF,
+                      values_to = "poblacion",
+                      names_to = "sexo") %>% 
+  dplyr::select(-pop) # checa este tipo de "anti-selección"
+```
+
+
+### Momento de práctica
+
+*popAge* son los datos históricos, piensa cómo volverías *long* la base de proyecciones *popprojAge*. ¡Checa que hay tipos de proyecciones!
+
+### Pirámide en `{ggplot2}`
+
+```{r}
+
+### gráfico de barras de edades quinquenales
+pob_uy_long %>%   
+  dplyr::filter(year==2020) %>% 
+  ggplot2::ggplot() +
+  aes(x=eda5, weight=poblacion) +
+  geom_bar() # dibuja la geometría de barra
+
+```
+
+Una pirámide es un doble histograma por **sexo**, donde el valor de los hombres es negativo:
+
+```{r}
+pob_uy_long %>% 
+  dplyr::filter(year==2020) %>% 
+  dplyr::mutate(poblacion2=if_else(sexo=="popM", -poblacion, poblacion)) %>% 
+  ggplot2::ggplot() +
+  aes(eda5, fill=sexo, weight=poblacion2)+
+  geom_bar() # dibuja la geometría de barra
+
+```
+
+Podemos darle la vuelta y cambiarle los colores
+
+```{r}
+pob_uy_long <-  pob_uy_long %>% 
+  mutate(poblacion2=if_else(sexo=="popM", -poblacion, poblacion))
+
+
+pob_uy_long %>% 
+  filter(year==2020) %>%  
+  ggplot(aes(eda5, fill=sexo, weight=poblacion2)) +
+  geom_bar() + coord_flip() +
+  scale_fill_brewer(palette = "Accent") + 
+  theme_light() 
+
+
+```
+
+Como que las escalas tampoco están muy perfectas y no queremos las negativa.¡Los hombres no son personas negativas!
+
+Veamos un poco cómo se comporta esa variable:
+
+```{r}
+pob_uy_long %>% 
+  filter(year==2020) %>%  
+  count(eda5, sexo, wt=poblacion2) %>% 
+  summarise(max=max(n), min=min(n))
+
+```
+
+```{r}
+pob_uy_long %>% 
+  filter(year==2020) %>%  
+  ggplot() +
+  aes(eda5, fill=sexo, weight=poblacion2)+
+  geom_bar() + coord_flip() +
+   scale_y_continuous(breaks = seq(-140, 140, by=20), # cuántos 
+                      limits = c(-140,140),
+                      labels = paste0(
+                       as.character(c(7:0,# sustituye negativos
+                         1:7) # Para lo positivo 
+                         ) 
+                       ) 
+                      )+ 
+  labs(y="Poblacion - miles", x="Grupos de edad") +
+  scale_fill_brewer(palette = "Accent", direction = -1) + 
+  theme_light() 
+
+
+```
+
+Esto es para el volumen de la población ¿Cómo podemos hacer una pirámide que sea en términos de proporciones?
+
+Vamos a necesitar el total de la población:
+
+```{r}
+pob_uy_long<- pob_uy_long %>%  
+  mutate(p_edo=sum(poblacion), .by = year)
+
+head(pob_uy_long)
+```
+
+Hoy sí haremos lo mismo pero para las proporciones:
+
+```{r}
+pob_uy_long <- pob_uy_long %>% 
+  mutate(poblacion3=if_else(sexo=="popM",
+                            -poblacion/p_edo, 
+                            poblacion/p_edo))
+
+```
+
+Una vez que ya tenemos nuestra variable proporcional:
+
+```{r}
+pob_uy_long%>% 
+  filter(year==2020) %>%  
+  ggplot(aes(eda5, fill=sexo, weight=poblacion3))+
+    geom_bar() + coord_flip() +
+   scale_y_continuous(labels = scales::percent_format(accuracy=0.01))+ 
+  labs(y="Poblacion - %", x="Grupos de edad") +
+  scale_fill_brewer(palette = "Accent") + 
+  theme_light() 
+
+
+```
+
+Podemos hacer varias pirámides aplicando *facets* o *grids*:
+
+```{r}
+pob_uy_long %>% 
+  filter(year %in% seq(1950,2020, by=10)) %>%  
+  ggplot() +
+  aes(eda5, fill=sexo, weight=poblacion3)+
+  geom_bar() + coord_flip() +
+  scale_y_continuous(labels = scales::percent_format(accuracy=0.01)) +
+  labs(y="Poblacion - %", x="Grupos de edad") +
+  scale_fill_brewer(palette = "Accent") + 
+  theme_light() +
+  facet_wrap(~year)
+
+
+```
+
+
+## Paquete `{apyramid}`
+
+- Necesita que tengamos los datos quinquenales.
+
+- No acepta funciones en las variables edad y sexo
+
+```{r}
+pob_uy_long %>% 
+  filter(year==2020) %>% 
+  count(eda5, sexo, wt=poblacion)
+
+pob_uy_long %>% 
+  filter(year==2020) %>% 
+  count(eda5, sexo, wt=poblacion) %>% 
+  apyramid::age_pyramid(age_group = eda5, 
+                        split_by = sexo, 
+                        count = n)
+
+```
+
+Nos ahorra un par de pasos, pero siempre tenemos que solucionar algunos elemetnos
+
+Veamos como hacemos un *loop* para hacer varias pirámides, pero antes tenemos que arreglar un poco esa base que bajamos de WPP
+
+```{r}
+
+library(magrittr)
+
+popAge5dt  %<>% # checa esto
+  mutate(edad=parse_number(age)) %>% 
+  mutate(edad_factor=as.factor(edad))
+
+
+
+popAge5dt %<>% 
+  pivot_longer(cols=popM:pop, 
+               names_to = "sex",
+               values_to = "poblacion") %>% 
+  mutate(sex=str_replace_all(sex,"popF", "Mujeres")) %>% 
+  mutate(sex=str_replace_all(sex,"popM", "Hombres")) %>% 
+  mutate(sex=str_replace_all(sex,"pop", "Total")) 
+
+```
+
+El loop:
+
+```{r}
+anios<-unique(popAge5dt$year)
+pais<-c(858, 222, 320, 340, 484, 1830)
+# uy: 858
+# sv: 222 
+# gt: 320
+# hn: 340
+# mx: 484
+# CA: 916
+# LAC: 1830)
+
+# Este es el loop donde reemplaza por i cada código de país
+for (i in pais){
+  
+  popAge5dt %>% 
+    mutate(poblacion=poblacion/1000) %>% 
+    filter(country_code==i) %>% 
+    filter(!sex=="Total") %>% 
+    filter(year==2020) %>% 
+    age_pyramid(edad_factor, # edad
+                split_by = sex,
+                count=poblacion)+  
+    labs(x="edad",
+         y="millones de personas", 
+         title = paste0(popAge5dt[popAge5dt$country_code==i,]$name),
+         fill="Sexo")->g
+  
+   ggsave(plot=g, 
+          filename=paste0("pira",i,".png", sep=""),
+          width=9,
+          height=7)
+  
+  g 
+  assign(paste0("pira",i, sep=""), g)
+  
+}
+
+
+```
+
+
+### Momento de práctica 
+
+Haz un loop para hacer las pirámides de las proyecciones de uruguay, una para cada año.

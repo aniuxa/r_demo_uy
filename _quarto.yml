@@ -15,13 +15,15 @@ book:
     - index.qmd
     - instala.qmd
     - P1.qmd
+    - P2.qmd
+    - otros.qmd
 
 
 format:
   html:
     theme:
       light: lux
-      dark: slate
+      dark: darkly
 
    
   pdf:

@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análisis Demográfico con R - 3&nbsp; Cont. Pirámides y Lexis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./otros.html" rel="next">
+<link href="./P2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cont. Pirámides y Lexis</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análisis Demográfico con R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/aniuxa/r_demo_uy/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sobre el curso</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./instala.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación de R y Rstudio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cont. Pirámides y Lexis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./otros.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ligas y más</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#instalación-local-de-los-paquetes" id="toc-instalación-local-de-los-paquetes" class="nav-link active" data-scroll-target="#instalación-local-de-los-paquetes"><span class="header-section-number">3.1</span> Instalación local de los paquetes</a></li>
+  <li><a href="#paquetes" id="toc-paquetes" class="nav-link" data-scroll-target="#paquetes"><span class="header-section-number">3.2</span> Paquetes</a></li>
+  <li><a href="#datos" id="toc-datos" class="nav-link" data-scroll-target="#datos"><span class="header-section-number">3.3</span> Datos</a></li>
+  <li><a href="#pendientes" id="toc-pendientes" class="nav-link" data-scroll-target="#pendientes"><span class="header-section-number">3.4</span> Pendientes</a>
+  <ul class="collapse">
+  <li><a href="#demotools" id="toc-demotools" class="nav-link" data-scroll-target="#demotools"><span class="header-section-number">3.4.1</span> <code>{DemoTools}</code></a></li>
+  <li><a href="#paquete-apyramid" id="toc-paquete-apyramid" class="nav-link" data-scroll-target="#paquete-apyramid"><span class="header-section-number">3.4.2</span> Paquete <code>{apyramid}</code></a></li>
+  <li><a href="#opcional" id="toc-opcional" class="nav-link" data-scroll-target="#opcional"><span class="header-section-number">3.4.3</span> Opcional</a></li>
+  <li><a href="#momento-de-práctica-1" id="toc-momento-de-práctica-1" class="nav-link" data-scroll-target="#momento-de-práctica-1"><span class="header-section-number">3.4.4</span> Momento de práctica</a></li>
+  </ul></li>
+  <li><a href="#diagrama-de-lexis" id="toc-diagrama-de-lexis" class="nav-link" data-scroll-target="#diagrama-de-lexis"><span class="header-section-number">3.5</span> Diagrama de Lexis</a>
+  <ul class="collapse">
+  <li><a href="#dibujar-una-cuadrícula" id="toc-dibujar-una-cuadrícula" class="nav-link" data-scroll-target="#dibujar-una-cuadrícula"><span class="header-section-number">3.5.1</span> Dibujar una cuadrícula</a></li>
+  <li><a href="#sombreados-en-el-diagrama" id="toc-sombreados-en-el-diagrama" class="nav-link" data-scroll-target="#sombreados-en-el-diagrama"><span class="header-section-number">3.5.2</span> Sombreados en el diagrama</a></li>
+  <li><a href="#momento-de-práctica-2" id="toc-momento-de-práctica-2" class="nav-link" data-scroll-target="#momento-de-práctica-2"><span class="header-section-number">3.5.3</span> Momento de práctica</a></li>
+  </ul></li>
+  <li><a href="#tasas-de-crecimiento" id="toc-tasas-de-crecimiento" class="nav-link" data-scroll-target="#tasas-de-crecimiento"><span class="header-section-number">3.6</span> Tasas de crecimiento</a>
+  <ul class="collapse">
+  <li><a href="#fechas-censales-y-tasas-de-crecimiento" id="toc-fechas-censales-y-tasas-de-crecimiento" class="nav-link" data-scroll-target="#fechas-censales-y-tasas-de-crecimiento"><span class="header-section-number">3.6.1</span> Fechas censales y tasas de crecimiento</a></li>
+  <li><a href="#ritmo" id="toc-ritmo" class="nav-link" data-scroll-target="#ritmo"><span class="header-section-number">3.6.2</span> Ritmo</a></li>
+  <li><a href="#crecimiento" id="toc-crecimiento" class="nav-link" data-scroll-target="#crecimiento"><span class="header-section-number">3.6.3</span> Crecimiento</a></li>
+  <li><a href="#crecimiento-aritmético" id="toc-crecimiento-aritmético" class="nav-link" data-scroll-target="#crecimiento-aritmético"><span class="header-section-number">3.6.4</span> Crecimiento aritmético</a></li>
+  <li><a href="#crecimiento-geométrico" id="toc-crecimiento-geométrico" class="nav-link" data-scroll-target="#crecimiento-geométrico"><span class="header-section-number">3.6.5</span> Crecimiento geométrico</a></li>
+  <li><a href="#crecimiento-exponencial" id="toc-crecimiento-exponencial" class="nav-link" data-scroll-target="#crecimiento-exponencial"><span class="header-section-number">3.6.6</span> Crecimiento exponencial</a></li>
+  <li><a href="#proyeccion" id="toc-proyeccion" class="nav-link" data-scroll-target="#proyeccion"><span class="header-section-number">3.6.7</span> Proyeccion</a></li>
+  <li><a href="#tiempo" id="toc-tiempo" class="nav-link" data-scroll-target="#tiempo"><span class="header-section-number">3.6.8</span> Tiempo</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/aniuxa/r_demo_uy/edit/main/P3.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/aniuxa/r_demo_uy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cont. Pirámides y Lexis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="instalación-local-de-los-paquetes" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="instalación-local-de-los-paquetes"><span class="header-section-number">3.1</span> Instalación local de los paquetes</h2>
+<p>Antes de empezar esta práctica descargá los siguientes archivos de la carpeta paquetes <a href="https://www.dropbox.com/scl/fo/l1gnpwreoylsjvaz4tpb0/AMsX4OjReKr6eZNQgVo8ue8?rlkey=5b5kur9jdc2sg86k8fetgvl1v&amp;dl=0">aquí</a>.</p>
+<p>Colocala en tu directorio del proyecto.</p>
+<p>Descargá esté <a href="https://www.dropbox.com/scl/fi/l1sptnl26hwnfdc6czs2t/Paquetes.R?rlkey=qlyoqjewg83qc75dweh7jhsri&amp;dl=0">código</a> y correlo.</p>
+<blockquote class="blockquote">
+<p>esto es un problema de IP que tenemos en el curso, si trabajás desde tu casa esto no será problema.</p>
+</blockquote>
+</section>
+<section id="paquetes" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="paquetes"><span class="header-section-number">3.2</span> Paquetes</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>) <span class="co"># instala pacman si se requiere</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: pacman</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>               writexl,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>               janitor,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>               remotes,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>               wppExplorer,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>               apyramid,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>               magrittr,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>               fmsb,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>               DemoTools, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               wpp2022,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>               LexisPlotR) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="datos" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="datos"><span class="header-section-number">3.3</span> Datos</h2>
+<p>Rehacemos un poco lo que teníamos del día de ayer:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sv1992<span class="ot">&lt;-</span>readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"datos/censos_p2.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"El Salvador 1992"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">total=</span>male <span class="sc">+</span> female) <span class="sc">%&gt;%</span> <span class="co"># ojo</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">age=</span><span class="fu">as.numeric</span>(age)) <span class="co">#ojo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Los datos para las pirámides</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"popAge5dt"</span>) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"popprojAge5dt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pob_uy_long<span class="ot">&lt;-</span>popAge1dt <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(name<span class="sc">==</span><span class="st">"Uruguay"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">eda5=</span><span class="fu">cut</span>(age, <span class="co"># la variable a cortar</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">110</span>, <span class="co"># El rango válido</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">by=</span><span class="dv">5</span>), <span class="co"># El ancho del intervalo</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">include.lowest=</span>T, <span class="co"># para que incluya el valor más bajo dentro del intervalo</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">right=</span>F)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> popM<span class="sc">:</span>popF,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">values_to =</span> <span class="st">"poblacion"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">names_to =</span> <span class="st">"sexo"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>pop) <span class="co"># checa este tipo de "anti-selección"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pendientes" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="pendientes"><span class="header-section-number">3.4</span> Pendientes</h2>
+<section id="demotools" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="demotools"><span class="header-section-number">3.4.1</span> <code>{DemoTools}</code></h3>
+<p>Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.</p>
+<p>Trabaja con vectores individuales.</p>
+<section id="whipple" class="level4" data-number="3.4.1.1">
+<h4 data-number="3.4.1.1" class="anchored" data-anchor-id="whipple"><span class="header-section-number">3.4.1.1</span> Whipple</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_whipple</span>(<span class="at">Value=</span>sv1992<span class="sc">$</span>total,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Age=</span> sv1992<span class="sc">$</span>age, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ageMin =</span> <span class="dv">25</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ageMax =</span> <span class="dv">60</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">digit =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.260264</code></pre>
+</div>
+</div>
+</section>
+<section id="noumbissi" class="level4" data-number="3.4.1.2">
+<h4 data-number="3.4.1.2" class="anchored" data-anchor-id="noumbissi"><span class="header-section-number">3.4.1.2</span> Noumbissi</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>male, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Age=</span>sv1992<span class="sc">$</span>age, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ageMin =</span> <span class="dv">30</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ageMax =</span> <span class="dv">60</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">digit =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.411808</code></pre>
+</div>
+</div>
+<p>Mayor a 1, el dígito atrae; menor que 1, el índice “repele”</p>
+<p>Vamos a hacer un “loop”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para todos los dígitos</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  Ni<span class="ot">&lt;-</span><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>total,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                              sv1992<span class="sc">$</span>age, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMin =</span> <span class="dv">30</span><span class="sc">+</span>i, <span class="co"># ojo</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMax =</span> <span class="dv">60</span><span class="sc">+</span>i, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">digit =</span> i)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Ni)<span class="ot">&lt;-</span>i</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(Ni)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       0 
+1.388983 
+        1 
+0.6612601 
+       2 
+1.202751 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  Ni<span class="ot">&lt;-</span><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>total,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                              sv1992<span class="sc">$</span>age, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMin =</span> <span class="dv">20</span><span class="sc">+</span>i, <span class="co">#ojo</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMax =</span> <span class="dv">50</span><span class="sc">+</span>i, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">digit =</span> i)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Ni)<span class="ot">&lt;-</span>i</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(Ni)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        3 
+0.9451307 
+        4 
+0.8988784 
+       5 
+1.145512 
+        6 
+0.9623871 
+       7 
+0.962849 
+       8 
+1.004804 
+       9 
+0.831283 </code></pre>
+</div>
+</div>
+</section>
+<section id="spoorrenberg" class="level4" data-number="3.4.1.3">
+<h4 data-number="3.4.1.3" class="anchored" data-anchor-id="spoorrenberg"><span class="header-section-number">3.4.1.3</span> Spoorrenberg</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_spoorenberg</span>(sv1992<span class="sc">$</span>total, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                          sv1992<span class="sc">$</span>age, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ageMin =</span> <span class="dv">23</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ageMax =</span> <span class="dv">62</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.480261</code></pre>
+</div>
+</div>
+</section>
+<section id="indice-de-myers" class="level4" data-number="3.4.1.4">
+<h4 data-number="3.4.1.4" class="anchored" data-anchor-id="indice-de-myers"><span class="header-section-number">3.4.1.4</span> Indice de Myers</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_myers</span>(<span class="at">Value =</span> sv1992<span class="sc">$</span>male,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Age =</span> sv1992<span class="sc">$</span>age, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ageMin =</span> <span class="dv">10</span>, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ageMax =</span> <span class="dv">89</span>, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"pasex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.906285</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="paquete-apyramid" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="paquete-apyramid"><span class="header-section-number">3.4.2</span> Paquete <code>{apyramid}</code></h3>
+<ul>
+<li><p>Necesita que tengamos los datos quinquenales.</p></li>
+<li><p>No acepta funciones en las variables edad y sexo</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pob_uy_long <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2020</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(eda5, sexo, <span class="at">wt=</span>poblacion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 42 × 3
+   eda5    sexo      n
+   &lt;fct&gt;   &lt;chr&gt; &lt;dbl&gt;
+ 1 [0,5)   popF   97.3
+ 2 [0,5)   popM  103. 
+ 3 [5,10)  popF  115. 
+ 4 [5,10)  popM  121. 
+ 5 [10,15) popF  115. 
+ 6 [10,15) popM  121. 
+ 7 [15,20) popF  119. 
+ 8 [15,20) popM  124. 
+ 9 [20,25) popF  125. 
+10 [20,25) popM  130. 
+# ℹ 32 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pob_uy_long <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2020</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(eda5, sexo, <span class="at">wt=</span>poblacion) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  apyramid<span class="sc">::</span><span class="fu">age_pyramid</span>(<span class="at">age_group =</span> eda5, </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">split_by =</span> sexo, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">count =</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale
+range.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nos ahorra un par de pasos, pero siempre tenemos que solucionar algunos elementos</p>
+<section id="momento-de-práctica" class="level4" data-number="3.4.2.1">
+<h4 data-number="3.4.2.1" class="anchored" data-anchor-id="momento-de-práctica"><span class="header-section-number">3.4.2.1</span> Momento de práctica</h4>
+<p>Haz una pirámide para otro país, para el año 2040 en escenario de alta fecundidad.</p>
+</section>
+</section>
+<section id="opcional" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="opcional"><span class="header-section-number">3.4.3</span> Opcional</h3>
+<p>Veamos como hacemos un <em>loop</em> para hacer varias pirámides, pero antes tenemos que arreglar un poco esa base que bajamos de WPP</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#popAge5dt &lt;- popAge5dt</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>popAge5dt  <span class="sc">%&lt;&gt;%</span> <span class="co"># checa este pipe</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">edad=</span><span class="fu">parse_number</span>(age)) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">edad_factor=</span><span class="fu">as.factor</span>(edad))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>popAge5dt <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols=</span>popM<span class="sc">:</span>pop, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"sex"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"poblacion"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex=</span><span class="fu">str_replace_all</span>(sex,<span class="st">"popF"</span>, <span class="st">"Mujeres"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex=</span><span class="fu">str_replace_all</span>(sex,<span class="st">"popM"</span>, <span class="st">"Hombres"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex=</span><span class="fu">str_replace_all</span>(sex,<span class="st">"pop"</span>, <span class="st">"Total"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El loop:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>anios<span class="ot">&lt;-</span><span class="fu">unique</span>(popAge5dt<span class="sc">$</span>year)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pais<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">858</span>, <span class="dv">222</span>, <span class="dv">320</span>, <span class="dv">340</span>, <span class="dv">484</span>, <span class="dv">1830</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># uy: 858</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sv: 222 </span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># gt: 320</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># hn: 340</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># mx: 484</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># CA: 916</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># LAC: 1830)</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Este es el loop donde reemplaza por i cada código de país</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> pais){</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  popAge5dt <span class="sc">%&gt;%</span> </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">poblacion=</span>poblacion<span class="sc">/</span><span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(country_code<span class="sc">==</span>i) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span>sex<span class="sc">==</span><span class="st">"Total"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(year<span class="sc">==</span><span class="dv">2020</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">age_pyramid</span>(edad_factor, <span class="co"># edad</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">split_by =</span> sex,</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">count=</span>poblacion)<span class="sc">+</span>  </span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"edad"</span>,</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">y=</span><span class="st">"millones de personas"</span>, </span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="fu">paste0</span>(popAge5dt[popAge5dt<span class="sc">$</span>country_code<span class="sc">==</span>i,]<span class="sc">$</span>name),</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill=</span><span class="st">"Sexo"</span>)<span class="ot">-&gt;</span>g</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggsave</span>(<span class="at">plot=</span>g, </span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">filename=</span><span class="fu">paste0</span>(<span class="st">"pira"</span>,i,<span class="st">".png"</span>, <span class="at">sep=</span><span class="st">""</span>),</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>          <span class="at">width=</span><span class="dv">9</span>,</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">height=</span><span class="dv">7</span>)</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>  g </span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"pira"</span>,i, <span class="at">sep=</span><span class="st">""</span>), g)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="momento-de-práctica-1" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="momento-de-práctica-1"><span class="header-section-number">3.4.4</span> Momento de práctica</h3>
+<p>Haz un loop para hacer las pirámides de las proyecciones de uruguay, una para cada año.</p>
+</section>
+</section>
+<section id="diagrama-de-lexis" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="diagrama-de-lexis"><span class="header-section-number">3.5</span> Diagrama de Lexis</h2>
+<p>El paquete fue creado Philipp Ottolinger, este ejercicio es una versión en español (con algunos comentarios) de su ejemplo <a href="https://github.com/ottlngr/LexisPlotR" class="uri">https://github.com/ottlngr/LexisPlotR</a></p>
+<section id="dibujar-una-cuadrícula" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="dibujar-una-cuadrícula"><span class="header-section-number">3.5.1</span> Dibujar una cuadrícula</h3>
+<p>Este paquete nos puede ayudar a hacer nuestras cuadrículas. Ponemos los años de inicio y de final; así como las edades de inicio y de final. Recuerda que un diagrama de Lexis debe tener una misma escala en los ejes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibuje una cuadrícula de Lexis desde el año 2010 hasta el año 2015, que representa las edades de 0 a 5 años.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>LexisPlotR<span class="sc">::</span><span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">2010</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">year_end =</span> <span class="dv">2015</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">age_start =</span> <span class="dv">0</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">age_end=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>LexisPlotR<span class="sc">::</span><span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">1920</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">year_end =</span> <span class="dv">2020</span>, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">age_start =</span> <span class="dv">0</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">age_end =</span> <span class="dv">100</span>, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">delta =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Aunque no necesariamente podemos dibujar sólo cuadrados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibuje una cuadrícula de Lexis desde el año 2010 hasta el año 2015, que representa las edades de 0 a 7 años.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">2010</span>, <span class="at">year_end =</span> <span class="dv">2015</span>, <span class="at">age_start =</span> <span class="dv">0</span>, <span class="at">age_end =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Si no ponemos nada especifico en un argumento “d=”, asume que los deltas son de un año. Pero lo podemos modificar</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">1950</span>, <span class="at">year_end =</span> <span class="dv">2000</span>, <span class="at">age_start =</span> <span class="dv">0</span>, <span class="at">age_end =</span> <span class="dv">50</span>, <span class="at">delta =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="sombreados-en-el-diagrama" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="sombreados-en-el-diagrama"><span class="header-section-number">3.5.2</span> Sombreados en el diagrama</h3>
+<p>Lo más fácil es crear un objeto primero con nuestra cuadrícula sobre la cual graficaremos los elementos del Lexis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="ot">&lt;-</span> <span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">1995</span>, <span class="at">year_end =</span> <span class="dv">2000</span>, <span class="at">age_start =</span> <span class="dv">0</span>, <span class="at">age_end =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Para poder sombrear áreas con este paquete, debemos tener un diagrama ya guardado como objeto. Con distintas funciones vamos sombreando áreas.</p>
+<section id="edad" class="level4" data-number="3.5.2.1">
+<h4 data-number="3.5.2.1" class="anchored" data-anchor-id="edad"><span class="header-section-number">3.5.2.1</span> Edad</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Destacar todos los puntos que pertenecen a la edad de 2 años</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_age</span>( <span class="at">age =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Qué tipo de observación o estudio sería este?</p>
+<p>Para cambiar el color:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_age</span>(<span class="at">age =</span> <span class="dv">2</span>, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="periodo" class="level4" data-number="3.5.2.2">
+<h4 data-number="3.5.2.2" class="anchored" data-anchor-id="periodo"><span class="header-section-number">3.5.2.2</span> Periodo</h4>
+<p>También podemos sombrear períodos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_year</span>(<span class="at">year=</span><span class="dv">1998</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Qué tipo de observación o estudio sería este?</p>
+<p>Para cambiar el color: <a href="https://r-charts.com/es/colores/">Más info del color</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_year</span>(<span class="at">year=</span><span class="dv">1998</span>, <span class="at">fill =</span> <span class="st">"grey70"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="cohorte" class="level4" data-number="3.5.2.3">
+<h4 data-number="3.5.2.3" class="anchored" data-anchor-id="cohorte"><span class="header-section-number">3.5.2.3</span> Cohorte</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_cohort</span>(<span class="at">lg =</span> mi_diagrama, <span class="at">cohort=</span><span class="dv">1994</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Qué tipo de observación o estudio sería este?</p>
+<p>También podemos cambiar el color y la transparencia:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_cohort</span>(<span class="at">lg =</span> mi_diagrama, <span class="at">cohort=</span><span class="dv">1994</span>, <span class="at">fill=</span><span class="st">"plum1"</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="líneas-de-vida" class="level4" data-number="3.5.2.4">
+<h4 data-number="3.5.2.4" class="anchored" data-anchor-id="líneas-de-vida"><span class="header-section-number">3.5.2.4</span> Líneas de vida</h4>
+<p>Alguien entra</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_lifeline</span>(<span class="at">lg =</span> mi_diagrama, <span class="at">birth =</span> <span class="st">"1996-09-23"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Alguien entra y sale</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_lifeline</span>(<span class="at">lg =</span> mi_diagrama, <span class="at">birth =</span>  <span class="st">"1996-09-23"</span>, <span class="at">exit=</span><span class="st">"1999-09-23"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="polígonos" class="level4" data-number="3.5.2.5">
+<h4 data-number="3.5.2.5" class="anchored" data-anchor-id="polígonos"><span class="header-section-number">3.5.2.5</span> Polígonos</h4>
+<p>No es tan sencillo, pero podemos dibujar un espacio “APC”, o varios.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>polygons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">c</span>(<span class="dv">1</span>,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span>,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span>), <span class="co"># es un triángulo</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"1996-01-01"</span>, </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1997-01-01"</span>, </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1997-01-01"</span>), <span class="co"># van en fechas</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">1</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">1</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">2</span>)) <span class="co"># van en edades</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_polygon</span>(<span class="at">x =</span> polygons<span class="sc">$</span>x,</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> polygons<span class="sc">$</span>y, </span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> polygons<span class="sc">$</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>checa que básicamente se trata de colocar los puntos que dibujan el polígono. Son tres puntos:</p>
+<ol type="1">
+<li><p>Fecha: “1996-01-01”, edad=1</p></li>
+<li><p>Fecha: “1997-01-01”, edad=1</p></li>
+<li><p>Fecha: “1997-01-01”, edad=2</p></li>
+</ol>
+<p>Si queremos más triángulos, podemos agregarlos en el mismo objeto:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>polygons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">c</span>(<span class="dv">1</span>,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span>, <span class="co"># es un triángulo</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">2</span>, </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">2</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">2</span>), <span class="co"># es otro triángulo</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x =</span> <span class="fu">c</span>(<span class="st">"1996-01-01"</span>, </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1997-01-01"</span>, </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1997-01-01"</span>, <span class="co"># van en fechas 1</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1998-01-01"</span>, </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1998-01-01"</span>, </span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"1999-01-01"</span>), <span class="co"># van en fechas 2</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">1</span>,</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">1</span>,</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">2</span>, <span class="co"># van en edades 1</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">3</span>,</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">4</span>,</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">4</span>))<span class="co"># van en edades 2</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>mi_diagrama <span class="sc">%&gt;%</span> </span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_polygon</span>( <span class="at">x =</span> polygons<span class="sc">$</span>x,</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> polygons<span class="sc">$</span>y, </span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">group =</span> polygons<span class="sc">$</span>group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="todo-en-uno" class="level4" data-number="3.5.2.6">
+<h4 data-number="3.5.2.6" class="anchored" data-anchor-id="todo-en-uno"><span class="header-section-number">3.5.2.6</span> Todo en uno</h4>
+<p>Podemos ir reescribiendo nuestro objeto</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lexis_grid</span>(<span class="at">year_start =</span> <span class="dv">1995</span>, <span class="at">year_end =</span> <span class="dv">2000</span>, <span class="at">age_start =</span> <span class="dv">0</span>, <span class="at">age_end =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_age</span>(<span class="at">age =</span> <span class="dv">2</span>, <span class="at">fill =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_year</span>(<span class="at">year =</span> <span class="dv">1998</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_cohort</span>(<span class="at">cohort=</span><span class="dv">1994</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lexis_lifeline</span>(<span class="at">birth =</span> <span class="st">"1996-09-23"</span>, <span class="at">exit=</span><span class="st">"1999-09-23"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="anotación-manual" class="level4" data-number="3.5.2.7">
+<h4 data-number="3.5.2.7" class="anchored" data-anchor-id="anotación-manual"><span class="header-section-number">3.5.2.7</span> Anotación manual</h4>
+<p>Para hacer cuadrados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama  <span class="sc">+</span> <span class="co"># ojo este siguiente comando es ggplot</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">annotate</span>(<span class="st">"rect"</span>, </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">xmin =</span> <span class="fu">as.Date</span>(<span class="st">"1996-01-01"</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">xmax =</span> <span class="fu">as.Date</span>(<span class="st">"1997-01-01"</span>), </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">1</span>, <span class="at">alpha =</span> .<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Qué tipo de observación es esta?</p>
+<p>Si quisiéramos gráficar la fecha de un censo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama  <span class="sc">+</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">as.Date</span>(<span class="st">"1995-11-05"</span>), <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Si queremos poner una edad exacta:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>mi_diagrama  <span class="sc">+</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">4</span>, <span class="at">colour =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="momento-de-práctica-2" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="momento-de-práctica-2"><span class="header-section-number">3.5.3</span> Momento de práctica</h3>
+<p>Hacé un diagrama de Lexis decenal desde tu quinquenio de nacimiento hasta 2025, gráfica tu línea de vida y otros elementos o etapas importantes de tu vida</p>
+</section>
+</section>
+<section id="tasas-de-crecimiento" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="tasas-de-crecimiento"><span class="header-section-number">3.6</span> Tasas de crecimiento</h2>
+<section id="fechas-censales-y-tasas-de-crecimiento" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="fechas-censales-y-tasas-de-crecimiento"><span class="header-section-number">3.6.1</span> Fechas censales y tasas de crecimiento</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>censos <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"datos/censos.xlsx"</span>, </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"numeric"</span>,<span class="st">"date"</span>, <span class="st">"numeric"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Un elemento fundamental es encontrar los periodos intercensales en años. Los censos tienen diferentes fechas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>censos <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">dias =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">diff</span>(fecha))) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">n=</span>dias<span class="sc">/</span><span class="dv">365</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>censos  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+    ano fecha               poblacion  dias     n
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA   
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0 
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0 
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6 
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1 
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17</code></pre>
+</div>
+</div>
+<p>Con esta base ya podemos ir calculando diferentes tipos de crecimiento básicos.</p>
+</section>
+<section id="ritmo" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="ritmo"><span class="header-section-number">3.6.2</span> Ritmo</h3>
+<p><span class="math display">\[ ritmo=\frac{P_{t+n}}{P_t} \]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>censos<span class="ot">&lt;-</span>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">ritmo =</span> poblacion<span class="sc">/</span><span class="fu">lag</span>(poblacion))</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>censos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+    ano fecha               poblacion  dias     n  ritmo
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA    NA    
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0   1.09 
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0   1.06 
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6   1.07 
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1   0.970
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17  1.07 </code></pre>
+</div>
+</div>
+</section>
+<section id="crecimiento" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="crecimiento"><span class="header-section-number">3.6.3</span> Crecimiento</h3>
+<p><span class="math display">\[ c=\frac{P_{t+n}-{P_t}}{P_t} =\frac{P_{t+n}}{P_t}-1 \]</span></p>
+<p>Básicamente es el ritmo menos 1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>censos<span class="ot">&lt;-</span>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">c =</span> ritmo<span class="dv">-1</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>censos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+    ano fecha               poblacion  dias     n  ritmo       c
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA    NA     NA     
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0   1.09   0.0930
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0   1.06   0.0569
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6   1.07   0.0676
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1   0.970 -0.0296
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17  1.07   0.0713</code></pre>
+</div>
+</div>
+</section>
+<section id="crecimiento-aritmético" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="crecimiento-aritmético"><span class="header-section-number">3.6.4</span> Crecimiento aritmético</h3>
+<p><span class="math display">\[ r_a=\frac{P_{t+n}-{P_t}}{n*P_t} =\frac{c}n \]</span> Básicamente es el crecimiento entre el periodo intercensal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>censos<span class="ot">&lt;-</span>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">ra =</span> c<span class="sc">/</span>n)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>censos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+    ano fecha               poblacion  dias     n  ritmo       c       ra
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA    NA     NA      NA      
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0   1.09   0.0930  0.00773
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0   1.06   0.0569  0.00568
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6   1.07   0.0676  0.00638
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1   0.970 -0.0296 -0.00293
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17  1.07   0.0713  0.0138 </code></pre>
+</div>
+</div>
+</section>
+<section id="crecimiento-geométrico" class="level3" data-number="3.6.5">
+<h3 data-number="3.6.5" class="anchored" data-anchor-id="crecimiento-geométrico"><span class="header-section-number">3.6.5</span> Crecimiento geométrico</h3>
+<p><span class="math display">\[ r_g=\sqrt[n]{\frac{P_{t+n}}{{P_t}}}-1 \]</span></p>
+<p>Es la raíz n-ésima del ritmo menos 1</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>censos<span class="ot">&lt;-</span>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">rg =</span> ritmo<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>n)<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>censos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+    ano fecha               poblacion  dias     n  ritmo       c       ra
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA    NA     NA      NA      
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0   1.09   0.0930  0.00773
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0   1.06   0.0569  0.00568
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6   1.07   0.0676  0.00638
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1   0.970 -0.0296 -0.00293
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17  1.07   0.0713  0.0138 
+# ℹ 1 more variable: rg &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="crecimiento-exponencial" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="crecimiento-exponencial"><span class="header-section-number">3.6.6</span> Crecimiento exponencial</h3>
+<p><span class="math display">\[ r=\frac{ln\frac{P_{t+n}}{P_t}}{n} \]</span></p>
+<p>Básicamente es logaritmo del ritmo entre n</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>censos<span class="ot">&lt;-</span>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">r =</span> <span class="fu">log</span>(ritmo)<span class="sc">/</span>n)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>censos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+    ano fecha               poblacion  dias     n  ritmo       c       ra
+  &lt;dbl&gt; &lt;dttm&gt;                  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1  1963 1963-10-16 00:00:00   2561710    NA NA    NA     NA      NA      
+2  1975 1975-10-23 00:00:00   2799940  4390 12.0   1.09   0.0930  0.00773
+3  1985 1985-10-21 00:00:00   2959150  3651 10.0   1.06   0.0569  0.00568
+4  1996 1996-05-22 00:00:00   3159200  3866 10.6   1.07   0.0676  0.00638
+5  2006 2006-07-01 00:00:00   3065604  3692 10.1   0.970 -0.0296 -0.00293
+6  2011 2011-09-01 00:00:00   3284250  1888  5.17  1.07   0.0713  0.0138 
+# ℹ 2 more variables: rg &lt;dbl&gt;, r &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Este crecimiento es el más utilizado.</p>
+<p>Podemos graficar los diferentes crecimientos, será más fácil si cambiamos el formato</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(ano, ra, rg, r)) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>ano, <span class="at">names_to =</span> <span class="st">"tipo"</span>, <span class="at">values_to =</span> <span class="st">"crecimiento"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 3
+     ano tipo  crecimiento
+   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
+ 1  1963 ra       NA      
+ 2  1963 rg       NA      
+ 3  1963 r        NA      
+ 4  1975 ra        0.00773
+ 5  1975 rg        0.00742
+ 6  1975 r         0.00739
+ 7  1985 ra        0.00568
+ 8  1985 rg        0.00554
+ 9  1985 r         0.00553
+10  1996 ra        0.00638
+11  1996 rg        0.00620
+12  1996 r         0.00618
+13  2006 ra       -0.00293
+14  2006 rg       -0.00297
+15  2006 r        -0.00297
+16  2011 ra        0.0138 
+17  2011 rg        0.0134 
+18  2011 r         0.0133 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>censos <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(ano, ra, rg, r)) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>ano, <span class="at">names_to =</span> <span class="st">"tipo"</span>, <span class="at">values_to =</span> <span class="st">"crecimiento"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(ano,crecimiento, <span class="at">group=</span>tipo, <span class="at">color=</span>tipo)) <span class="sc">+</span> </span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="P3_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Con estas tasas de crecimiento también podemos hacer estimaciones de tiempo y de poblaciones en fechas específicas.</p>
+</section>
+<section id="proyeccion" class="level3" data-number="3.6.7">
+<h3 data-number="3.6.7" class="anchored" data-anchor-id="proyeccion"><span class="header-section-number">3.6.7</span> Proyeccion</h3>
+<p><span class="math display">\[ P_{t+n}= P_t * e^{nr} \]</span> Vamos a proyectar la población al primero de julio de 2009</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="fu">difftime</span>(<span class="fu">as.Date</span>(<span class="st">"2009-07-1"</span>),</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.Date</span>(<span class="fu">paste</span>(censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2006</span>,]<span class="sc">$</span>fecha)))</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 1096 days</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(n<span class="sc">/</span><span class="dv">365</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.00274</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2006</span>, <span class="st">"poblacion"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  poblacion
+      &lt;dbl&gt;
+1   3065604</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2006</span>, <span class="st">"r"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+         r
+     &lt;dbl&gt;
+1 -0.00297</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>ptn<span class="ot">&lt;-</span> censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2006</span>,<span class="st">"poblacion"</span>]<span class="sc">*</span><span class="fu">exp</span>(n<span class="sc">*</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2006</span>, <span class="st">"r"</span>])</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(ptn) <span class="co"># para ver los decimales</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "3038356.78921973"</code></pre>
+</div>
+</div>
+<p>Con esto podemos crear una función: [debes tener los datos de censo con las estimaciones de r]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>pob_estim <span class="ot">&lt;-</span> <span class="cf">function</span>(fecha,ano) {</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    n<span class="ot">&lt;-</span><span class="fu">difftime</span>(<span class="fu">as.Date</span>(fecha),</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">as.Date</span>(<span class="fu">paste</span>(censos[censos<span class="sc">$</span>ano<span class="sc">==</span>ano,]<span class="sc">$</span>fecha)))</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>    n<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(n<span class="sc">/</span><span class="dv">365</span>)</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>    ptn<span class="ot">&lt;-</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span>ano,<span class="st">"poblacion"</span>]<span class="sc">*</span><span class="fu">exp</span>(n<span class="sc">*</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span>ano, <span class="st">"r"</span>])</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(ptn)</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pob_estim</span>(<span class="at">fecha =</span><span class="st">"2008-01-07"</span>, </span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">ano =</span> <span class="dv">2006</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  poblacion
+1   3051776</code></pre>
+</div>
+</div>
+</section>
+<section id="tiempo" class="level3" data-number="3.6.8">
+<h3 data-number="3.6.8" class="anchored" data-anchor-id="tiempo"><span class="header-section-number">3.6.8</span> Tiempo</h3>
+<p><span class="math display">\[ n=\frac{ln\frac{P_{t+n}}{{P_t}}}r\]</span></p>
+<p>¿Cuánto tiempo tardaría en duplicarse la población del último censo?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>n_calc<span class="ot">&lt;-</span><span class="fu">log</span>(<span class="dv">2</span><span class="sc">*</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2011</span>,<span class="st">"poblacion"</span>]<span class="sc">/</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2011</span>,<span class="st">"poblacion"</span>])<span class="sc">/</span>censos[censos<span class="sc">$</span>ano<span class="sc">==</span><span class="dv">2011</span>,<span class="st">"r"</span>]</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>n_calc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  poblacion
+1  52.04213</code></pre>
+</div>
+</div>
+<section id="momento-de-práctica-3" class="level4" data-number="3.6.8.1">
+<h4 data-number="3.6.8.1" class="anchored" data-anchor-id="momento-de-práctica-3"><span class="header-section-number">3.6.8.1</span> Momento de práctica</h4>
+<ul>
+<li><p>Calcula, si la población creciera cómo lo hizo entre los primeros dos censos, en cuánto tiempo se duplicaría</p></li>
+<li><p>Calcula la población al 1 de julio de 1999, puedes usar la función.</p></li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./P2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./otros.html" class="pagination-link">
+        <span class="nav-page-text">Ligas y más</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

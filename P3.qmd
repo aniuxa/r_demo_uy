@@ -11,7 +11,7 @@ Descargá esté [código](https://www.dropbox.com/scl/fi/l1sptnl26hwnfdc6czs2t/P
 
 > esto es un problema de IP que tenemos en el curso, si trabajás desde tu casa esto no será problema.
 
-# Paquetes
+## Paquetes
 
 ```{r}
 if (!require("pacman")) install.packages("pacman") # instala pacman si se requiere
@@ -28,7 +28,7 @@ pacman::p_load(tidyverse,
                wpp2022,
                LexisPlotR) 
 ```
-# Datos 
+## Datos 
 
 Rehacemos un poco lo que teníamos del día de ayer:
 
@@ -60,15 +60,15 @@ pob_uy_long<-popAge1dt %>%
   dplyr::select(-pop) # checa este tipo de "anti-selección"
 ```
 
-# Pendientes 
+## Pendientes 
 
-## `{DemoTools}`
+### `{DemoTools}`
 
 Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
 
 Trabaja con vectores individuales.
 
-### Whipple
+#### Whipple
 
 ```{r}
 check_heaping_whipple(Value=sv1992$total,
@@ -80,7 +80,7 @@ check_heaping_whipple(Value=sv1992$total,
 
 ```
 
-### Noumbissi
+#### Noumbissi
 
 ```{r}
 
@@ -121,7 +121,7 @@ for(i in 3:9) {
 
 ```
 
-### Spoorrenberg
+#### Spoorrenberg
 
 ```{r}
 check_heaping_spoorenberg(sv1992$total, 
@@ -130,7 +130,7 @@ check_heaping_spoorenberg(sv1992$total,
                           ageMax = 62)
 ```
 
-### Indice de Myers
+#### Indice de Myers
 
 ```{r}
 check_heaping_myers(Value = sv1992$male,
@@ -141,7 +141,7 @@ check_heaping_myers(Value = sv1992$male,
 ```
 
 
-## Paquete `{apyramid}`
+### Paquete `{apyramid}`
 
 -   Necesita que tengamos los datos quinquenales.
 
@@ -163,7 +163,7 @@ pob_uy_long %>%
 
 Nos ahorra un par de pasos, pero siempre tenemos que solucionar algunos elementos
 
-### Momento de práctica
+#### Momento de práctica
 
 Haz una pirámide para otro país, para el año 2040 en escenario de alta fecundidad.
 
@@ -526,7 +526,7 @@ censos
 
 ### Crecimiento geométrico
 
-$$ r_g=\sqrt[n]\frac{P_{t+n}}{{P_t}}-1 $$ 
+$$ r_g=\sqrt[n]{\frac{P_{t+n}}{{P_t}}}-1 $$ 
 
 Es la raíz n-ésima del ritmo menos 1
 
@@ -538,7 +538,7 @@ censos
 
 ### Crecimiento exponencial
 
-$$ r=\frac{ln\frac{P_{t+n}}{{P_t}}}n$$
+$$ r=\frac{ln\frac{P_{t+n}}{P_t}}{n} $$
 
 Básicamente es logaritmo del ritmo entre n
 
@@ -627,4 +627,10 @@ n_calc
 
 ```
 
+
+#### Momento de práctica
+
+* Calcula, si la población creciera cómo lo hizo entre los primeros dos censos, en cuánto tiempo se duplicaría
+
+* Calcula la población al 1 de julio de 1999, puedes usar la función.
 

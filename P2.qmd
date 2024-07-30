@@ -29,6 +29,7 @@ library("DemoTools")
 
 remotes::install_github("PPgp/wpp2022")
 ```
+
 -   Si pide actualizar darle 1, de "All
 -   o 2 de "CRAN only"
 
@@ -37,7 +38,7 @@ library(DemoTools)
 library(wpp2022)
 ```
 
-## Datos 
+## Datos
 
 ### `{wpp2022}`
 
@@ -50,12 +51,11 @@ data("popAge5dt")
 data("popprojAge5dt")
 ```
 
-** En caso que no tengas disponible, puedes descargar la información de la carpeta [datos](https://www.dropbox.com/scl/fo/y3t78w6l2j4ugmt1b12lg/AF8InxqH7fQCWtDxUzxHPU4?rlkey=yusah266ks5gfjckx41tgb0af&dl=0)
+\*\* En caso que no tengas disponible, puedes descargar la información de la carpeta [datos](https://www.dropbox.com/scl/fo/y3t78w6l2j4ugmt1b12lg/AF8InxqH7fQCWtDxUzxHPU4?rlkey=yusah266ks5gfjckx41tgb0af&dl=0)
 
 ```{r eval=FALSE}
 load("datos/wpp2022.RData")
 ```
-
 
 Aquí están todos los países, revisemos un poco
 
@@ -95,11 +95,9 @@ popAge1dt<- popAge1dt %>%
   filter(country_code%in%c(858,1830))
 ```
 
-
 También, tengo datos de algunos censos, descargados de ipums
 
 ## De IPUMS
-
 
 ```{r}
 readxl::read_excel("datos/censos_p2.xlsx", 
@@ -108,16 +106,14 @@ readxl::read_excel("datos/censos_p2.xlsx",
   janitor::clean_names() # checa qué hace
 ```
 
-
 Usaremos esta tabla de datos agregados para **crear variables**. Esto se hace con el comando `dplyr::mutate()`
 
 ```{r}
-sv1992<-readxl::read_excel("datos/censos_p2.xlsx") %>% 
+sv1992<-readxl::read_excel("datos/censos_p2.xlsx", sheet = "El Salvador 1992") %>% 
   janitor::clean_names() %>% #
   dplyr::mutate(total=male + female) %>% # ojo
   dplyr::mutate(age=as.numeric(age)) #ojo
 ```
-
 
 ## `{fmsb}` Atracción digital
 
@@ -127,7 +123,7 @@ Este paquete tiene cosas muy interesantes. Es un paquete no sólo para demograf�
 
 Un ejemplo con el índice de Whipple, que mide la atracción digital. Necesitamos datos en edades singulares:
 
-Tenemos un archivo en datos con varios censos, para evaluar su información a través de la atracción digital. Revisemos los datos del censo de 1992. 
+Tenemos un archivo en datos con varios censos, para evaluar su información a través de la atracción digital. Revisemos los datos del censo de 1992.
 
 Para ver los totales podemos agregar una fila muy simple con `janitor::adorn_totals(where="row")`
 
@@ -169,87 +165,6 @@ sv1992 %>%
 
 \*\* Importa cualquier otro censo y encuentra el índice de Whipple
 
-## `{DemoTools}`
-
-Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
-
-Trabaja con vectores individuales.
-
-### Whipple
-
-```{r}
-
-
-
-check_heaping_whipple(Value=sv1992$total,
-                      Age= sv1992$age, 
-                      ageMin = 25, 
-                      ageMax = 60, 
-                      digit = c(0, 5))
-
-
-```
-
-### Noumbissi
-
-```{r}
-
-
-check_heaping_noumbissi(sv1992$male, 
-                        Age=sv1992$age, 
-                        ageMin = 30, 
-                        ageMax = 60,
-                        digit = 0)
-```
-
-Mayor a 1, el dígito atrae; menor que 1, el índice "repele"
-
-Vamos a hacer un "loop"
-
-```{r}
-# Para todos los dígitos
-
-for(i in 0:2){
-  Ni<-check_heaping_noumbissi(sv1992$total,
-                              sv1992$age, 
-                              ageMin = 30+i, # ojo
-                              ageMax = 60+i, 
-                              digit = i)
-  names(Ni)<-i
-  print(Ni)
-}
-
-for(i in 3:9) {
-  Ni<-check_heaping_noumbissi(sv1992$total,
-                              sv1992$age, 
-                              ageMin = 20+i, #ojo
-                              ageMax = 50+i, 
-                              digit = i)
-  names(Ni)<-i
-  print(Ni)
-}
-
-```
-
-### Spoorrenberg
-
-```{r}
-check_heaping_spoorenberg(sv1992$total, 
-                          sv1992$age, 
-                          ageMin = 23, 
-                          ageMax = 62)
-```
-
-### Indice de Myers
-
-```{r}
-check_heaping_myers(Value = sv1992$total,
-                    Age = sv1992$age, 
-                    ageMin = 23, 
-                    ageMax = 82, 
-                    method = "pasex")
-```
-
 
 ## Pirámides
 
@@ -278,7 +193,7 @@ pob_uy %>%
   count(eda5, wt=pop)
 ```
 
-Para que funcione mejor, necesitamos que sexo sea una variable y una columna. 
+Para que funcione mejor, necesitamos que sexo sea una variable y una columna.
 
 Vamos a utilizar `tidyr::pivot_longer()` para hacer "larga" nuestro data.frame
 
@@ -296,7 +211,6 @@ pob_uy_long<-pob_uy %>%
                       names_to = "sexo") %>% 
   dplyr::select(-pop) # checa este tipo de "anti-selección"
 ```
-
 
 ### Momento de práctica
 
@@ -429,95 +343,3 @@ pob_uy_long %>%
 
 
 ```
-
-
-## Paquete `{apyramid}`
-
-- Necesita que tengamos los datos quinquenales.
-
-- No acepta funciones en las variables edad y sexo
-
-```{r}
-pob_uy_long %>% 
-  filter(year==2020) %>% 
-  count(eda5, sexo, wt=poblacion)
-
-pob_uy_long %>% 
-  filter(year==2020) %>% 
-  count(eda5, sexo, wt=poblacion) %>% 
-  apyramid::age_pyramid(age_group = eda5, 
-                        split_by = sexo, 
-                        count = n)
-
-```
-
-Nos ahorra un par de pasos, pero siempre tenemos que solucionar algunos elemetnos
-
-Veamos como hacemos un *loop* para hacer varias pirámides, pero antes tenemos que arreglar un poco esa base que bajamos de WPP
-
-```{r}
-
-library(magrittr)
-
-popAge5dt  %<>% # checa esto
-  mutate(edad=parse_number(age)) %>% 
-  mutate(edad_factor=as.factor(edad))
-
-
-
-popAge5dt %<>% 
-  pivot_longer(cols=popM:pop, 
-               names_to = "sex",
-               values_to = "poblacion") %>% 
-  mutate(sex=str_replace_all(sex,"popF", "Mujeres")) %>% 
-  mutate(sex=str_replace_all(sex,"popM", "Hombres")) %>% 
-  mutate(sex=str_replace_all(sex,"pop", "Total")) 
-
-```
-
-El loop:
-
-```{r}
-anios<-unique(popAge5dt$year)
-pais<-c(858, 222, 320, 340, 484, 1830)
-# uy: 858
-# sv: 222 
-# gt: 320
-# hn: 340
-# mx: 484
-# CA: 916
-# LAC: 1830)
-
-# Este es el loop donde reemplaza por i cada código de país
-for (i in pais){
-  
-  popAge5dt %>% 
-    mutate(poblacion=poblacion/1000) %>% 
-    filter(country_code==i) %>% 
-    filter(!sex=="Total") %>% 
-    filter(year==2020) %>% 
-    age_pyramid(edad_factor, # edad
-                split_by = sex,
-                count=poblacion)+  
-    labs(x="edad",
-         y="millones de personas", 
-         title = paste0(popAge5dt[popAge5dt$country_code==i,]$name),
-         fill="Sexo")->g
-  
-   ggsave(plot=g, 
-          filename=paste0("pira",i,".png", sep=""),
-          width=9,
-          height=7)
-  
-  g 
-  assign(paste0("pira",i, sep=""), g)
-  
-}
-
-
-```
-
-
-### Momento de práctica 
-
-Haz un loop para hacer las pirámides de las proyecciones de uruguay, una para cada año.

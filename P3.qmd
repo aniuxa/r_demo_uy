@@ -1,11 +1,10 @@
 # Cont. Pirámides y Lexis
 
-
 ## Instalación local de los paquetes
 
-Antes de empezar esta práctica descargá los siguientes archivos de la carpeta paquetes [aquí](https://www.dropbox.com/scl/fo/l1gnpwreoylsjvaz4tpb0/AMsX4OjReKr6eZNQgVo8ue8?rlkey=5b5kur9jdc2sg86k8fetgvl1v&dl=0). 
+Antes de empezar esta práctica descargá los siguientes archivos de la carpeta paquetes [aquí](https://www.dropbox.com/scl/fo/l1gnpwreoylsjvaz4tpb0/AMsX4OjReKr6eZNQgVo8ue8?rlkey=5b5kur9jdc2sg86k8fetgvl1v&dl=0).
 
-Colocala en tu directorio del proyecto. 
+Colocala en tu directorio del proyecto.
 
 Descargá esté [código](https://www.dropbox.com/scl/fi/l1sptnl26hwnfdc6czs2t/Paquetes.R?rlkey=qlyoqjewg83qc75dweh7jhsri&dl=0) y correlo.
 
@@ -28,10 +27,10 @@ pacman::p_load(tidyverse,
                wpp2022,
                LexisPlotR) 
 ```
-## Datos 
+
+## Datos
 
 Rehacemos un poco lo que teníamos del día de ayer:
-
 
 ```{r}
 sv1992<-readxl::read_excel("datos/censos_p2.xlsx", sheet = "El Salvador 1992") %>% 
@@ -41,6 +40,7 @@ sv1992<-readxl::read_excel("datos/censos_p2.xlsx", sheet = "El Salvador 1992") %
 ```
 
 Los datos para las pirámides
+
 ```{r}
 data("popAge5dt") 
 data("popprojAge5dt")
@@ -58,86 +58,6 @@ pob_uy_long<-popAge1dt %>%
                       values_to = "poblacion",
                       names_to = "sexo") %>% 
   dplyr::select(-pop) # checa este tipo de "anti-selección"
-```
-
-## Pendientes 
-
-### `{DemoTools}`
-
-Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
-
-Trabaja con vectores individuales.
-
-#### Whipple
-
-```{r}
-check_heaping_whipple(Value=sv1992$total,
-                      Age= sv1992$age, 
-                      ageMin = 25, 
-                      ageMax = 60, 
-                      digit = c(0, 5))
-
-
-```
-
-#### Noumbissi
-
-```{r}
-
-
-check_heaping_noumbissi(sv1992$male, 
-                        Age=sv1992$age, 
-                        ageMin = 30, 
-                        ageMax = 60,
-                        digit = 0)
-```
-
-Mayor a 1, el dígito atrae; menor que 1, el índice "repele"
-
-Vamos a hacer un "loop"
-
-```{r}
-# Para todos los dígitos
-
-for(i in 0:2){
-  Ni<-check_heaping_noumbissi(sv1992$total,
-                              sv1992$age, 
-                              ageMin = 30+i, # ojo
-                              ageMax = 60+i, 
-                              digit = i)
-  names(Ni)<-i
-  print(Ni)
-}
-
-for(i in 3:9) {
-  Ni<-check_heaping_noumbissi(sv1992$total,
-                              sv1992$age, 
-                              ageMin = 20+i, #ojo
-                              ageMax = 50+i, 
-                              digit = i)
-  names(Ni)<-i
-  print(Ni)
-}
-
-```
-
-#### Spoorrenberg
-
-```{r}
-check_heaping_spoorenberg(sv1992$total, 
-                          sv1992$age, 
-                          ageMin = 23, 
-                          ageMax = 62)
-```
-
-#### Indice de Myers
-
-```{r}
-check_heaping_myers(Value = sv1992$male,
-                    Age = sv1992$age, 
-                    ageMin = 10, 
-                    ageMax = 89, 
-                    method = "pasex")
 ```
 
 
@@ -166,7 +86,6 @@ Nos ahorra un par de pasos, pero siempre tenemos que solucionar algunos elemento
 #### Momento de práctica
 
 Haz una pirámide para otro país, para el año 2040 en escenario de alta fecundidad.
-
 
 ### Opcional
 
@@ -236,7 +155,6 @@ for (i in pais){
 ### Momento de práctica
 
 Haz un loop para hacer las pirámides de las proyecciones de uruguay, una para cada año.
-
 
 ## Diagrama de Lexis
 
@@ -323,8 +241,7 @@ mi_diagrama %>%
 
 ¿Qué tipo de observación o estudio sería este?
 
-Para cambiar el color:
-[Más info del color ](https://r-charts.com/es/colores/)
+Para cambiar el color: [Más info del color](https://r-charts.com/es/colores/)
 
 ```{r}
 mi_diagrama %>% 
@@ -463,174 +380,4 @@ mi_diagrama  +
 ### Momento de práctica
 
 Hacé un diagrama de Lexis decenal desde tu quinquenio de nacimiento hasta 2025, gráfica tu línea de vida y otros elementos o etapas importantes de tu vida
-
-
-
-
-## Tasas de crecimiento
-
-### Fechas censales y tasas de crecimiento
-
-```{r}
-censos <- readxl::read_excel("datos/censos.xlsx", 
-                     col_types = c("numeric","date", "numeric"))
-
-
-```
-
-Un elemento fundamental es encontrar los periodos intercensales en años. Los censos tienen diferentes fechas.
-
-```{r}
-censos %<>%
-    dplyr::mutate(dias = c(NA, diff(fecha))) %>% 
-    dplyr::mutate(n=dias/365) %>% 
-  clean_names()
-
-censos  
-
-```
-
-Con esta base ya podemos ir calculando diferentes tipos de crecimiento básicos.
-
-### Ritmo
-
-$$ ritmo=\frac{P_{t+n}}{P_t} $$
-
-```{r}
-censos<-censos %>% 
-   mutate(ritmo = poblacion/lag(poblacion))
-censos
-```
-
-### Crecimiento
-
-$$ c=\frac{P_{t+n}-{P_t}}{P_t} =\frac{P_{t+n}}{P_t}-1 $$
-
-Básicamente es el ritmo menos 1
-
-```{r}
-censos<-censos %>% 
-   mutate(c = ritmo-1)
-censos
-```
-
-### Crecimiento aritmético
-
-$$ r_a=\frac{P_{t+n}-{P_t}}{n*P_t} =\frac{c}n $$ Básicamente es el crecimiento entre el periodo intercensal.
-
-```{r}
-censos<-censos %>% 
-   mutate(ra = c/n)
-censos
-```
-
-### Crecimiento geométrico
-
-$$ r_g=\sqrt[n]{\frac{P_{t+n}}{{P_t}}}-1 $$ 
-
-Es la raíz n-ésima del ritmo menos 1
-
-```{r}
-censos<-censos %>% 
-   mutate(rg = ritmo^(1/n)-1)
-censos
-```
-
-### Crecimiento exponencial
-
-$$ r=\frac{ln\frac{P_{t+n}}{P_t}}{n} $$
-
-Básicamente es logaritmo del ritmo entre n
-
-```{r}
-censos<-censos %>% 
-   mutate(r = log(ritmo)/n)
-censos
-```
-
-Este crecimiento es el más utilizado.
-
-Podemos graficar los diferentes crecimientos, será más fácil si cambiamos el formato
-
-```{r}
-censos %>% 
-  select(c(ano, ra, rg, r)) %>% 
-  pivot_longer(-ano, names_to = "tipo", values_to = "crecimiento") 
-  
-```
-
-```{r}
-censos %>% 
-  select(c(ano, ra, rg, r)) %>% 
-  pivot_longer(-ano, names_to = "tipo", values_to = "crecimiento") %>% 
-  ggplot(aes(ano,crecimiento, group=tipo, color=tipo)) + 
-  geom_line() + theme_minimal()
-           
-```
-
-Con estas tasas de crecimiento también podemos hacer estimaciones de tiempo y de poblaciones en fechas específicas.
-
-### Proyeccion
-
-$$ P_{t+n}= P_t * e^{nr} $$ Vamos a proyectar la población al primero de julio de 2009
-
-```{r}
-n<-difftime(as.Date("2009-07-1"),
-        as.Date(paste(censos[censos$ano==2006,]$fecha)))
-n
-
-n<-as.numeric(n/365)
-
-n
-```
-
-```{r}
-censos[censos$ano==2006, "poblacion"]
-censos[censos$ano==2006, "r"]
-
-ptn<- censos[censos$ano==2006,"poblacion"]*exp(n*censos[censos$ano==2006, "r"])
-
-paste(ptn) # para ver los decimales
-```
-
-Con esto podemos crear una función:
-[debes tener los datos de censo con las estimaciones de r]
-```{r}
-pob_estim <- function(fecha,ano) {
-  
-    n<-difftime(as.Date(fecha),
-            as.Date(paste(censos[censos$ano==ano,]$fecha)))
-    n<-as.numeric(n/365)
-    ptn<-censos[censos$ano==ano,"poblacion"]*exp(n*censos[censos$ano==ano, "r"])
-  
-  return(ptn)
-
-}
-```
-
-```{r}
-pob_estim(fecha ="2008-01-07", 
-          ano = 2006)
-```
-
-
-### Tiempo
-
-$$ n=\frac{ln\frac{P_{t+n}}{{P_t}}}r$$
-
-¿Cuánto tiempo tardaría en duplicarse la población del último censo?
-
-```{r}
-n_calc<-log(2*censos[censos$ano==2011,"poblacion"]/censos[censos$ano==2011,"poblacion"])/censos[censos$ano==2011,"r"]
-n_calc
-
-
-```
-
-
-#### Momento de práctica
-
-* Calcula, si la población creciera cómo lo hizo entre los primeros dos censos, en cuánto tiempo se duplicaría
-
-* Calcula la población al 1 de julio de 1999, puedes usar la función.
 

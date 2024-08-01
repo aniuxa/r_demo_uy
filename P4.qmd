@@ -1,0 +1,635 @@
+# Tasas
+
+## Paquetes
+
+```{r}
+if (!require("pacman")) install.packages("pacman") # instala pacman si se requiere
+pacman::p_load(tidyverse,
+               readxl, 
+               writexl,
+               janitor,
+               remotes,
+               wppExplorer,
+               magrittr,
+               collapse,
+               fmsb,
+               DemoTools, 
+               wpp2022) 
+```
+
+## Datos
+
+```{r}
+censos <- readxl::read_excel("datos/censos.xlsx", 
+                     col_types = c("numeric","date", "numeric"))
+
+sv1992<-readxl::read_excel("datos/censos_p2.xlsx", sheet = "El Salvador 1992") %>% 
+  janitor::clean_names() %>% #
+  dplyr::mutate(total=male + female) %>% # ojo
+  dplyr::mutate(age=as.numeric(age)) #ojo
+
+# de wpp2022
+
+data("tfr1dt") 
+data("percentASFR1dt") 
+data("misc1dt")
+data("mx1dt")
+data("pop1dt")
+
+
+```
+
+## Tasas de crecimiento
+
+### Fechas censales y tasas de crecimiento
+
+Un elemento fundamental es encontrar los periodos intercensales en años. Los censos tienen diferentes fechas.
+
+```{r}
+censos %<>%
+    dplyr::mutate(dias = c(NA, diff(fecha))) %>% 
+    dplyr::mutate(n=dias/365) %>% 
+  clean_names()
+
+censos  
+
+```
+
+Con esta base ya podemos ir calculando diferentes tipos de crecimiento básicos.
+
+### Ritmo
+
+$$ ritmo=\frac{P_{t+n}}{P_t} $$
+
+```{r}
+censos<-censos %>% 
+   mutate(ritmo = poblacion/lag(poblacion))
+censos
+```
+
+### Crecimiento
+
+$$ c=\frac{P_{t+n}-{P_t}}{P_t} =\frac{P_{t+n}}{P_t}-1 $$
+
+Básicamente es el ritmo menos 1
+
+```{r}
+censos<-censos %>% 
+   mutate(c = ritmo-1)
+censos
+```
+
+### Crecimiento aritmético
+
+$$ r_a=\frac{P_{t+n}-{P_t}}{n*P_t} =\frac{c}n $$ Básicamente es el crecimiento entre el periodo intercensal.
+
+```{r}
+censos<-censos %>% 
+   mutate(ra = c/n)
+censos
+```
+
+### Crecimiento geométrico
+
+$$ r_g=\sqrt[n]{\frac{P_{t+n}}{{P_t}}}-1 $$
+
+Es la raíz n-ésima del ritmo menos 1
+
+```{r}
+censos<-censos %>% 
+   mutate(rg = ritmo^(1/n)-1)
+censos
+```
+
+### Crecimiento exponencial
+
+$$ r=\frac{ln\frac{P_{t+n}}{P_t}}{n} $$
+
+Básicamente es logaritmo del ritmo entre n
+
+```{r}
+censos<-censos %>% 
+   mutate(r = log(ritmo)/n)
+censos
+```
+
+Este crecimiento es el más utilizado.
+
+Podemos graficar los diferentes crecimientos, será más fácil si cambiamos el formato
+
+```{r}
+censos %>% 
+  select(c(ano, ra, rg, r)) %>% 
+  pivot_longer(-ano, names_to = "tipo", values_to = "crecimiento") 
+  
+```
+
+```{r}
+censos %>% 
+  select(c(ano, ra, rg, r)) %>% 
+  pivot_longer(-ano, names_to = "tipo", values_to = "crecimiento") %>% 
+  ggplot(aes(ano,crecimiento, group=tipo, color=tipo)) + 
+  geom_line() + theme_minimal()
+           
+```
+
+Con estas tasas de crecimiento también podemos hacer estimaciones de tiempo y de poblaciones en fechas específicas.
+
+### Proyeccion
+
+$$ P_{t+n}= P_t * e^{nr} $$ Vamos a proyectar la población al primero de julio de 2009
+
+```{r}
+n<-difftime(as.Date("2009-07-1"),
+        as.Date(paste(censos[censos$ano==2006,]$fecha)))
+n
+
+n<-as.numeric(n/365)
+
+n
+```
+
+```{r}
+censos[censos$ano==2006, "poblacion"]
+censos[censos$ano==2006, "r"]
+
+ptn<- censos[censos$ano==2006,"poblacion"]*exp(n*censos[censos$ano==2006, "r"])
+
+paste(ptn) # para ver los decimales
+```
+
+Con esto podemos crear una función: \[debes tener los datos de censo con las estimaciones de r\]
+
+```{r}
+pob_estim <- function(fecha,ano) {
+  
+    n<-difftime(as.Date(fecha),
+            as.Date(paste(censos[censos$ano==ano,]$fecha)))
+    n<-as.numeric(n/365)
+    ptn<-censos[censos$ano==ano,"poblacion"]*exp(n*censos[censos$ano==ano, "r"])
+  
+  return(ptn)
+
+}
+```
+
+```{r}
+pob_estim(fecha ="2008-01-07", 
+          ano = 2006)
+```
+
+### Tiempo
+
+$$ n=\frac{ln\frac{P_{t+n}}{{P_t}}}r$$
+
+¿Cuánto tiempo tardaría en duplicarse la población del último censo?
+
+```{r}
+n_calc<-log(2*censos[censos$ano==2011,"poblacion"]/censos[censos$ano==2011,"poblacion"])/censos[censos$ano==2011,"r"]
+n_calc
+
+
+```
+
+#### Momento de práctica
+
+-   Calcula, si la población creciera cómo lo hizo entre los primeros dos censos, en cuánto tiempo se duplicaría
+
+-   Calcula la población al 1 de julio de 1999, puedes usar la función.
+
+## Reconstrucción de las tasas de fecundidad
+
+"tfr1dt" \# esta es la base de las tasas de fecundidad "percentASFR1dt" ¿cómo se distribuye a lo largo de las edades de las mujeres?
+
+La lógica la muestro con un ejemplo
+
+```{r}
+tfr1dt %>% 
+  filter(name=="World") %>% 
+  filter(year==2000) %>% 
+  select(tfr) -> tfr # esto es un escalar
+
+```
+
+hoy queremos el vector de las edades y del porcentaje
+
+```{r}
+percentASFR1dt %>% 
+  filter(name=="World") %>% 
+  filter(year==2000) %>% 
+  select(age, pasfr) -> pasfr # esto es un vector ordenado por las edades
+
+```
+
+Sumamos el vector y nos damos cuenta que no es la *age specific fertility rate*
+
+```{r}
+sum(pasfr$pasfr)# suma el 100%
+
+```
+
+Vamos a prorratear la intensidad sobre el calendario :)
+
+```{r}
+
+pasfr %<>% 
+  mutate(tasa=pasfr*tfr$tfr/100*1000) 
+```
+
+```{r}
+sum(pasfr$tasa/1000) # suma la tasa global
+```
+
+Vamos a graficarla
+
+```{r}
+pasfr %>% 
+  ggplot() +
+  aes(x=age,
+      y=tasa) +
+  geom_line()
+
+```
+
+### Fusionando
+
+Podemos fusionar ambas tablas para hacer esto para todos.
+
+```{r}
+tasa_fec1dt<-percentASFR1dt %>% 
+  dplyr::left_join(tfr1dt) %>% 
+  mutate(tasa = pasfr * tfr)
+
+```
+
+Hoy podemos comparar intensidades y calendarios históricos!
+
+```{r}
+tasa_fec1dt %>% 
+  filter(country_code %in% c(858, 222, 320, 340, 484, 1830)) %>% 
+  filter(year==2021) %>% 
+  ggplot() +
+  aes(x = age,
+      y = tasa,
+      color = name,
+      group = name) +
+  geom_line() + 
+  theme_bw() +
+  labs(title = "Tasas de fecundidad en América Latina", 
+       subtitle = "2020",
+       color = "País",
+       caption = "Division UNP (2023). _wpp2022: World Population Prospects 2022_. R
+  package version 1.1-4, <http://population.un.org/wpp>.
+")
+
+```
+
+Hoy comparamos tasas a lo largo del tiempo
+
+```{r}
+
+tasa_fec1dt %>% 
+  filter(country_code==858) %>% 
+  filter(year%in%seq(1950,2020, by=10)) %>% 
+  ggplot() +
+  aes(x = age,
+      y = tasa,
+      color = as.factor(year),
+      group = as.factor(year)) +
+  geom_line() + 
+  theme_bw() +
+  labs(title = "Tasas de fecundidad en América Latina", 
+       subtitle = "Uruguay",
+       color = "año",
+       caption = "Division UNP (2023). _wpp2022: World Population Prospects 2022_. R
+  package version 1.1-4, <http://population.un.org/wpp>.
+")
+```
+
+Un mix:
+
+```{r}
+tasa_fec1dt %>% 
+  filter(country_code %in% c(858, 222, 320, 340, 484, 1830)) %>% 
+  filter(year%in%seq(1950,2020, by=10)) %>% 
+  ggplot() +
+  aes(x = age,
+      y = tasa,
+      color = as.factor(year),
+      group = as.factor(year)) +
+  geom_line() + 
+  theme_bw() +
+  labs(title = "Tasas de fecundidad en América Latina", 
+       color = "año",
+       caption = "Division UNP (2023). _wpp2022: World Population Prospects 2022_. R
+  package version 1.1-4, <http://population.un.org/wpp>.
+") +
+  facet_wrap(~name)
+```
+
+## Nacimientos
+
+Es muy útil tener las tasa en edades específicas. Pero si quisiéramos las tasas en edades quinquenales o bien calcular la tasa general de fecundidad, tendríamos que tener la estructura de los nacimientos.
+
+```{r}
+skimr::skim(misc1dt)
+```
+
+La lógica es fusionar a nuestro archivos de tasas, las poblaciones medias y los nacimientos totales en el año, para reconstruir los numeradores.
+
+```{r}
+tasa_fec1dt %<>% 
+  left_join(popAge1dt) %>% 
+  left_join(misc1dt)
+
+dplyr::glimpse(tasa_fec1dt)
+```
+
+Vamos a reconstruir los numeradores de nacimientos específicos
+
+```{r}
+tasa_fec1dt %<>% 
+  mutate(birth_age=tfr*popF)
+
+```
+
+Con esta base ya podemos hacer cálculos quinquenales y demás...
+
+## Mortalidad
+
+Podemos hacer algo parecido con la mortalidad, sólo que acá las tasas de mortalidad ya están calculadas de manera específica y se incluyen los datos proyectados.
+
+```{r}
+mx1dt %>% 
+  glimpse()
+```
+
+Grafiquemos:
+
+```{r}
+mx1dt %>% 
+  filter(country_code %in% c(858, 222, 320, 340, 484, 1830)) %>% 
+  filter(year%in%seq(1950,2020, by=10)) %>% 
+  ggplot() +
+  aes(x = age,
+      y = mxB,
+      color = as.factor(year),
+      group = as.factor(year)) +
+  geom_line() + 
+  scale_y_continuous(trans = "log10") + # ojo
+  theme_bw() +
+  labs(title = "Tasas de mortalidad en América Latina", 
+       color = "año",
+       caption = "Division UNP (2023). _wpp2022: World Population Prospects 2022_. R
+  package version 1.1-4, <http://population.un.org/wpp>.
+") +
+  facet_wrap(~name)
+```
+
+Si queremos reconstruir muertes por años podemos pegar la información de misc1dt y de pop1dt
+
+```{r}
+mx1dt %<>% 
+  left_join(misc1dt) %>% 
+  left_join(popAge1dt)
+```
+
+Vamos a calcular muertes por edad
+
+```{r}
+mx1dt %<>% 
+  mutate(deaths_age=mxB*pop)
+
+head(mx1dt)
+```
+
+#Estandarización de tasas
+
+Vamos a volver a nuestros grupos quinquenales, dejando la mortalidad infantil aparte:
+
+```{r}
+est<-mx1dt %>% 
+  select(country_code:age, pop, deaths_age) %>% 
+  filter(name=="Uruguay") %>% 
+  filter(year%in%c(1950,2020)) %>% 
+  mutate(eda5=cut(age, # la variable a cortar
+                  breaks=c(0,1, # para dejar la mortalidad infantil
+                           seq(5,110, # El rango válido
+                             by=5)), # El ancho del intervalo
+                  include.lowest=T, # para que incluya el valor más bajo dentro del intervalo
+                  right=F)) # indica si el intervalo irá abierto en la derecha, ponemos un no con "FALSE"
+```
+
+Vamos a volverlo quinquenal:
+
+```{r}
+est %<>%
+ group_by(country_code, year, eda5) %>% 
+  mutate(pop=sum(pop), 
+         deaths_age=sum(deaths_age)) %>% 
+  select(-age) %>% 
+  ungroup() %>% 
+  unique()
+
+est
+```
+
+Creamos las tasas por grupos
+
+```{r}
+
+est %<>% 
+  mutate(mx5=deaths_age/pop)
+
+```
+
+Necesitamos "c", es decir la estructura por edad de la población y de las . En este formato será más facil de calcular:
+
+```{r}
+
+est %<>%
+  mutate(c=pop/sum(pop), .by = year) 
+
+est %>% 
+  summarise(suma= sum(c), .by = year)
+  
+```
+
+Si "recordamos":
+
+$$ TBM= \sum_{n=i}^{\omega}c_i*Mx_i $$
+
+La suma de eso será la tasa:
+
+```{r}
+
+est %>% 
+ summarise(tbm=sum(mx5*c)*1000, .by = year)
+```
+
+Una estandarización sería usar la "c" de una de las poblaciones, como la de 1950
+
+```{r}
+c_1950 <- est %>% 
+  filter(year==1950) %>% 
+  select(country_code:year, eda5, c) %>% 
+  select(-year) %>% 
+  rename(c_1950=c)
+
+est %<>% 
+  left_join(c_1950)
+```
+
+```{r}
+
+est %>% 
+ summarise(tbm=sum(mx5*c_1950)*1000, .by = year)
+
+```
+
+Para estandarizar, cambiamos las "c", normalmente lo que se hace usar una $\bar c$, con
+
+```{r}
+c_mean <- est %>% 
+  select(country_code:year, eda5, c) %>% 
+  mutate(c_mean=mean(c), .by = eda5) %>% 
+  select(-c(year, c)) %>% 
+  unique()
+         
+est %<>% 
+  left_join(c_mean)
+```
+
+Vamos a sacar las tasas estandarizadas.
+
+```{r}
+
+est %>% 
+ summarise(tbm=sum(mx5*c_mean)*1000, .by = year)
+
+```
+
+¡Es muy importante estandarizar!
+
+## Discrepancias
+
+¿Qué parte de la diferencia de las tasas se debe al cambio etario y cuál al cambio de los riesgos de morir? Siguiendo a Kitagawa en Partida(2013), tenemos:
+
+$$ d^{2020}-d^{1950}= \sum_{n=i}^{\omega}(c_i^{2020}-c_i^{1950})\frac{(Mx_i^{2020}+Mx_i^{1950})}2 + \sum_{n=i}^{\omega}(Mx_i^{2020}-Mx_i^{1950})\frac{(c_i^{2020}+c_i^{1950})}2  $$
+
+> El primer sumando en el lado derecho, esto es, la diferencia de las estructuras etarias ponderada por el promedio de las tasas específicas, mide el efecto de la disimiltud en las composiciones por edad; y el segundo, la diferencia de las pautas etarias de las tasas específicas ponderada por el promedio de las composiciones por edad de la población, da cuenta de la diferencia en el riesgo medio de morir (Partida,2013:p.63).
+
+Para esto sería más fácil tener nuestro formato wide
+
+```{r}
+
+est_wide<-est%>% 
+  select(-c_1950 ) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = pop:c,
+    names_vary = "slowest"
+  )
+```
+
+Caculemos el primer elemento
+
+```{r}
+
+est_wide %>% 
+  summarise(e1=sum((c_2020-c_1950)    * (mx5_2020 +mx5_1950)/2), 
+            e2=sum((mx5_2020-mx5_1950) *(c_2020 +c_1950)/2) )
+
+
+```
+
+```{r}
+
+est %>% 
+ summarise(tbm=sum(mx5*c), .by = year) 
+
+```
+
+### Momento de práctica
+
+Compara las tasas brutas de mortalidad de 1990 con respecto a 2000
+
+## Pendientes
+
+### `{DemoTools}`
+
+Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
+
+Trabaja con vectores individuales.
+
+#### Whipple
+
+```{r}
+check_heaping_whipple(Value=sv1992$total,
+                      Age= sv1992$age, 
+                      ageMin = 25, 
+                      ageMax = 60, 
+                      digit = c(0, 5))
+
+
+```
+
+#### Noumbissi
+
+```{r}
+
+
+check_heaping_noumbissi(sv1992$male, 
+                        Age=sv1992$age, 
+                        ageMin = 30, 
+                        ageMax = 60,
+                        digit = 0)
+```
+
+Mayor a 1, el dígito atrae; menor que 1, el índice "repele"
+
+Vamos a hacer un "loop"
+
+```{r}
+# Para todos los dígitos
+
+for(i in 0:2){
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 30+i, # ojo
+                              ageMax = 60+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+for(i in 3:9) {
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 20+i, #ojo
+                              ageMax = 50+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+```
+
+#### Spoorrenberg
+
+```{r}
+check_heaping_spoorenberg(sv1992$total, 
+                          sv1992$age, 
+                          ageMin = 23, 
+                          ageMax = 62)
+```
+
+#### Indice de Myers
+
+```{r}
+check_heaping_myers(Value = sv1992$male,
+                    Age = sv1992$age, 
+                    ageMin = 10, 
+                    ageMax = 89, 
+                    method = "pasex")
+```

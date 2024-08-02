@@ -1,4 +1,26 @@
-# Ligas y más  {.unnumbered}
+# Evaluación, ligas y más {.unnumbered}
+
+## Trabajo final
+
+El trabajo consiste en un reporte que contenga en un documento lo siguiente
+
+1.  Una pirámide de alguna fuente de información, pueden ser las utilizadas en clases o las que estés trabajando en algún interés particular
+
+2.  Un diagrama de Lexis. Ya sea el tuyo propio (de tu vida) o de alguna investigación.
+
+3.  Un aplicación de cualquiera de las siguientes opciones:
+
+    1.  Mortalidad (una tabla de vida, tasas o estimaciones y descomposición)
+
+    2.  Fecundidad (tasas para una región o país durante varios años
+
+    3.  Migración (graficos de migración neta o gráficos circulares.
+    
+4.  Adjuntar el código de R
+
+Entrega: a más tardar 16 de agosto de 2024
+Enviar a ana.escoto(at)gmail.com 
+con el asunto [r_demo_uy] Nombres _ Apellidos
 
 
 ## Códigos, proyecto, datos...
@@ -13,6 +35,6 @@ La carpeta de [datos](https://www.dropbox.com/scl/fo/rrvzrfh19afrulhdyi4ca/ADgTG
 
 Estos tienen videos, además.
 
-* [R para el análisis estadístico de datos](https://fcpys.github.io/r_analisis_datos/)
+-   [R para el análisis estadístico de datos](https://fcpys.github.io/r_analisis_datos/)
 
-* [Inferencia e introducción a los modelos estadísticos con R](https://aniuxa.github.io/posgrado_modelo3/)
+-   [Inferencia e introducción a los modelos estadísticos con R](https://aniuxa.github.io/posgrado_modelo3/)

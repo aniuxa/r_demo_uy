@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análisis Demográfico con R - 5&nbsp; Migración y tablas de vida</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./otros.html" rel="next">
+<link href="./P4.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./P5.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Migración y tablas de vida</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análisis Demográfico con R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/aniuxa/r_demo_uy/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sobre el curso</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./instala.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalación de R y Rstudio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a R y Rstudio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Evaluación de información y pirámides</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cont. Pirámides y Lexis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tasas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./P5.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Migración y tablas de vida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./otros.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Evaluación, ligas y más</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#paquetes" id="toc-paquetes" class="nav-link active" data-scroll-target="#paquetes"><span class="header-section-number">5.1</span> Paquetes</a>
+  <ul class="collapse">
+  <li><a href="#instalación-local-de-paquetes-si-no-hay-internet" id="toc-instalación-local-de-paquetes-si-no-hay-internet" class="nav-link" data-scroll-target="#instalación-local-de-paquetes-si-no-hay-internet"><span class="header-section-number">5.1.1</span> Instalación local de paquetes si no hay internet</a></li>
+  <li><a href="#paquetes-1" id="toc-paquetes-1" class="nav-link" data-scroll-target="#paquetes-1"><span class="header-section-number">5.1.2</span> paquetes</a></li>
+  </ul></li>
+  <li><a href="#datos" id="toc-datos" class="nav-link" data-scroll-target="#datos"><span class="header-section-number">5.2</span> Datos</a></li>
+  <li><a href="#migración" id="toc-migración" class="nav-link" data-scroll-target="#migración"><span class="header-section-number">5.3</span> Migración</a>
+  <ul class="collapse">
+  <li><a href="#wpp2022" id="toc-wpp2022" class="nav-link" data-scroll-target="#wpp2022"><span class="header-section-number">5.3.1</span> wpp2022</a></li>
+  <li><a href="#flujos-bilaterales" id="toc-flujos-bilaterales" class="nav-link" data-scroll-target="#flujos-bilaterales"><span class="header-section-number">5.3.2</span> Flujos bilaterales</a></li>
+  </ul></li>
+  <li><a href="#diagramas" id="toc-diagramas" class="nav-link" data-scroll-target="#diagramas"><span class="header-section-number">5.4</span> Diagramas</a>
+  <ul class="collapse">
+  <li><a href="#momento-de-práctica" id="toc-momento-de-práctica" class="nav-link" data-scroll-target="#momento-de-práctica"><span class="header-section-number">5.4.1</span> Momento de práctica</a></li>
+  </ul></li>
+  <li><a href="#tabla-de-vida-con-demotools" id="toc-tabla-de-vida-con-demotools" class="nav-link" data-scroll-target="#tabla-de-vida-con-demotools"><span class="header-section-number">5.5</span> Tabla de vida con <code>{DemoTools}</code></a>
+  <ul class="collapse">
+  <li><a href="#input-nmx" id="toc-input-nmx" class="nav-link" data-scroll-target="#input-nmx"><span class="header-section-number">5.5.1</span> Input: nMx</a></li>
+  <li><a href="#desplegando-hasta-grupos-más-allá-de-85" id="toc-desplegando-hasta-grupos-más-allá-de-85" class="nav-link" data-scroll-target="#desplegando-hasta-grupos-más-allá-de-85"><span class="header-section-number">5.5.2</span> Desplegando hasta grupos más allá de 85+</a></li>
+  <li><a href="#usando-información-de-wpp2022" id="toc-usando-información-de-wpp2022" class="nav-link" data-scroll-target="#usando-información-de-wpp2022"><span class="header-section-number">5.5.3</span> Usando información de wpp2022</a></li>
+  </ul></li>
+  <li><a href="#pendientes" id="toc-pendientes" class="nav-link" data-scroll-target="#pendientes"><span class="header-section-number">5.6</span> Pendientes</a>
+  <ul class="collapse">
+  <li><a href="#opcional" id="toc-opcional" class="nav-link" data-scroll-target="#opcional"><span class="header-section-number">5.6.1</span> Opcional</a></li>
+  </ul></li>
+  <li><a href="#el-grupo-de-85-y-más-queda-abierto" id="toc-el-grupo-de-85-y-más-queda-abierto" class="nav-link" data-scroll-target="#el-grupo-de-85-y-más-queda-abierto"><span class="header-section-number">6</span> El grupo de 85 y más queda abierto…</a></li>
+  <li><a href="#hay-otros-métodos-pero-este-es-el-más-importante." id="toc-hay-otros-métodos-pero-este-es-el-más-importante." class="nav-link" data-scroll-target="#hay-otros-métodos-pero-este-es-el-más-importante."><span class="header-section-number">7</span> Hay otros métodos pero este es el más importante.</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/aniuxa/r_demo_uy/edit/main/P5.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/aniuxa/r_demo_uy/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Migración y tablas de vida</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="paquetes" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="paquetes"><span class="header-section-number">5.1</span> Paquetes</h2>
+<section id="instalación-local-de-paquetes-si-no-hay-internet" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="instalación-local-de-paquetes-si-no-hay-internet"><span class="header-section-number">5.1.1</span> Instalación local de paquetes si no hay internet</h3>
+<p>Carpeta de paquetes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_local</span>(<span class="at">path =</span> <span class="st">"paquetes/migest-master.zip"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">upgrade =</span> <span class="st">"never"</span>) <span class="co"># migest-master.zip</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_local</span>(<span class="at">path =</span> <span class="st">"paquetes/countrycode-main.zip"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">upgrade =</span> <span class="st">'never'</span>) <span class="co"># fertestr-master.zip⁠</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="paquetes-1" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="paquetes-1"><span class="header-section-number">5.1.2</span> paquetes</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>) <span class="co"># instala pacman si se requiere</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: pacman</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>               readxl, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               writexl,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>               janitor,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               remotes,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>               wppExplorer,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>               magrittr,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               collapse,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>               fmsb,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>               migest, <span class="co"># ojo</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>               countrycode, <span class="co"># ojo</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>               DemoTools, </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>               wpp2022) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="datos" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="datos"><span class="header-section-number">5.2</span> Datos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sv1992<span class="ot">&lt;-</span>readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"datos/censos_p2.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"El Salvador 1992"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> <span class="co">#</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">total=</span>male <span class="sc">+</span> female) <span class="sc">%&gt;%</span> <span class="co"># ojo</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">age=</span><span class="fu">as.numeric</span>(age)) <span class="co">#ojo</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># de wpp2022</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"migration1dt"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mx1dt"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"misc1dt"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"popAge1dt"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>mx1dt <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(misc1dt) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(popAge1dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(country_code, name, year)`
+Joining with `by = join_by(country_code, name, year, age)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"e01dt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vamos a trabajar con datos ya calculados para flujos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># para flujos datos del autor Abel and Cohen (2019) estimates</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Estos cuando tengas internet se descargan así:</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># f &lt;- read_csv("https://ndownloader.figshare.com/files/38016762", show_col_types = FALSE)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"datos/f.rds"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  year0 orig  dest  sd_drop_neg sd_rev_neg mig_rate da_min_open da_min_closed
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+1  1990 BDI   BDI             0          0      0           0              0 
+2  1990 COM   BDI             0          0      0           0              0 
+3  1990 DJI   BDI             0          0      0           0              0 
+4  1990 ERI   BDI             0          0      0           0              0 
+5  1990 ETH   BDI             0          0      0           0              0 
+6  1990 KEN   BDI            30         30     75.7        51.3          207.
+# ℹ 1 more variable: da_pb_closed &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Abel usa el paquete countrycode para generar regiones</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>f <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">orig =</span> countrycode<span class="sc">::</span><span class="fu">countrycode</span>(<span class="at">sourcevar =</span> orig, <span class="co"># la variable de origen que tiene códigos</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">custom_dict =</span> dict_ims, <span class="co"># el diccionario a usar</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">origin =</span> <span class="st">"iso3c"</span>, <span class="co"># el tipo de abreviatura</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">destination =</span> <span class="st">"region"</span>))  <span class="co"># que nos va a regresar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 307,833 × 9
+   year0 orig   dest  sd_drop_neg sd_rev_neg mig_rate da_min_open da_min_closed
+   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+ 1  1990 Africa BDI             0          0      0          0               0 
+ 2  1990 Africa BDI             0          0      0          0               0 
+ 3  1990 Africa BDI             0          0      0          0               0 
+ 4  1990 Africa BDI             0          0      0          0               0 
+ 5  1990 Africa BDI             0          0      0          0               0 
+ 6  1990 Africa BDI            30         30     75.7       51.3           207.
+ 7  1990 Africa BDI             0          0      0          0.03            0 
+ 8  1990 Africa BDI             0          0      0          0               0 
+ 9  1990 Africa BDI             0          0      0          0.06            0 
+10  1990 Africa BDI             0          0      0          0               0 
+# ℹ 307,823 more rows
+# ℹ 1 more variable: da_pb_closed &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> f <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">orig =</span> countrycode<span class="sc">::</span><span class="fu">countrycode</span>(<span class="at">sourcevar =</span> orig, <span class="co"># la variable de origen que tiene códigos</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">custom_dict =</span> dict_ims, <span class="co"># el diccionario a usar</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">origin =</span> <span class="st">"iso3c"</span>, <span class="co"># el tipo de abreviatura</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">destination =</span> <span class="st">"region"</span>),  <span class="co"># que nos va a regresar</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">dest =</span> countrycode<span class="sc">::</span><span class="fu">countrycode</span>(<span class="at">sourcevar =</span> dest, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">custom_dict =</span> dict_ims,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">origin =</span> <span class="st">"iso3c"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">destination =</span> <span class="st">"region"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year0, orig, dest) <span class="sc">%&gt;%</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(sum) <span class="sc">%&gt;%</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 216 × 9
+   year0 orig   dest   sd_drop_neg sd_rev_neg mig_rate da_min_open da_min_closed
+   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;
+ 1  1990 Africa Africa     4297155    7845806   5.47e6    6872677.      7728373.
+ 2  1990 Africa Asia        240464     258816   7.24e5     283708.       554047.
+ 3  1990 Africa Europe      555826     664496   1.91e6     830461.      2190967.
+ 4  1990 Africa Latin…        1505       2709   7.81e3       9043.        56747.
+ 5  1990 Africa North…      289058     301706   2.23e5     321650.       783334.
+ 6  1990 Africa Ocean…       21550      23570   6.59e4      30186.       165598.
+ 7  1990 Asia   Africa       94088     158903   2.00e5     102036.        93577.
+ 8  1990 Asia   Asia       3616112    8617460   1.44e7    6969956.     10337980.
+ 9  1990 Asia   Europe     1496141    2322839   5.48e6    2851352.      4214903.
+10  1990 Asia   Latin…       14316      14343   1.07e5      20177.       136270.
+# ℹ 206 more rows
+# ℹ 1 more variable: da_pb_closed &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="migración" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="migración"><span class="header-section-number">5.3</span> Migración</h2>
+<section id="wpp2022" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="wpp2022"><span class="header-section-number">5.3.1</span> wpp2022</h3>
+<p>El conjunto de datos migration de wpp2022 nos da la migración neta</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>migration1dt <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">"Uruguay"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>mig) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="flujos-bilaterales" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="flujos-bilaterales"><span class="header-section-number">5.3.2</span> Flujos bilaterales</h3>
+<section id="gráficos-circulaes" class="level4" data-number="5.3.2.1">
+<h4 data-number="5.3.2.1" class="anchored" data-anchor-id="gráficos-circulaes"><span class="header-section-number">5.3.2.1</span> Gráficos circulaes</h4>
+</section>
+</section>
+</section>
+<section id="diagramas" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="diagramas"><span class="header-section-number">5.4</span> Diagramas</h2>
+<p>Vamos a usar “2015-2020 pseudo-Bayesian estimates for plotting” de la base de Guy Abel</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pb <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year0 <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> <span class="co"># seleccionamos un año especifico</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flow =</span> da_pb_closed<span class="sc">/</span><span class="fl">1e6</span>) <span class="sc">%&gt;%</span> <span class="co"># pasamos el flujo cerrado a miles</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(orig, dest, flow) <span class="co"># necesitamos un objeto con estas tres variables</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 36 × 3
+   orig   dest                               flow
+   &lt;chr&gt;  &lt;chr&gt;                             &lt;dbl&gt;
+ 1 Africa Africa                           8.69  
+ 2 Africa Asia                             0.896 
+ 3 Africa Europe                           3.31  
+ 4 Africa Latin America and the Caribbean  0.0361
+ 5 Africa Northern America                 1.59  
+ 6 Africa Oceania                          0.264 
+ 7 Asia   Africa                           0.907 
+ 8 Asia   Asia                            23.8   
+ 9 Asia   Europe                           9.14  
+10 Asia   Latin America and the Caribbean  0.233 
+# ℹ 26 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>migest<span class="sc">::</span><span class="fu">mig_chord</span>(<span class="at">x =</span> pb) <span class="co"># objeto</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year0 <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> <span class="co"># seleccionamos un año especifico</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flow =</span> da_pb_closed<span class="sc">/</span><span class="fl">1e6</span>) <span class="sc">%&gt;%</span> <span class="co"># pasamos el flujo cerrado a miles</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(orig, dest, flow) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mig_chord</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year0 <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">%&gt;%</span> <span class="co"># seleccionamos un año especifico</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flow =</span> da_pb_closed<span class="sc">/</span><span class="fl">1e6</span>) <span class="sc">%&gt;%</span> <span class="co"># pasamos el flujo cerrado a miles</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(orig, dest, flow) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mig_chord</span>(<span class="at">grid.col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"royalblue"</span>, <span class="st">"navyblue"</span>, <span class="st">"skyblue"</span>, <span class="st">"cadetblue"</span>, <span class="st">"darkblue"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P5_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="momento-de-práctica" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="momento-de-práctica"><span class="header-section-number">5.4.1</span> Momento de práctica</h3>
+</section>
+</section>
+<section id="tabla-de-vida-con-demotools" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="tabla-de-vida-con-demotools"><span class="header-section-number">5.5</span> Tabla de vida con <code>{DemoTools}</code></h2>
+<p>Este paquete nos da la oportunidad de construir las tablas de vida con diferentes insumos, con <strong>cualquiera</strong> de las siguientes opciones:</p>
+<ul>
+<li><p>Vector de muertes y vector de Población media</p></li>
+<li><p>Vector de tasas de Mortalidad (nMx)</p></li>
+<li><p>Vector de cocientes de mortalidad (nqx)</p></li>
+<li><p>Vector de efectivos a edad exacta (lx)</p></li>
+</ul>
+<section id="input-nmx" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="input-nmx"><span class="header-section-number">5.5.1</span> Input: nMx</h3>
+<p>Datos de México 2000</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nMx <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025429618</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000895531</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000364678</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000480071</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000979976</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.001661119</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.002167313</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.002549786</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.00307099</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.003970018</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.005461053</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.007799417</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.011317907</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.016516166</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.024145341</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.035168272</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.051143602</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.074042144</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.136811785</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nuestros grupos de edad</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>grupo_eda<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">85</span>,<span class="at">by=</span><span class="dv">5</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>AgeInt <span class="ot">&lt;-</span> <span class="fu">inferAgeIntAbr</span>(<span class="at">vec =</span> nMx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mx_lifetable2000 <span class="ot">&lt;-</span> <span class="fu">lt_abridged</span>(<span class="at">nMx =</span> nMx, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Age =</span> grupo_eda,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">AgeInt =</span> AgeInt,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">axmethod =</span> <span class="st">"un"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Sex =</span> <span class="st">"m"</span>,   <span class="at">mod =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nMx2010 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.018082902</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000680864</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000328649</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.000495605</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.001179152</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.002071347</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.002659697</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.002986375</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.003396466</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.004205501</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.00566518</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.008027968</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.011670117</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.017170344</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.025320726</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.037292527</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.054805372</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.079982834</span>,</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>         <span class="fl">0.148194498</span>)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>mx_lifetable2010 <span class="ot">&lt;-</span> <span class="fu">lt_abridged</span>(<span class="at">nMx =</span> nMx2010, </span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Age =</span> grupo_eda,</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>                                <span class="at">AgeInt =</span> AgeInt,</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>                                <span class="at">axmethod =</span> <span class="st">"un"</span>,</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>                                <span class="at">Sex =</span> <span class="st">"m"</span>, </span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>                                <span class="at">mod =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="desplegando-hasta-grupos-más-allá-de-85" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="desplegando-hasta-grupos-más-allá-de-85"><span class="header-section-number">5.5.2</span> Desplegando hasta grupos más allá de 85+</h3>
+<p>Cerrar la tabla en <span class="math inline">\(\omega\)</span>=100</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mx2020_100<span class="ot">&lt;-</span><span class="fu">lt_abridged</span>(<span class="at">nMx =</span> nMx, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">Age =</span> grupo_eda,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">AgeInt =</span> AgeInt,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">axmethod =</span> <span class="st">"un"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Sex =</span> <span class="st">"m"</span>, </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mod =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">OAnew =</span> <span class="dv">100</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="usando-información-de-wpp2022" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="usando-información-de-wpp2022"><span class="header-section-number">5.5.3</span> Usando información de wpp2022</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mx1dt <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country_code<span class="sc">==</span><span class="dv">858</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2020</span>) <span class="ot">-&gt;</span> data_uy</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>lt_uy_single<span class="ot">&lt;-</span> <span class="fu">lt_single_mx</span>(<span class="at">nMx =</span> data_uy<span class="sc">$</span>mxM, </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">Age =</span> data_uy<span class="sc">$</span>age,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">AgeInt =</span>  <span class="fu">inferAgeIntAbr</span>(<span class="at">vec =</span> data_uy<span class="sc">$</span>mxM),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">axmethod =</span> <span class="st">"un"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">Sex =</span> <span class="st">"m"</span>, </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">mod =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">OAnew =</span> <span class="dv">100</span>) </span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>lt_uy_single</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Age AgeInt        nMx       nAx          nqx         lx         ndx
+0     0      1 0.00532047 0.1386733 5.296199e-03 100000.000  529.619930
+1     1      1 0.00013724 0.5000000 1.372306e-04  99470.380   13.650378
+2     2      1 0.00011861 0.5000000 1.186030e-04  99456.730   11.795863
+3     3      1 0.00010330 0.5000000 1.032947e-04  99444.934   10.272131
+4     4      1 0.00009146 0.5000000 9.145582e-05  99434.662    9.093878
+5     5      1 0.00008317 0.5000000 8.316654e-05  99425.568    8.268881
+6     6      1 0.00007860 0.5000000 7.859691e-05  99417.299    7.813893
+7     7      1 0.00007802 0.5000000 7.801696e-05  99409.485    7.755625
+8     8      1 0.00008188 0.5000000 8.187665e-05  99401.729    8.138680
+9     9      1 0.00009124 0.5000000 9.123584e-05  99393.591    9.068258
+10   10      1 0.00010786 0.5000000 1.078542e-04  99384.522   10.719037
+11   11      1 0.00013486 0.5000000 1.348509e-04  99373.803   13.400648
+12   12      1 0.00017708 0.5000000 1.770643e-04  99360.403   17.593182
+13   13      1 0.00024199 0.5000000 2.419607e-04  99342.810   24.037058
+14   14      1 0.00033959 0.5000000 3.395323e-04  99318.773   33.721936
+15   15      1 0.00048190 0.5000000 4.817839e-04  99285.051   47.833940
+16   16      1 0.00067885 0.5000000 6.786197e-04  99237.217   67.344326
+17   17      1 0.00093157 0.5000000 9.311363e-04  99169.872   92.340667
+18   18      1 0.00122604 0.5000000 1.225289e-03  99077.532  121.398597
+19   19      1 0.00152688 0.5000000 1.525715e-03  98956.133  150.978877
+20   20      1 0.00178716 0.5000000 1.785564e-03  98805.154  176.422971
+21   21      1 0.00195968 0.5000000 1.957762e-03  98628.731  193.091553
+22   22      1 0.00202271 0.5000000 2.020666e-03  98435.640  198.905589
+23   23      1 0.00198301 0.5000000 1.981046e-03  98236.734  194.611468
+24   24      1 0.00187777 0.5000000 1.876009e-03  98042.123  183.927869
+25   25      1 0.00175245 0.5000000 1.750916e-03  97858.195  171.341460
+26   26      1 0.00164337 0.5000000 1.642021e-03  97686.853  160.403843
+27   27      1 0.00157630 0.5000000 1.575059e-03  97526.449  153.609875
+28   28      1 0.00155704 0.5000000 1.555829e-03  97372.840  151.495464
+29   29      1 0.00158371 0.5000000 1.582457e-03  97221.344  153.848589
+30   30      1 0.00164460 0.5000000 1.643249e-03  97067.496  159.506041
+31   31      1 0.00172027 0.5000000 1.718792e-03  96907.989  166.564639
+32   32      1 0.00179406 0.5000000 1.792452e-03  96741.425  173.404372
+33   33      1 0.00185158 0.5000000 1.849867e-03  96568.020  178.638034
+34   34      1 0.00189091 0.5000000 1.889124e-03  96389.382  182.091488
+35   35      1 0.00192156 0.5000000 1.919716e-03  96207.291  184.690635
+36   36      1 0.00195720 0.5000000 1.955287e-03  96022.600  187.751700
+37   37      1 0.00201470 0.5000000 2.012673e-03  95834.849  192.884168
+38   38      1 0.00210370 0.5000000 2.101490e-03  95641.964  200.990589
+39   39      1 0.00222633 0.5000000 2.223854e-03  95440.974  212.246838
+40   40      1 0.00237750 0.5000000 2.374677e-03  95228.727  226.137478
+41   41      1 0.00254184 0.5000000 2.538614e-03  95002.590  241.174868
+42   42      1 0.00270427 0.5000000 2.700618e-03  94761.415  255.914420
+43   43      1 0.00285284 0.5000000 2.848776e-03  94505.500  269.225043
+44   44      1 0.00298420 0.5000000 2.979754e-03  94236.275  280.800909
+45   45      1 0.00310921 0.5000000 3.104384e-03  93955.474  291.673863
+46   46      1 0.00324410 0.5000000 3.238846e-03  93663.800  303.362666
+47   47      1 0.00341107 0.5000000 3.405262e-03  93360.438  317.916770
+48   48      1 0.00363124 0.5000000 3.624659e-03  93042.521  337.247411
+49   49      1 0.00392097 0.5000000 3.913298e-03  92705.274  362.783365
+50   50      1 0.00429536 0.5000000 4.286155e-03  92342.490  395.794200
+51   51      1 0.00476301 0.5000000 4.751694e-03  91946.696  436.902547
+52   52      1 0.00533136 0.5000000 5.317186e-03  91509.793  486.574600
+53   53      1 0.00600444 0.5000000 5.986467e-03  91023.219  544.907524
+54   54      1 0.00678261 0.5000000 6.759686e-03  90478.311  611.604960
+55   55      1 0.00766125 0.5000000 7.632015e-03  89866.706  685.864017
+56   56      1 0.00863017 0.5000000 8.593090e-03  89180.842  766.339013
+57   57      1 0.00967729 0.5000000 9.630691e-03  88414.503  851.492718
+58   58      1 0.01078898 0.5000000 1.073109e-02  87563.011  939.646656
+59   59      1 0.01196200 0.5000000 1.189088e-02  86623.364 1030.028082
+60   60      1 0.01319940 0.5000000 1.311286e-02  85593.336 1122.373351
+61   61      1 0.01451868 0.5000000 1.441404e-02  84470.963 1217.568134
+62   62      1 0.01594341 0.5000000 1.581732e-02  83253.394 1316.845498
+63   63      1 0.01749014 0.5000000 1.733851e-02  81936.549 1420.657959
+64   64      1 0.01917061 0.5000000 1.898860e-02  80515.891 1528.883926
+65   65      1 0.02097513 0.5000000 2.075744e-02  78987.007 1639.567669
+66   66      1 0.02288317 0.5000000 2.262431e-02  77347.439 1749.932602
+67   67      1 0.02487522 0.5000000 2.456963e-02  75597.507 1857.402959
+68   68      1 0.02693509 0.5000000 2.657716e-02  73740.104 1959.802603
+69   69      1 0.02908138 0.5000000 2.866458e-02  71780.301 2057.551991
+70   70      1 0.03135622 0.5000000 3.087220e-02  69722.749 2152.494813
+71   71      1 0.03383191 0.5000000 3.326913e-02  67570.254 2248.003638
+72   72      1 0.03660293 0.5000000 3.594508e-02  65322.251 2348.013682
+73   73      1 0.03975116 0.5000000 3.897648e-02  62974.237 2454.514084
+74   74      1 0.04335636 0.5000000 4.243642e-02  60519.723 2568.240126
+75   75      1 0.04746866 0.5000000 4.636814e-02  57951.483 2687.102656
+76   76      1 0.05199502 0.5000000 5.067753e-02  55264.380 2800.662309
+77   77      1 0.05703439 0.5000000 5.545303e-02  52463.718 2909.271875
+78   78      1 0.06257633 0.5000000 6.067783e-02  49554.446 3006.856351
+79   79      1 0.06861040 0.5000000 6.633477e-02  46547.590 3087.723767
+80   80      1 0.07512615 0.5000000 7.240635e-02  43459.866 3146.770047
+81   81      1 0.08211315 0.5000000 7.887482e-02  40313.096 3179.688183
+82   82      1 0.08956096 0.5000000 8.572228e-02  37133.408 3183.160200
+83   83      1 0.09745914 0.5000000 9.293067e-02  33950.247 3155.019195
+84   84      1 0.10579725 0.5000000 1.004819e-01  30795.228 3094.362924
+85   85      1 0.11456485 0.5000000 1.083578e-01  27700.865 3001.606205
+86   86      1 0.12327489 0.5000000 1.161177e-01  24699.259 2868.020973
+87   87      1 0.13261295 0.5000000 1.243666e-01  21831.238 2715.077670
+88   88      1 0.14282711 0.5000000 1.333072e-01  19116.161 2548.321281
+89   89      1 0.15405178 0.5000000 1.430344e-01  16567.839 2369.771378
+90   90      1 0.16626274 0.5000000 1.535019e-01  14198.068 2179.430614
+91   91      1 0.17936031 0.5000000 1.645990e-01  12018.637 1978.256183
+92   92      1 0.19315316 0.5000000 1.761420e-01  10040.381 1768.532511
+93   93      1 0.20746129 0.5000000 1.879637e-01   8271.849 1554.807218
+94   94      1 0.22215733 0.5000000 1.999474e-01   6717.041 1343.055193
+95   95      1 0.23734087 0.5000000 2.121634e-01   5373.986 1140.162919
+96   96      1 0.25371726 0.5000000 2.251545e-01   4233.823  953.264235
+97   97      1 0.27082236 0.5000000 2.385236e-01   3280.559  782.490736
+98   98      1 0.28863464 0.5000000 2.522330e-01   2498.068  630.095360
+99   99      1 0.30712501 0.5000000 2.662405e-01   1867.973  497.329962
+100 100     NA 0.36629903 2.7129654 1.000000e+00   1370.643 1370.642941
+          nLx        Sx          Tx        ex
+0   99543.824 0.9954382 7468800.876 74.688009
+1   99463.555 0.9991936 7369257.052 74.084939
+2   99450.832 0.9998721 7269793.497 73.095039
+3   99439.798 0.9998891 7170342.665 72.103650
+4   99430.115 0.9999026 7070902.867 71.111047
+5   99421.433 0.9999127 6971472.753 70.117505
+6   99413.392 0.9999191 6872051.319 69.123295
+7   99405.607 0.9999217 6772637.927 68.128689
+8   99397.660 0.9999201 6673232.320 67.133966
+9   99389.057 0.9999134 6573834.660 66.139422
+10  99379.163 0.9999005 6474445.603 65.145411
+11  99367.103 0.9998786 6375066.440 64.152384
+12  99351.606 0.9998440 6275699.337 63.160969
+13  99330.791 0.9997905 6176347.731 62.172066
+14  99301.912 0.9997093 6077016.940 61.186992
+15  99261.134 0.9995894 5977715.028 60.207604
+16  99203.545 0.9994198 5878453.895 59.236384
+17  99123.702 0.9991952 5779250.350 58.276271
+18  99016.832 0.9989219 5680126.648 57.330119
+19  98880.644 0.9986246 5581109.816 56.399837
+20  98716.943 0.9983445 5482229.172 55.485255
+21  98532.185 0.9981284 5383512.229 54.583610
+22  98336.187 0.9980108 5284980.044 53.689701
+23  98139.428 0.9979991 5186643.857 52.797397
+24  97950.159 0.9980714 5088504.429 51.901206
+25  97772.524 0.9981865 4990554.270 50.997817
+26  97606.651 0.9983035 4892781.746 50.086389
+27  97449.645 0.9983914 4795175.094 49.167945
+28  97297.092 0.9984345 4697725.450 48.244721
+29  97144.420 0.9984309 4600428.358 47.319119
+30  96987.743 0.9983872 4503283.938 46.393326
+31  96824.707 0.9983190 4406296.196 45.468864
+32  96654.723 0.9982444 4309471.489 44.546289
+33  96478.701 0.9981789 4212816.766 43.625382
+34  96298.337 0.9981305 4116338.064 42.705306
+35  96114.946 0.9980956 4020039.728 41.785188
+36  95928.724 0.9980625 3923924.782 40.864596
+37  95738.407 0.9980160 3827996.058 39.943675
+38  95541.469 0.9979430 3732257.651 39.023222
+39  95334.850 0.9978374 3636716.182 38.104349
+40  95115.658 0.9977008 3541381.331 37.188162
+41  94882.002 0.9975435 3446265.673 36.275492
+42  94633.457 0.9973805 3351383.671 35.366543
+43  94370.888 0.9972254 3256750.214 34.460959
+44  94095.875 0.9970858 3162379.326 33.557983
+45  93809.637 0.9969580 3068283.451 32.656782
+46  93512.119 0.9968285 2974473.814 31.756920
+47  93201.479 0.9966781 2880961.695 30.858485
+48  92873.897 0.9964852 2787760.215 29.962217
+49  92523.882 0.9962313 2694886.318 29.069396
+50  92144.593 0.9959006 2602362.436 28.181636
+51  91728.245 0.9954816 2510217.843 27.300794
+52  91266.506 0.9949662 2418489.598 26.428752
+53  90750.765 0.9943491 2327223.092 25.567357
+54  90172.509 0.9936281 2236472.327 24.718325
+55  89523.774 0.9928056 2146299.818 23.883148
+56  88797.673 0.9918893 2056776.043 23.062981
+57  87988.757 0.9908903 1967978.371 22.258547
+58  87093.187 0.9898218 1879989.614 21.470134
+59  86108.350 0.9886921 1792896.426 20.697608
+60  85032.149 0.9875018 1706788.076 19.940665
+61  83862.179 0.9862408 1621755.927 19.198975
+62  82594.972 0.9848894 1537893.749 18.472445
+63  81226.220 0.9834281 1455298.777 17.761290
+64  79751.449 0.9818437 1374072.557 17.065855
+65  78167.223 0.9801355 1294321.108 16.386507
+66  76472.473 0.9783189 1216153.885 15.723260
+67  74668.805 0.9764142 1139681.412 15.075648
+68  72760.203 0.9744391 1065012.606 14.442787
+69  70751.525 0.9723932  992252.404 13.823464
+70  68646.502 0.9702477  921500.879 13.216646
+71  66446.253 0.9679481  852854.377 12.621743
+72  64148.244 0.9654155  786408.124 12.038901
+73  61746.980 0.9625670  722259.880 11.469133
+74  59235.603 0.9593279  660512.900 10.914011
+75  56607.932 0.9556403  601277.297 10.375529
+76  53864.049 0.9515283  544669.366  9.855704
+77  51009.082 0.9469968  490805.317  9.355138
+78  48051.018 0.9420091  439796.235  8.875011
+79  45003.728 0.9365822  391745.217  8.416015
+80  41886.481 0.9307336  346741.489  7.978430
+81  38723.252 0.9244809  304855.008  7.562183
+82  35541.828 0.9178420  266131.756  7.166909
+83  32372.738 0.9108349  230589.929  6.791996
+84  29248.047 0.9034777  198217.191  6.436620
+85  26200.062 0.8957884  168969.144  6.099779
+86  23265.249 0.8879845  142769.082  5.780298
+87  20473.699 0.8800121  119503.833  5.473983
+88  17842.000 0.8714595   99030.133  5.180441
+89  15382.954 0.8621765   81188.134  4.900345
+90  13108.353 0.8521350   65805.180  4.634798
+91  11029.509 0.8414108   52696.827  4.384593
+92   9156.115 0.8301471   41667.318  4.149974
+93   7494.445 0.8185180   32511.203  3.930343
+94   6045.514 0.8066660   25016.759  3.724372
+95   4803.905 0.7946231   18971.245  3.530200
+96   3757.191 0.7821119   14167.340  3.346229
+97   2889.314 0.7690090   10410.149  3.173285
+98   2183.021 0.7555499    7520.835  3.010660
+99   1619.308 0.7417740    5337.815  2.857544
+100  3718.507 0.6966347    3718.507  2.712965</code></pre>
+</div>
+</div>
+<p>Comparemos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>e01dt <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Uruguay"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2020</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   country_code    name  year     e0M    e0F     e0B
+          &lt;int&gt;  &lt;char&gt; &lt;int&gt;   &lt;num&gt;  &lt;num&gt;   &lt;num&gt;
+1:          858 Uruguay  2020 74.6882 81.911 78.4298</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lt_uy_single <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>Age,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">y=</span>lx) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="P5_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="de-una-tabla-quinquenal-a-una-de-edades-simples" class="level4" data-number="5.5.3.1">
+<h4 data-number="5.5.3.1" class="anchored" data-anchor-id="de-una-tabla-quinquenal-a-una-de-edades-simples"><span class="header-section-number">5.5.3.1</span> De una tabla quinquenal a una de edades simples</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mx_single2000 <span class="ot">&lt;-</span> <span class="fu">lt_abridged2single</span>(<span class="at">nMx =</span> nMx,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Age =</span> grupo_eda, </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">axmethod =</span> <span class="st">"un"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Sex =</span> <span class="st">"m"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">mod =</span> T,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">OAnew =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="pendientes" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="pendientes"><span class="header-section-number">5.6</span> Pendientes</h2>
+<p>Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.</p>
+<p>Trabaja con vectores individuales.</p>
+<section id="whipple" class="level4" data-number="5.6.0.1">
+<h4 data-number="5.6.0.1" class="anchored" data-anchor-id="whipple"><span class="header-section-number">5.6.0.1</span> Whipple</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_whipple</span>(<span class="at">Value=</span>sv1992<span class="sc">$</span>total,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Age=</span> sv1992<span class="sc">$</span>age, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ageMin =</span> <span class="dv">25</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ageMax =</span> <span class="dv">60</span>, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">digit =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.260264</code></pre>
+</div>
+</div>
+</section>
+<section id="noumbissi" class="level4" data-number="5.6.0.2">
+<h4 data-number="5.6.0.2" class="anchored" data-anchor-id="noumbissi"><span class="header-section-number">5.6.0.2</span> Noumbissi</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>male, </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Age=</span>sv1992<span class="sc">$</span>age, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ageMin =</span> <span class="dv">30</span>, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ageMax =</span> <span class="dv">60</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">digit =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.411808</code></pre>
+</div>
+</div>
+<p>Mayor a 1, el dígito atrae; menor que 1, el índice “repele”</p>
+<p>Vamos a hacer un “loop”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para todos los dígitos</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>){</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  Ni<span class="ot">&lt;-</span><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>total,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                              sv1992<span class="sc">$</span>age, </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMin =</span> <span class="dv">30</span><span class="sc">+</span>i, <span class="co"># ojo</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMax =</span> <span class="dv">60</span><span class="sc">+</span>i, </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">digit =</span> i)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Ni)<span class="ot">&lt;-</span>i</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(Ni)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       0 
+1.388983 
+        1 
+0.6612601 
+       2 
+1.202751 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">9</span>) {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  Ni<span class="ot">&lt;-</span><span class="fu">check_heaping_noumbissi</span>(sv1992<span class="sc">$</span>total,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                              sv1992<span class="sc">$</span>age, </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMin =</span> <span class="dv">20</span><span class="sc">+</span>i, <span class="co">#ojo</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">ageMax =</span> <span class="dv">50</span><span class="sc">+</span>i, </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">digit =</span> i)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(Ni)<span class="ot">&lt;-</span>i</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(Ni)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        3 
+0.9451307 
+        4 
+0.8988784 
+       5 
+1.145512 
+        6 
+0.9623871 
+       7 
+0.962849 
+       8 
+1.004804 
+       9 
+0.831283 </code></pre>
+</div>
+</div>
+</section>
+<section id="spoorrenberg" class="level4" data-number="5.6.0.3">
+<h4 data-number="5.6.0.3" class="anchored" data-anchor-id="spoorrenberg"><span class="header-section-number">5.6.0.3</span> Spoorrenberg</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_spoorenberg</span>(sv1992<span class="sc">$</span>total, </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                          sv1992<span class="sc">$</span>age, </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ageMin =</span> <span class="dv">23</span>, </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ageMax =</span> <span class="dv">62</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.480261</code></pre>
+</div>
+</div>
+</section>
+<section id="indice-de-myers" class="level4" data-number="5.6.0.4">
+<h4 data-number="5.6.0.4" class="anchored" data-anchor-id="indice-de-myers"><span class="header-section-number">5.6.0.4</span> Indice de Myers</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heaping_myers</span>(<span class="at">Value =</span> sv1992<span class="sc">$</span>male,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Age =</span> sv1992<span class="sc">$</span>age, </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ageMin =</span> <span class="dv">10</span>, </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ageMax =</span> <span class="dv">89</span>, </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"pasex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.906285</code></pre>
+</div>
+</div>
+</section>
+<section id="opcional" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="opcional"><span class="header-section-number">5.6.1</span> Opcional</h3>
+<p>sprague_male &lt;- graduate(males$n, age, AgeInt = c(rep(5, times=17), 15), method = “sprague”)</p>
+<p>single.age &lt;- names2age(sprague_male)</p>
+<p>ggplot() + aes(x=single.age, y=sprague_male) + geom_line()</p>
+<p>sprague_female &lt;- graduate(females$n, age, AgeInt = c(rep(5, times=17), 15), method = “sprague”) single.age &lt;- names2age(sprague_female)</p>
+<p>ggplot() + aes(x=single.age, y=sprague_female) + geom_line()</p>
+</section>
+</section>
+<section id="el-grupo-de-85-y-más-queda-abierto" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> El grupo de 85 y más queda abierto…</h1>
+<p>ggplot() + geom_bar(aes(x=single.age, y=sprague_female, fill=“Mujeres”), stat=“identity” ) + geom_bar(aes(x=single.age, y=-sprague_male, fill=“Hombres”), stat=“identity”)+ coord_flip() + labs(y= “Población desagregada”)</p>
+</section>
+<section id="hay-otros-métodos-pero-este-es-el-más-importante." class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Hay otros métodos pero este es el más importante.</h1>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./P4.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tasas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./otros.html" class="pagination-link">
+        <span class="nav-page-text">Evaluación, ligas y más</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

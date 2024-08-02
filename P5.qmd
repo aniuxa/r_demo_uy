@@ -1,0 +1,431 @@
+# Migración y tablas de vida
+
+## Paquetes
+
+
+
+### Instalación local de paquetes si no hay internet
+
+Carpeta de paquetes:
+
+```{r}
+
+remotes::install_local(path = "paquetes/migest-master.zip", 
+                       upgrade = "never") # migest-master.zip
+
+remotes::install_local(path = "paquetes/countrycode-main.zip",
+                       upgrade = 'never') # fertestr-master.zip⁠
+```
+
+### paquetes
+
+```{r}
+if (!require("pacman")) install.packages("pacman") # instala pacman si se requiere
+pacman::p_load(tidyverse,
+               readxl, 
+               writexl,
+               janitor,
+               remotes,
+               wppExplorer,
+               magrittr,
+               collapse,
+               fmsb,
+               migest, # ojo
+               countrycode, # ojo
+               DemoTools, 
+               wpp2022) 
+```
+
+## Datos
+
+
+```{r}
+
+sv1992<-readxl::read_excel("datos/censos_p2.xlsx", sheet = "El Salvador 1992") %>% 
+  janitor::clean_names() %>% #
+  dplyr::mutate(total=male + female) %>% # ojo
+  dplyr::mutate(age=as.numeric(age)) #ojo
+
+# de wpp2022
+
+data("migration1dt")
+data("mx1dt")
+data("misc1dt")
+data("popAge1dt")
+
+mx1dt %<>% 
+  left_join(misc1dt) %>% 
+  left_join(popAge1dt)
+
+data("e01dt")
+
+
+```
+Vamos a trabajar con datos ya calculados para flujos
+
+```{r}
+# para flujos datos del autor Abel and Cohen (2019) estimates
+
+# Estos cuando tengas internet se descargan así:
+# f <- read_csv("https://ndownloader.figshare.com/files/38016762", show_col_types = FALSE)
+
+
+f <- readRDS("datos/f.rds")
+
+head(f)
+
+
+# Abel usa el paquete countrycode para generar regiones
+
+f %>%
+  mutate(
+    orig = countrycode::countrycode(sourcevar = orig, # la variable de origen que tiene códigos
+                                    custom_dict = dict_ims, # el diccionario a usar
+                                    origin = "iso3c", # el tipo de abreviatura
+                                    destination = "region"))  # que nos va a regresar
+d <- f %>%
+  mutate(
+    orig = countrycode::countrycode(sourcevar = orig, # la variable de origen que tiene códigos
+                                    custom_dict = dict_ims, # el diccionario a usar
+                                    origin = "iso3c", # el tipo de abreviatura
+                                    destination = "region"),  # que nos va a regresar
+    dest = countrycode::countrycode(sourcevar = dest, 
+                                    custom_dict = dict_ims,
+                                    origin = "iso3c",
+                                    destination = "region")
+  ) %>%
+  group_by(year0, orig, dest) %>%
+  summarise_all(sum) %>%
+  ungroup()
+d
+```
+
+## Migración 
+
+### wpp2022
+
+El conjunto de datos migration de wpp2022 nos da la migración neta
+
+```{r}
+migration1dt %>% 
+  filter(name=="Uruguay") %>% 
+  ggplot() +
+  aes(x=year, y=mig) +
+  geom_line()
+
+```
+
+### Flujos bilaterales
+
+#### Gráficos circulaes
+
+## Diagramas
+
+Vamos a usar "2015-2020 pseudo-Bayesian estimates for plotting" de la base de Guy Abel
+
+```{r}
+pb <- d %>%
+  filter(year0 == 2015) %>% # seleccionamos un año especifico
+  mutate(flow = da_pb_closed/1e6) %>% # pasamos el flujo cerrado a miles
+  select(orig, dest, flow) # necesitamos un objeto con estas tres variables
+pb
+```
+
+
+```{r}
+
+migest::mig_chord(x = pb) # objeto
+
+d %>%
+  filter(year0 == 2015) %>% # seleccionamos un año especifico
+  mutate(flow = da_pb_closed/1e6) %>% # pasamos el flujo cerrado a miles
+  select(orig, dest, flow) %>% 
+  mig_chord()
+
+```
+
+
+```{r}
+d %>%
+  filter(year0 == 2015) %>% # seleccionamos un año especifico
+  mutate(flow = da_pb_closed/1e6) %>% # pasamos el flujo cerrado a miles
+  select(orig, dest, flow) %>% 
+  mig_chord(grid.col = c("blue", "royalblue", "navyblue", "skyblue", "cadetblue", "darkblue")
+) 
+
+```
+### Momento de práctica 
+
+## Tabla de vida con `{DemoTools}`
+
+
+Este paquete nos da la oportunidad de construir las tablas de vida con diferentes insumos,
+con **cualquiera** de las siguientes opciones:
+
+- Vector de muertes y vector de Población media
+
+- Vector de tasas de Mortalidad (nMx)
+
+- Vector de cocientes de mortalidad (nqx)
+
+- Vector de efectivos a edad exacta (lx)
+
+
+### Input: nMx 
+
+
+Datos de México 2000
+```{r}
+nMx <- c(0.025429618, 
+         0.000895531,
+         0.000364678,
+         0.000480071,
+         0.000979976,
+         0.001661119,
+         0.002167313,
+         0.002549786,
+         0.00307099,
+         0.003970018,
+         0.005461053,
+         0.007799417,
+         0.011317907,
+         0.016516166,
+         0.024145341,
+         0.035168272,
+         0.051143602,
+         0.074042144,
+         0.136811785)
+
+```
+
+ Nuestros grupos de edad 
+```{r}
+grupo_eda<-c(0,1,seq(5,85,by=5))
+AgeInt <- inferAgeIntAbr(vec = nMx)
+
+```
+
+```{r}
+
+mx_lifetable2000 <- lt_abridged(nMx = nMx, 
+                            Age = grupo_eda,
+                            AgeInt = AgeInt,
+                            axmethod = "un",
+                            Sex = "m",   mod = FALSE)
+```
+
+
+```{r}
+nMx2010 <- c(0.018082902,
+         0.000680864,
+         0.000328649,
+         0.000495605,
+         0.001179152,
+         0.002071347,
+         0.002659697,
+         0.002986375,
+         0.003396466,
+         0.004205501,
+         0.00566518,
+         0.008027968,
+         0.011670117,
+         0.017170344,
+         0.025320726,
+         0.037292527,
+         0.054805372,
+         0.079982834,
+         0.148194498)
+
+
+mx_lifetable2010 <- lt_abridged(nMx = nMx2010, 
+                                Age = grupo_eda,
+                                AgeInt = AgeInt,
+                                axmethod = "un",
+                                Sex = "m", 
+                                mod = FALSE)
+
+```
+
+
+
+### Desplegando hasta grupos más allá de 85+
+
+Cerrar la tabla en $\omega$=100
+ 
+```{r}
+mx2020_100<-lt_abridged(nMx = nMx, 
+            Age = grupo_eda,
+            AgeInt = AgeInt,
+            axmethod = "un",
+            Sex = "m", 
+            mod = FALSE,
+            OAnew = 100) 
+
+```
+
+### Usando información de wpp2022
+
+```{r}
+
+mx1dt %>% 
+  filter(country_code==858) %>% 
+  filter(year == 2020) -> data_uy
+
+lt_uy_single<- lt_single_mx(nMx = data_uy$mxM, 
+               Age = data_uy$age,
+               AgeInt =  inferAgeIntAbr(vec = data_uy$mxM),
+               axmethod = "un",
+               Sex = "m", 
+               mod = FALSE,
+               OAnew = 100) 
+
+lt_uy_single
+  
+
+```
+
+
+Comparemos:
+
+```{r}
+e01dt %>% 
+  filter(name == "Uruguay") %>% 
+  filter(year == 2020)
+```
+
+
+```{r}
+
+lt_uy_single %>% 
+  ggplot()+
+  aes(x=Age,
+      y=lx) +
+  geom_line()+
+  theme_light()
+```
+
+  
+
+#### De una tabla quinquenal a una de edades simples
+
+```{r}
+
+mx_single2000 <- lt_abridged2single(nMx = nMx,
+                          Age = grupo_eda, 
+                          axmethod = "un",
+                          Sex = "m",
+                          mod = T,
+                          OAnew = 100)
+```
+
+
+
+## Pendientes
+
+
+Con este paquete también podemos hacer evaluaciones, pero podemos hacer índices más complejos.
+
+Trabaja con vectores individuales.
+
+#### Whipple
+
+```{r}
+check_heaping_whipple(Value=sv1992$total,
+                      Age= sv1992$age, 
+                      ageMin = 25, 
+                      ageMax = 60, 
+                      digit = c(0, 5))
+
+
+```
+
+#### Noumbissi
+
+```{r}
+
+
+check_heaping_noumbissi(sv1992$male, 
+                        Age=sv1992$age, 
+                        ageMin = 30, 
+                        ageMax = 60,
+                        digit = 0)
+```
+
+Mayor a 1, el dígito atrae; menor que 1, el índice "repele"
+
+Vamos a hacer un "loop"
+
+```{r}
+# Para todos los dígitos
+
+for(i in 0:2){
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 30+i, # ojo
+                              ageMax = 60+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+for(i in 3:9) {
+  Ni<-check_heaping_noumbissi(sv1992$total,
+                              sv1992$age, 
+                              ageMin = 20+i, #ojo
+                              ageMax = 50+i, 
+                              digit = i)
+  names(Ni)<-i
+  print(Ni)
+}
+
+```
+
+#### Spoorrenberg
+
+```{r}
+check_heaping_spoorenberg(sv1992$total, 
+                          sv1992$age, 
+                          ageMin = 23, 
+                          ageMax = 62)
+```
+
+#### Indice de Myers
+
+```{r}
+check_heaping_myers(Value = sv1992$male,
+                    Age = sv1992$age, 
+                    ageMin = 10, 
+                    ageMax = 89, 
+                    method = "pasex")
+```
+
+### Opcional
+
+
+sprague_male <- graduate(males$n, age,
+                         AgeInt = c(rep(5, times=17), 15),
+                         method = "sprague")
+
+single.age  <- names2age(sprague_male)
+
+ggplot() +
+  aes(x=single.age, y=sprague_male) + geom_line()
+
+
+sprague_female <- graduate(females$n, age,
+                           AgeInt = c(rep(5, times=17), 15),
+                           method = "sprague")
+single.age  <- names2age(sprague_female)
+
+ggplot() +
+  aes(x=single.age, y=sprague_female) + geom_line()
+
+# El grupo de 85 y más queda abierto...
+
+
+ggplot() +
+  geom_bar(aes(x=single.age, y=sprague_female, fill="Mujeres"), stat="identity" ) +
+  geom_bar(aes(x=single.age, y=-sprague_male, fill="Hombres"), stat="identity")+
+  coord_flip() + labs(y= "Población desagregada")
+
+# Hay otros métodos pero este es el más importante.

@@ -1,5 +1,8 @@
 # Sobre el curso {.unnumbered}
 
+<a href="https://zenodo.org/doi/10.5281/zenodo.13287866"><img src="https://zenodo.org/badge/829657420.svg" alt="DOI"></a>
+
+
 ## 1. Docente
 
 Ana Ruth Escoto Castillo
